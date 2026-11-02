@@ -265,6 +265,23 @@ svg [data-pick]:focus-visible{outline:2px solid var(--accent)}
 .chip.ok{border-color:var(--ok);background:var(--ok-soft);color:var(--ok);font-weight:600}
 .chip.bad{border-color:var(--bad);background:var(--bad-soft);color:var(--bad);font-weight:600}
 
+/* recall exercises */
+.rx-wrap{border:1px solid var(--accent);border-radius:12px;padding:16px;background:var(--panel)}
+.rx-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 14px;align-items:baseline;margin-bottom:10px;font-size:14.5px}
+.rx-score{font:500 13px var(--f-mono);color:var(--ink-2);font-variant-numeric:tabular-nums}
+.slot{display:inline-flex;align-items:baseline;flex-wrap:wrap;gap:2px 6px;max-width:100%}
+input.bl{font:inherit;font-weight:600;color:var(--ink);background:var(--accent-soft);border:0;border-bottom:2px solid var(--accent);border-radius:4px 4px 0 0;padding:1px 6px;max-width:100%;min-width:5ch}
+input.bl:focus,textarea.bl:focus,select.bl:focus{outline:2px solid var(--accent);outline-offset:1px}
+td .slot{display:flex;flex-direction:column;align-items:stretch;gap:4px}
+.bl-c{width:100%;min-width:9rem;font:inherit;font-size:13.5px;line-height:1.4;color:var(--ink);background:var(--accent-soft);border:1px solid var(--line);border-radius:6px;padding:5px 7px;resize:vertical;overflow:hidden}
+.slot.ok .bl{background:var(--ok-soft);border-color:var(--ok)}
+.slot.bad .bl{background:var(--bad-soft);border-color:var(--bad)}
+.bl-ans{color:var(--ok);font-weight:600;font-size:.95em}
+.mk{border:0;background:none;cursor:pointer;font:700 14px var(--f-body);padding:0 3px;border-radius:4px;align-self:flex-start}
+.mk.ok{color:var(--ok)} .mk.bad{color:var(--bad)} .mk:hover{background:var(--paper)}
+.tq-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:12px 0 -2px;font-size:13px;color:var(--ink-3)}
+.tbl td.cellq{min-width:9.5rem}
+
 .muted{color:var(--ink-3)}
 .foot{margin-top:40px;font-size:12.5px;color:var(--ink-3);max-width:70ch}
 
@@ -3031,820 +3048,182 @@ function drawRoots(root){
 })();
 
 </script>
-<script>/* checkpoints-1.js */
-// Hand-written section checkpoints. Keys must match section headings exactly.
-NEURO.checkpoints=NEURO.checkpoints||{};
-Object.assign(NEURO.checkpoints,{
-stroke:{
-"First ten minutes":[
- {q:"A 70-year-old is found at 7 a.m. with right hemiparesis. He was normal when he went to bed at 11 p.m. Which time sets his treatment window?",opts:["7 a.m., when he was found","11 p.m., when he was last known well","When EMS arrived","Midnight, halfway between"],a:1,why:"Windows run from last known well. Wake-up strokes are timed from when the patient was last seen normal."},
- {q:"Before the CT, which bedside test can overturn the diagnosis in a confused patient with new hemiparesis?",opts:["Fingerstick glucose","Troponin","Urinalysis","Lumbar puncture"],a:0,why:"Hypoglycemia can mimic a stroke completely and is corrected in seconds."}],
-"IV thrombolysis":[
- {q:"A patient 2 hours from onset is otherwise eligible for alteplase. Which finding rules it out?",opts:["Age 85","Platelets 80,000/µL","Myocardial infarction 2 years ago","Takes daily aspirin"],a:1,why:"Platelets below 100,000 contraindicate thrombolysis. Age and aspirin use do not."},
- {q:"A thrombolysis candidate has BP 196/112 mm Hg. What next?",opts:["Give alteplase; BP will fall once it works","IV labetalol or nicardipine to below 185/110, then alteplase","Withhold alteplase permanently","Oral lisinopril and recheck in an hour"],a:1,why:"Lower BP below 185/110 with a fast IV agent, then treat. Keep it below 180/105 for 24 hours."},
- {q:"Thirty minutes into an alteplase infusion, a patient taking lisinopril develops swelling of the tongue and lip. Most likely cause?",opts:["Hemorrhagic transformation","Orolingual angioedema","Contrast anaphylaxis","Serotonin syndrome"],a:1,why:"ACE inhibitors raise the risk. Stop the infusion, give antihistamine and steroids, and protect the airway."}],
-"Mechanical thrombectomy":[
- {q:"Which patient is a thrombectomy candidate?",opts:["Pure motor lacunar stroke at 3 hours","Left M1 occlusion at 14 hours with a small core and large penumbra","Right M1 occlusion at 30 hours","Cerebellar hemorrhage"],a:1,why:"A large-vessel occlusion with favorable perfusion imaging qualifies up to 24 hours."},
- {q:"At 2 hours, a patient has an ICA terminus occlusion and no contraindications to thrombolysis. Best approach?",opts:["Thrombectomy only; skip thrombolysis","IV thrombolysis now, then straight to thrombectomy","IV thrombolysis, wait an hour to see if it works","Heparin, then thrombectomy"],a:1,why:"Give thrombolysis when eligible and don't delay thrombectomy waiting for a response."}],
-"If no thrombolysis":[
- {q:"A patient outside every treatment window has an ischemic stroke and BP 190/105 mm Hg. Management of BP?",opts:["Lower to below 140/90 now","Treat only if above 220/120","Start a nitroprusside drip","Lower it by half within the first hour"],a:1,why:"Permissive hypertension protects penumbral perfusion for the first 24–48 hours."},
- {q:"Minor stroke (NIHSS 2), no thrombolysis, sinus rhythm. Antithrombotic plan?",opts:["Aspirin alone","Aspirin plus clopidogrel for 21 days, then one agent","Warfarin","Nothing for 2 weeks"],a:1,why:"Short-course dual antiplatelet therapy lowers early recurrence after minor stroke or high-risk TIA."}],
-"Find the mechanism":[
- {q:"Sudden aphasia, maximal at onset, and MRI also shows an old infarct in the right PCA territory. Most likely mechanism?",opts:["Small vessel (lacunar) disease","Cardioembolism","Watershed hypoperfusion","Carotid dissection"],a:1,why:"Infarcts in more than one territory with abrupt maximal deficits point to an embolic source; look for atrial fibrillation."},
- {q:"A 32-year-old has a stroke after a long flight and has a swollen calf. Which test best shows the mechanism?",opts:["Bubble-contrast echocardiogram","Carotid duplex","Lipid panel","EEG"],a:0,why:"Paradoxical embolism through a PFO: agitated saline shows the right-to-left shunt."}],
-"Secondary prevention":[
- {q:"After a stroke from nonvalvular atrial fibrillation, preferred long-term therapy?",opts:["Aspirin plus clopidogrel","A DOAC such as apixaban","Warfarin with INR 3–4","Left atrial appendage closure as first-line"],a:1,why:"DOACs are preferred over warfarin except with a mechanical valve or moderate-severe mitral stenosis."},
- {q:"A left hemispheric stroke patient also has 55% stenosis of the right ICA. Management of the right side?",opts:["Right carotid endarterectomy","Medical therapy","Right carotid stenting","Bilateral endarterectomy"],a:1,why:"Revascularization targets the symptomatic artery at 70–99%. An asymptomatic moderate stenosis is treated medically."}],
-"TIA":[
- {q:"Which ABCD² element scores 2 points?",opts:["Age 60 or older","Diabetes","Unilateral weakness","BP 140/90 or higher"],a:2,why:"Unilateral weakness and duration of 60 minutes or more each score 2; the others score 1."},
- {q:"A 66-year-old has 5 minutes of a shade coming down over the left eye. Most important next test?",opts:["MRI of the orbits","Carotid duplex or CTA of the neck","EEG","Visual evoked potentials"],a:1,why:"Amaurosis fugax is retinal ischemia, usually from ipsilateral carotid emboli. Check ESR and CRP too if GCA is possible."}],
-"Complications":[
- {q:"On day 3 after a large right MCA infarct, a 50-year-old becomes increasingly drowsy and CT shows 8 mm of midline shift. Best treatment?",opts:["Dexamethasone","Decompressive hemicraniectomy","Prophylactic levetiracetam","Hyperventilation for 48 hours"],a:1,why:"Malignant edema peaks on days 2–5; hemicraniectomy improves survival in younger patients. Steroids don't treat cytotoxic edema."},
- {q:"What must happen before a stroke patient gets anything by mouth?",opts:["Bedside swallow screen","Repeat head CT","EEG","Chest X-ray"],a:0,why:"Dysphagia is common and aspiration pneumonia is a leading complication."}],
-"Less common causes":[
- {q:"A 28-year-old woman with two miscarriages and thrombocytopenia has a stroke; antiphospholipid antibodies are positive. Long-term anticoagulant?",opts:["Apixaban","Warfarin","Aspirin alone","Rivaroxaban"],a:1,why:"DOACs have higher thrombotic recurrence in antiphospholipid syndrome."}],
-"Recovery and rehabilitation":[
- {q:"Six weeks after a stroke, a patient is tearful, sleeping poorly and not engaging in therapy. Best step?",opts:["Reassure that this is expected","Start an SSRI","Start a benzodiazepine","Pause rehabilitation"],a:1,why:"Post-stroke depression is common, treatable, and slows recovery."}]
-},
-syndromes:{
-"Hemispheric territories":[
- {q:"Right leg weakness and urinary incontinence; face and arm are spared. Which artery?",opts:["Left MCA","Left ACA","Right ACA","Left PCA"],a:1,why:"The ACA supplies the medial frontal lobe, where the leg and bladder areas sit."},
- {q:"Left face and arm weakness, a left field cut, and the patient insists nothing is wrong. Which artery?",opts:["Right MCA","Left MCA","Right ACA","Basilar"],a:0,why:"Neglect and anosognosia are nondominant (right) parietal signs."},
- {q:"A right-handed man can write a sentence but can't read it back. Where is the lesion?",opts:["Left PCA territory including the splenium","Left superior temporal gyrus","Right parietal lobe","Left inferior frontal gyrus"],a:0,why:"Alexia without agraphia: the left visual cortex is out and the splenium cuts the right visual cortex off from left-hemisphere language areas."}],
-"Lacunar syndromes":[
- {q:"Numbness of the left face, arm and leg with no weakness or cortical signs. Location?",opts:["Right VPL thalamus","Right internal capsule","Left VPL thalamus","Right postcentral gyrus"],a:0,why:"Pure sensory stroke is a contralateral VPL thalamic lacune."},
- {q:"Which finding argues against a lacunar stroke?",opts:["Dysarthria","Aphasia","Hemiparesis","Limb ataxia"],a:1,why:"Lacunes spare the cortex; aphasia, neglect or a field cut means a cortical lesion."}],
-"Brainstem syndromes":[
- {q:"Right face and left body pain/temperature loss, hoarseness, and right Horner syndrome. Lesion?",opts:["Right lateral medulla","Left lateral medulla","Right medial medulla","Right lateral pons"],a:0,why:"Face findings are ipsilateral to a lateral medullary lesion; nucleus ambiguus causes hoarseness."},
- {q:"Tongue deviates to the left, with right hemiparesis and right proprioception loss. Which artery?",opts:["Left PICA","Left anterior spinal artery","Right anterior spinal artery","Basilar"],a:1,why:"The tongue points toward the lesion (left XII); the medial medulla is supplied by the anterior spinal artery."},
- {q:"Right facial paralysis including the forehead, right hearing loss, left body pain/temperature loss. Which artery?",opts:["Right AICA","Right PICA","Left AICA","Right PCA"],a:0,why:"Facial nucleus and labyrinthine involvement place it in the lateral pons."}],
-"Other posterior circulation":[
- {q:"An older man gets vertigo and nearly faints while painting a ceiling with his left arm. Left arm BP is 30 mm Hg lower. Diagnosis?",opts:["Subclavian steal","Vestibular neuritis","Carotid sinus hypersensitivity","Cerebellar hemorrhage"],a:0,why:"Proximal subclavian stenosis makes the arm steal blood backward down the vertebral artery."},
- {q:"Three days after a large cerebellar infarct, the patient becomes drowsy. Most likely cause?",opts:["Seizure","Edema compressing the brainstem and fourth ventricle","Hyponatremia","Hemorrhage into the cortex"],a:1,why:"Posterior fossa swelling causes hydrocephalus and brainstem compression; suboccipital decompression can be lifesaving."}]
-},
-hemorrhage:{
-"Intracerebral hemorrhage":[
- {q:"An 80-year-old with mild cognitive decline has a second lobar hemorrhage; MRI shows many cortical microbleeds. Most likely cause?",opts:["Hypertensive vasculopathy","Cerebral amyloid angiopathy","Arteriovenous malformation","Septic emboli"],a:1,why:"Recurrent lobar bleeds with cortical microbleeds in older adults are typical of amyloid angiopathy."},
- {q:"Intracerebral hemorrhage in a patient taking apixaban. Reversal?",opts:["Vitamin K","Protamine","Andexanet alfa or 4-factor PCC","Idarucizumab"],a:2,why:"Idarucizumab reverses dabigatran; protamine reverses heparin; vitamin K treats warfarin only."},
- {q:"Which hemorrhage needs urgent surgery?",opts:["Small thalamic hemorrhage","4-cm cerebellar hemorrhage with declining alertness","10-mL putaminal hemorrhage with mild weakness","Pontine hemorrhage with coma"],a:1,why:"Cerebellar hematomas over 3 cm or with brainstem compression or hydrocephalus need evacuation."}],
-"Subarachnoid hemorrhage":[
- {q:"Day 5 after SAH, sodium is 129 mEq/L with high urine output and signs of volume depletion. What should you avoid?",opts:["Isotonic saline","Fluid restriction","Fludrocortisone","Hypertonic saline"],a:1,why:"Cerebral salt wasting depletes volume; restricting fluid raises the risk of delayed ischemia."},
- {q:"What does nimodipine do in aneurysmal SAH?",opts:["Prevents rebleeding","Improves outcome from delayed cerebral ischemia","Lowers ICP","Prevents seizures"],a:1,why:"It improves neurologic outcome even though it doesn't clearly reverse angiographic vasospasm."},
- {q:"When is the risk of aneurysm rebleeding highest?",opts:["First 24 hours","Days 3–14","Third week","After coiling"],a:0,why:"That's why aneurysms are secured early."}],
-"Vascular malformations":[
- {q:"A 25-year-old with frequent nosebleeds and telangiectasias on the lips has an intracerebral hemorrhage. Underlying condition?",opts:["Hereditary hemorrhagic telangiectasia","Sturge-Weber syndrome","Neurofibromatosis 1","Moyamoya disease"],a:0,why:"HHT causes brain, lung and liver AVMs."}],
-"Cerebral venous sinus thrombosis":[
- {q:"Venous sinus thrombosis with a small hemorrhagic venous infarct. Treatment?",opts:["Hold anticoagulation because of the bleed","Therapeutic heparin or LMWH","Aspirin","IV alteplase"],a:1,why:"Anticoagulation is indicated even with venous hemorrhage."},
- {q:"Which study confirms the diagnosis?",opts:["CT angiography of the neck","MR or CT venography","Carotid duplex","EEG"],a:1,why:"Venography shows the absent flow in the occluded sinus."}]
-},
-seizures:{
-"Definitions":[
- {q:"Which of these meets the definition of epilepsy?",opts:["One seizure during alcohol withdrawal","One unprovoked seizure with an epileptiform EEG","Two seizures from hypoglycemia","A febrile seizure at age 2"],a:1,why:"One unprovoked seizure with high recurrence risk counts. Provoked and febrile seizures don't."}],
-"First seizure workup":[
- {q:"First unprovoked generalized seizure; exam, labs and head CT are normal. Next studies?",opts:["MRI of the brain and EEG","Lumbar puncture","Start valproate without testing","PET scan"],a:0,why:"Every new unprovoked seizure gets MRI (epilepsy protocol) and EEG."},
- {q:"The MRI and EEG are both normal. Start an antiseizure medication?",opts:["Yes, levetiracetam for life","Usually no; counsel and follow up","Yes, for 6 months","Only if prolactin was high"],a:1,why:"Recurrence risk after one unprovoked seizure with normal studies is low enough that most patients aren't treated."}],
-"Seizure types":[
- {q:"A 9-year-old stares for 1–2 minutes, smacks his lips and fumbles with his shirt, then is confused for 10 minutes. Seizure type?",opts:["Absence","Focal with impaired awareness","Myoclonic","Atonic"],a:1,why:"Automatisms and postictal confusion favor a focal (temporal) seizure; absence lasts seconds with no postictal state."}],
-"Seizure vs syncope vs functional":[
- {q:"Which feature most favors an epileptic seizure over syncope?",opts:["A few brief jerks","Lateral tongue bite and 20 minutes of confusion","Pallor and sweating beforehand","Happened while standing at a concert"],a:1,why:"Brief jerks happen with syncope too; prolonged postictal confusion and a lateral tongue bite don't."},
- {q:"A 2-minute event with eyes squeezed shut, side-to-side head movement, and full recall afterward. Best test?",opts:["Routine 20-minute EEG","Video EEG monitoring","MRI","Prolactin drawn 4 hours later"],a:1,why:"Capturing a typical event on video EEG confirms functional (psychogenic nonepileptic) seizures."}],
-"Pediatric and named syndromes":[
- {q:"An 8-month-old has clusters of flexion spasms on waking and has stopped sitting. Expected EEG?",opts:["3-Hz spike-and-wave","Hypsarrhythmia","Centrotemporal spikes","Normal"],a:1,why:"Infantile spasms with regression and hypsarrhythmia make West syndrome."},
- {q:"A 7-year-old with normal development has nighttime twitching of one side of the face with drooling; EEG shows centrotemporal spikes. Management?",opts:["Often no medication; it remits by adolescence","Vigabatrin","Epilepsy surgery","Ketogenic diet"],a:0,why:"Self-limited epilepsy with centrotemporal spikes usually needs no treatment."}],
-"Choosing a medication":[
- {q:"Which drug can worsen childhood absence seizures?",opts:["Ethosuximide","Valproate","Carbamazepine","Lamotrigine"],a:2,why:"Sodium channel blockers such as carbamazepine aggravate absence and myoclonic seizures."},
- {q:"Best choice for a 24-year-old with focal epilepsy who may become pregnant?",opts:["Valproate","Lamotrigine","Phenytoin","Topiramate"],a:1,why:"Lamotrigine and levetiracetam carry the lowest teratogenic risk."}],
-"Medication adverse effects":[
- {q:"A patient on carbamazepine is confused with sodium 122 mEq/L and euvolemia. Mechanism?",opts:["SIADH-like water retention","Adrenal insufficiency","Liver failure","Diabetes insipidus"],a:0,why:"Carbamazepine and oxcarbazepine cause hyponatremia through an SIADH-like effect."},
- {q:"Three weeks after a drug was added and titrated quickly in a patient already on valproate, she has a rash with mouth ulcers. Culprit?",opts:["Levetiracetam","Lamotrigine","Ethosuximide","Gabapentin"],a:1,why:"Valproate doubles lamotrigine levels; fast titration raises the risk of Stevens-Johnson syndrome."}],
-"Status epilepticus":[
- {q:"A seizure has lasted 6 minutes and there's no IV access. First drug?",opts:["IM midazolam","Oral lorazepam","IV phenobarbital once access is placed","Wait for IV access"],a:0,why:"IM midazolam works as well as IV lorazepam and avoids delay."},
- {q:"After a convulsion stops, the patient stays unresponsive for 45 minutes with subtle eyelid twitching. Next step?",opts:["Observe","EEG for nonconvulsive status","MRI","Lumbar puncture"],a:1,why:"Failure to wake after a seizure needs EEG to rule out ongoing electrical seizures."}],
-"Counseling":[
- {q:"Safety advice for a newly diagnosed adult with epilepsy?",opts:["Take baths instead of showers","Don't swim alone or work at heights; follow state driving rules","Stop all exercise","Driving is fine after a week"],a:1,why:"Showers over baths; supervision for swimming; driving rules vary by state."}]
-},
-headache:{
-"Red flags (SNOOP)":[
- {q:"Which patient needs imaging?",opts:["Daily bilateral pressing headache for 10 years, normal exam","New headache at age 62 with jaw pain on chewing","Throbbing one-sided headache with photophobia since her teens","Tension headache relieved by ibuprofen"],a:1,why:"New headache after 50 is a red flag; jaw claudication raises giant cell arteritis."},
- {q:"A 40-year-old has headaches brought on by coughing and bending; exam is normal. Concern?",opts:["Tension-type headache","Posterior fossa lesion or Chiari malformation","Cluster headache","Medication overuse"],a:1,why:"Valsalva-provoked headache warrants MRI."}],
-"Primary headaches":[
- {q:"A 40-year-old woman has 10-minute attacks of severe orbital pain about 15 times a day with tearing; indomethacin stops them. Diagnosis?",opts:["Cluster headache","Paroxysmal hemicrania","Migraine","Trigeminal neuralgia"],a:1,why:"Shorter, more frequent attacks than cluster, mostly in women, with complete indomethacin response."},
- {q:"Which features best separate migraine from tension-type headache?",opts:["Bilateral location","Nausea and worsening with activity","Lasting over an hour","Female sex"],a:1,why:"Tension-type headache has no nausea and isn't worsened by routine activity."}],
-"Migraine treatment details":[
- {q:"Acute migraine treatment for a patient with a prior myocardial infarction?",opts:["Sumatriptan","Rizatriptan","Ubrogepant","Dihydroergotamine"],a:2,why:"Gepants don't constrict vessels; triptans and ergots are contraindicated in coronary disease."},
- {q:"Migraine prevention for a patient with hypertension and anxiety?",opts:["Topiramate","Propranolol","Valproate","Amitriptyline"],a:1,why:"Choose prevention by comorbidity; a β-blocker covers both."},
- {q:"In the ED, why give diphenhydramine with IV prochlorperazine?",opts:["Prevent akathisia and acute dystonia","Improve analgesia","Prevent serotonin syndrome","Sedate for discharge"],a:0,why:"Dopamine-blocking antiemetics cause extrapyramidal reactions."}],
-"Secondary headaches":[
- {q:"Giant cell arteritis is suspected; vision is normal. When do steroids start relative to the biopsy?",opts:["Now; biopsy within 1–2 weeks","After the biopsy result","Only if ESR is above 100","Only after temporal artery ultrasound"],a:0,why:"Steroids prevent blindness, and the biopsy stays diagnostic for 1–2 weeks after they start."},
- {q:"Headache only when upright that resolves within minutes of lying flat. Expected MRI finding?",opts:["Ring-enhancing lesion","Diffuse pachymeningeal enhancement with brain sag","Empty sella with flattened globes","Hydrocephalus"],a:1,why:"Spontaneous intracranial hypotension from a CSF leak."}]
-}
-});
-
-</script>
-<script>/* checkpoints-2.js */
-NEURO.checkpoints=NEURO.checkpoints||{};
-Object.assign(NEURO.checkpoints,{
-infections:{
-"Bacterial meningitis":[
- {q:"A 75-year-old has bacterial meningitis. Which drug in the empiric regimen covers Listeria?",opts:["Ceftriaxone","Vancomycin","Ampicillin","Azithromycin"],a:2,why:"Cephalosporins don't cover Listeria; add ampicillin over 50, in pregnancy, alcohol use, or immunosuppression."},
- {q:"When should dexamethasone be given in suspected bacterial meningitis?",opts:["After CSF culture returns","Before or with the first antibiotic dose","Only if CT shows edema","Only in children"],a:1,why:"The benefit (less hearing loss and death, mainly pneumococcal) depends on giving it before antibiotics lyse bacteria."},
- {q:"Recurrent pneumococcal meningitis two years after a basilar skull fracture suggests what?",opts:["Complement deficiency","A persistent CSF leak","HIV infection","Splenic dysfunction"],a:1,why:"A dural defect lets nasopharyngeal bacteria reach the CSF. Recurrent Neisseria points to complement deficiency instead."}],
-"Viral meningitis and encephalitis":[
- {q:"Fever, confusion, aphasia and a temporal lobe lesion. Treatment and timing?",opts:["IV acyclovir now","Acyclovir once PCR returns positive","Oral valacyclovir","IV ganciclovir"],a:0,why:"Treat HSV encephalitis on suspicion; delay worsens outcome."},
- {q:"In late summer, an older adult has encephalitis with asymmetric flaccid weakness of one arm. Most likely virus?",opts:["HSV-1","West Nile virus","Enterovirus","Rabies"],a:1,why:"West Nile attacks anterior horn cells, causing polio-like flaccid paralysis."}],
-"Brain abscess":[
- {q:"A teenager with uncorrected tetralogy of Fallot develops a brain abscess. Why is she at risk?",opts:["Contiguous sinus infection","Right-to-left shunting bypasses the lungs' filtering","Prior neurosurgery","Endocarditis is universal in this lesion"],a:1,why:"Cyanotic heart disease lets venous bacteria skip the pulmonary capillary bed."}],
-"HIV and immunocompromise":[
- {q:"HIV with CD4 30/µL, a single enhancing periventricular lesion, and negative Toxoplasma IgG. Most likely?",opts:["Toxoplasmosis","Primary CNS lymphoma","PML","Cryptococcoma"],a:1,why:"A solitary periventricular lesion with negative toxo serology favors lymphoma; EBV DNA in CSF supports it."},
- {q:"Cryptococcal meningitis with opening pressure 38 cm H₂O and worsening headache. In addition to antifungals?",opts:["Acetazolamide","Repeated therapeutic lumbar punctures","Dexamethasone","Daily mannitol"],a:1,why:"Raised pressure drives much of the morbidity; drain CSF by serial LP. Steroids and acetazolamide are harmful here."}],
-"Spirochetes, TB, and fungi":[
- {q:"Treatment of neurosyphilis?",opts:["One IM dose of benzathine penicillin","IV penicillin G for 10–14 days","Oral doxycycline","Single dose of ceftriaxone"],a:1,why:"Benzathine penicillin doesn't reach treponemicidal CSF levels."},
- {q:"Subacute basilar meningitis with a CN VI palsy; CSF has lymphocytes, very high protein and low glucose. Add what to four-drug TB therapy?",opts:["Dexamethasone","Acyclovir","Amphotericin B","Nothing"],a:0,why:"Adjunctive steroids reduce death in tuberculous meningitis."}],
-"Toxin-mediated":[
- {q:"An unvaccinated farmer has lockjaw and painful spasms a week after a puncture wound. Management?",opts:["Tetanus immune globulin, vaccine, wound care, metronidazole, benzodiazepines","Penicillin alone","Botulism antitoxin","Pyridostigmine"],a:0,why:"Neutralize unbound toxin, remove the source, control spasms, and vaccinate (the disease doesn't confer immunity)."}],
-"Other infections to know":[
- {q:"Shingles on the forehead with vesicles on the tip of the nose. Why does the nose matter?",opts:["It predicts eye involvement","It predicts postherpetic neuralgia","It means disseminated zoster","It means Ramsay Hunt syndrome"],a:0,why:"Hutchinson sign: the nasociliary branch also supplies the eye. Get urgent ophthalmology."}]
-},
-demyelinating:{
-"Multiple sclerosis":[
- {q:"Which MRI pattern supports multiple sclerosis?",opts:["Ovoid periventricular lesions perpendicular to the ventricles","A cord lesion spanning 4 vertebral segments","Symmetric basal ganglia lesions","A single ring-enhancing mass"],a:0,why:"Dawson fingers. Long cord lesions suggest NMOSD."},
- {q:"A first MRI shows one enhancing and one non-enhancing lesion. Which criterion does that satisfy?",opts:["Dissemination in space","Dissemination in time","Neither","Both"],a:1,why:"Lesions of different ages on one scan show dissemination in time."},
- {q:"A patient with MS notices her leg weakness worsens in a hot tub and recovers when she cools off. What is this?",opts:["A relapse needing steroids","Uhthoff phenomenon","PML","Pseudotumor cerebri"],a:1,why:"Heat slows conduction in demyelinated axons; it's temporary and not a relapse."}],
-"MS treatment":[
- {q:"A woman with relapsing MS plans pregnancy and needs disease-modifying therapy. Option with the most pregnancy safety data?",opts:["Teriflunomide","Glatiramer acetate","Fingolimod","Cladribine"],a:1,why:"Teriflunomide and cladribine are teratogenic; fingolimod is avoided in pregnancy."},
- {q:"What should be checked before and during natalizumab?",opts:["JC virus antibody","HLA-B*15:02","TPMT activity","G6PD"],a:0,why:"JC virus exposure plus duration of therapy determines PML risk."}],
-"MS look-alikes":[
- {q:"Why does distinguishing NMOSD from MS change management?",opts:["NMOSD resolves on its own","Some MS drugs make NMOSD worse","NMOSD needs no maintenance therapy","MS is antibody-mediated"],a:1,why:"Interferon, natalizumab and fingolimod can worsen NMOSD."},
- {q:"A 6-year-old has a fever, then 10 days later becomes encephalopathic with multifocal deficits; MRI shows large bilateral white-matter lesions of the same age. Diagnosis?",opts:["Multiple sclerosis","ADEM","PML","Creutzfeldt-Jakob disease"],a:1,why:"Post-infectious, monophasic, with encephalopathy: acute disseminated encephalomyelitis."}],
-"Autoimmune encephalitis":[
- {q:"A young woman develops psychosis, then seizures, orofacial dyskinesias and autonomic instability. Which imaging should be ordered?",opts:["Pelvic ultrasound or MRI","CT of the chest","Mammography","Testicular ultrasound"],a:0,why:"Anti-NMDA receptor encephalitis is associated with ovarian teratoma; removal speeds recovery."}]
-},
-dementia:{
-"Definitions and screening":[
- {q:"Memory complaints with objective deficits on testing, but she still manages her own finances and medications. Diagnosis?",opts:["Dementia","Mild cognitive impairment","Delirium","Normal aging"],a:1,why:"Preserved independence separates MCI from dementia."}],
-"Reversible causes workup":[
- {q:"Which test belongs in the standard workup of new cognitive decline?",opts:["APOE genotype","Vitamin B12","EEG","Amyloid PET"],a:1,why:"CBC, metabolic panel, TSH, B12 and brain imaging are standard; the others are not routine."}],
-"Types":[
- {q:"What is usually the first symptom of normal pressure hydrocephalus?",opts:["Urinary incontinence","Gait disturbance","Memory loss","Visual hallucinations"],a:1,why:"Gait first, then urinary urgency, then cognitive slowing."},
- {q:"A 55-year-old loses empathy, eats compulsively and makes crude jokes; memory testing is near normal. Expected atrophy?",opts:["Hippocampal","Frontal and anterior temporal","Occipital","Caudate"],a:1,why:"Behavioral-variant frontotemporal dementia."},
- {q:"Rapid decline over 4 months with startle myoclonus. Most specific CSF test?",opts:["14-3-3 protein","RT-QuIC","Oligoclonal bands","Cell count"],a:1,why:"RT-QuIC detects misfolded prion protein with high specificity; 14-3-3 is a nonspecific marker of neuronal injury."}],
-"Treatment":[
- {q:"A patient faints a month after starting donepezil; pulse is 44/min. Likely cause?",opts:["Orthostatic hypotension","Cholinergic bradycardia","Hypoglycemia","Seizure"],a:1,why:"Cholinesterase inhibitors increase vagal tone; check for heart block."},
- {q:"Agitation and hallucinations in dementia with Lewy bodies. Which drug should be avoided?",opts:["Low-dose quetiapine","Haloperidol","Pimavanserin","Rivastigmine"],a:1,why:"Typical antipsychotics can cause severe, sometimes fatal, sensitivity reactions in Lewy body disease."}],
-"Amnestic syndromes":[
- {q:"In transient global amnesia, what is preserved?",opts:["Forming new memories","Knowledge of personal identity","Recall of the past hour","Orientation to time"],a:1,why:"Patients know who they are but can't lay down new memories, so they ask the same questions repeatedly."}]
-},
-neuropathy:{
-"Polyneuropathy":[
- {q:"Painful stocking neuropathy; glucose and B12 are normal. Which test belongs in the first-line workup?",opts:["Serum protein electrophoresis with immunofixation","Creatine kinase","ANA alone","Serum ammonia"],a:0,why:"Paraproteins (MGUS, myeloma, amyloid) are a common treatable cause."},
- {q:"What prevents neuropathy in a patient starting isoniazid?",opts:["Pyridoxine","Thiamine","Folate","Vitamin E"],a:0,why:"Isoniazid depletes B6."}],
-"Guillain-Barré syndrome":[
- {q:"Why aren't steroids given for Guillain-Barré syndrome?",opts:["They help but cause hyperglycemia","They don't improve outcome","Recent infection contraindicates them","They cause myopathy"],a:1,why:"Trials showed no benefit; use IVIG or plasma exchange."},
- {q:"A GBS patient's oxygen saturation is 98%, but FVC has fallen from 40 to 18 mL/kg. Next step?",opts:["Reassure; oxygenation is normal","Elective intubation in the ICU","Nebulized albuterol","Home BiPAP"],a:1,why:"Neuromuscular respiratory failure shows up in vital capacity long before hypoxemia."},
- {q:"CSF on day 3 of suspected GBS shows normal protein. What does that mean?",opts:["It rules out GBS","Expected early; protein rises later","It suggests CIDP","It suggests meningitis"],a:1,why:"Albuminocytologic dissociation may take a week or more to appear."}],
-"CIDP":[
- {q:"Which feature separates CIDP from GBS?",opts:["Areflexia","Progression for more than 8 weeks","High CSF protein","Demyelination on nerve conduction"],a:1,why:"Both share the others; time course and steroid response differ."}],
-"Upper limb entrapments":[
- {q:"Numb little finger and weak finger spreading in someone who leans on his elbows at work. Nerve?",opts:["Median","Ulnar","Radial","Musculocutaneous"],a:1,why:"Ulnar neuropathy at the elbow (cubital tunnel)."},
- {q:"Crutches pressing into the armpit cause wrist drop plus which other finding?",opts:["Triceps weakness","Thenar atrophy","Claw hand","Winged scapula"],a:0,why:"Compression in the axilla is above the branch to triceps; spiral groove injury spares it."}],
-"Lower limb entrapments":[
- {q:"A patient on warfarin develops weak knee extension, an absent patellar reflex and numb anterior thigh. Likely cause?",opts:["L4 disc herniation","Femoral neuropathy from a retroperitoneal hematoma","Common peroneal neuropathy","Obturator neuropathy"],a:1,why:"Iliopsoas or retroperitoneal bleeds compress the femoral nerve; get CT of the abdomen and pelvis."},
- {q:"In a patient with foot drop, which finding favors L5 radiculopathy over peroneal neuropathy?",opts:["Weak dorsiflexion","Weak inversion and hip abduction","Numb dorsum of the foot","Normal ankle reflex"],a:1,why:"Tibialis posterior (tibial nerve) and gluteus medius share L5 but not the peroneal nerve."}],
-"Brachial plexus":[
- {q:"After shoulder dystocia, a newborn holds the arm adducted, internally rotated, elbow extended. Which roots?",opts:["C5–C6","C8–T1","C7 only","T1 only"],a:0,why:"Upper trunk (Erb) palsy: waiter's tip posture."},
- {q:"A Klumpke palsy is accompanied by ptosis and miosis. Why?",opts:["The T1 root carries preganglionic sympathetic fibers","Carotid artery injury","Brainstem injury","Facial nerve injury"],a:0,why:"T1 avulsion interrupts the second-order sympathetic neuron."}]
-},
-nmj:{
-"Myasthenia gravis":[
- {q:"Which finding argues against myasthenia gravis?",opts:["Fatigable ptosis","Dilated, poorly reactive pupils","Diplopia worse in the evening","Normal reflexes"],a:1,why:"Pupils are spared in MG; dilated pupils point to botulism or a CN III lesion."},
- {q:"A woman with prominent bulbar weakness is negative for AChR antibodies. Next antibody to test?",opts:["Anti-MuSK","Anti-VGCC","Anti-GQ1b","Anti-Hu"],a:0,why:"MuSK-positive MG is bulbar-predominant and responds well to rituximab."}],
-"MG treatment":[
- {q:"After a pyridostigmine dose increase, a patient has cramps, diarrhea and drooling. Mechanism?",opts:["Muscarinic cholinergic excess","Nicotinic receptor blockade","Anticholinergic effect","Steroid side effect"],a:0,why:"More ACh at muscarinic synapses; glycopyrrolate can blunt it."},
- {q:"Generalized AChR-positive MG at age 45; CT shows no thymoma. Is thymectomy reasonable?",opts:["No, only with thymoma","Yes; it improves outcomes","Only after age 65","Only if MuSK-positive"],a:1,why:"A randomized trial showed benefit in generalized AChR-positive disease without thymoma."}],
-"Myasthenic crisis":[
- {q:"An MG patient has pneumonia. Safest antibiotic class?",opts:["Fluoroquinolone","Aminoglycoside","β-lactam","Macrolide"],a:2,why:"Fluoroquinolones, aminoglycosides and macrolides impair neuromuscular transmission."},
- {q:"In myasthenic crisis, which treatment works fastest?",opts:["Prednisone","Azathioprine","IVIG or plasma exchange","Thymectomy"],a:2,why:"They work within days; the others take weeks to months."}],
-"Lambert-Eaton myasthenic syndrome":[
- {q:"Lambert-Eaton syndrome has just been diagnosed in a smoker. Most important next step?",opts:["CT of the chest for small cell lung cancer","Thymectomy","Pyridostigmine alone","Repeat EMG in 6 months"],a:0,why:"About half have an underlying small cell lung cancer; treating it improves the syndrome."}],
-"Botulism":[
- {q:"Treatment for infant botulism?",opts:["Equine heptavalent antitoxin","Human botulism immune globulin (BabyBIG)","Gentamicin","Pyridostigmine"],a:1,why:"BabyBIG shortens hospital stay; equine antitoxin is used in older children and adults."},
- {q:"Which drug class should be avoided in a patient with botulism?",opts:["Aminoglycosides","Penicillins","Acetaminophen","Heparin"],a:0,why:"Aminoglycosides worsen neuromuscular blockade."}]
-}
-});
-
-</script>
-<script>/* checkpoints-3.js */
-NEURO.checkpoints=NEURO.checkpoints||{};
-Object.assign(NEURO.checkpoints,{
-parkinson:{
-"Diagnosis":[
- {q:"Which finding is required to diagnose parkinsonism?",opts:["Rest tremor","Bradykinesia","Rigidity","Postural instability"],a:1,why:"Bradykinesia plus rest tremor or rigidity. Many patients never develop tremor."},
- {q:"Which history most often precedes the motor signs of Parkinson disease by years?",opts:["Dream enactment, constipation and loss of smell","Early backward falls","Urinary retention","Inability to look down"],a:0,why:"Synuclein pathology starts outside the nigra; the other choices point to MSA or PSP."},
- {q:"Symmetric bradykinesia and rigidity began 2 months after starting metoclopramide. Next step?",opts:["Start carbidopa-levodopa","Stop metoclopramide","Order a DaT scan before anything else","Add benztropine and continue metoclopramide"],a:1,why:"Drug-induced parkinsonism resolves after the dopamine blocker is stopped, though it can take months."}],
-"Treatment":[
- {q:"A 72-year-old's Parkinson symptoms now limit daily activities. Best drug?",opts:["Pramipexole","Carbidopa-levodopa","Selegiline","Trihexyphenidyl"],a:1,why:"Most effective. In older adults agonists cause more hallucinations and sleepiness, and anticholinergics cause confusion."},
- {q:"After 6 years of levodopa, stiffness returns about 3 hours after each dose. Which change helps?",opts:["Add entacapone or dose more often","Stop levodopa","Add haloperidol","Switch to benztropine"],a:0,why:"Wearing-off: extend each dose with a COMT or MAO-B inhibitor, or shorten the interval."},
- {q:"Writhing movements of the trunk and arms peak an hour after each levodopa dose. Which drug helps?",opts:["Amantadine","Haloperidol","A higher levodopa dose","Benztropine"],a:0,why:"Peak-dose dyskinesia: smaller, more frequent doses plus amantadine."}],
-"Atypical parkinsonism":[
- {q:"Parkinsonism with urinary retention, erectile dysfunction and fainting on standing in the first year; levodopa barely helps. Diagnosis?",opts:["Progressive supranuclear palsy","Multiple system atrophy","Corticobasal degeneration","Dementia with Lewy bodies"],a:1,why:"Early, severe autonomic failure defines MSA."},
- {q:"Which feature points to progressive supranuclear palsy?",opts:["Rest tremor with a good levodopa response","Early backward falls and impaired downgaze","Alien limb","Visual hallucinations in year one"],a:1,why:"Axial rigidity and a vertical supranuclear gaze palsy."}]
-},
-hyperkinetic:{
-"Tremor":[
- {q:"Fine tremor of both outstretched hands with weight loss, heat intolerance and tachycardia. Tremor type?",opts:["Essential tremor","Enhanced physiologic tremor","Parkinsonian tremor","Cerebellar intention tremor"],a:1,why:"Hyperthyroidism amplifies normal tremor; also check caffeine, β-agonists, lithium and valproate."},
- {q:"A patient with essential tremor also has asthma. Preferred first-line drug?",opts:["Propranolol","Primidone","Levodopa","Benztropine"],a:1,why:"Nonselective β-blockers can trigger bronchospasm."}],
-"Huntington disease":[
- {q:"A son develops Huntington disease 10 years younger than his father did. Mechanism?",opts:["Mitochondrial inheritance","CAG repeat expansion (anticipation)","Genomic imprinting","Somatic mosaicism"],a:1,why:"Repeats lengthen across generations, especially through the father."},
- {q:"Most characteristic imaging finding in Huntington disease?",opts:["Caudate atrophy with boxcar ventricles","Midbrain atrophy","Hot cross bun sign in the pons","Isolated hippocampal atrophy"],a:0,why:"Loss of striatal neurons flattens the caudate heads."}],
-"Wilson disease":[
- {q:"A 19-year-old has tremor, dysarthria and abnormal liver tests. Best initial tests?",opts:["Serum ceruloplasmin and slit-lamp exam","Serum copper alone","MRI of the brain alone","Liver biopsy first"],a:0,why:"Low ceruloplasmin and Kayser-Fleischer rings; then 24-hour urine copper."},
- {q:"She is diagnosed with Wilson disease. Her 17-year-old brother is well. What should happen?",opts:["Nothing unless he develops symptoms","Screen him","Start penicillamine without testing","Genetic testing at age 40"],a:1,why:"Autosomal recessive: each sibling has a 1 in 4 risk, and early treatment prevents damage."}],
-"Dystonia, ballism, myoclonus":[
- {q:"First-line treatment for cervical dystonia?",opts:["Botulinum toxin injections","Haloperidol","Levodopa","Deep brain stimulation"],a:0,why:"Focal dystonias respond best to targeted botulinum toxin."},
- {q:"Asterixis and multifocal myoclonus in a confused patient with kidney failure. Cause?",opts:["Uremic encephalopathy","Creutzfeldt-Jakob disease","Huntington disease","Absence seizures"],a:0,why:"Metabolic encephalopathies produce negative and positive myoclonus; dialysis treats it."}],
-"Tics and Tourette syndrome":[
- {q:"Which feature identifies a tic?",opts:["A premonitory urge with brief voluntary suppression","Persists during sleep","Constant rhythm","Abolished by alcohol"],a:0,why:"Tics are preceded by an urge, can be held back briefly, and worsen with stress."},
- {q:"A boy with Tourette syndrome and ADHD needs medication for tics. First-line?",opts:["Haloperidol","Guanfacine","Pimozide","Tetrabenazine"],a:1,why:"α2-agonists help both tics and ADHD with fewer side effects than antipsychotics."}],
-"Ataxia":[
- {q:"Unsteady in the dark and Romberg positive, but finger-to-nose is accurate. Ataxia type?",opts:["Cerebellar vermis","Sensory (proprioceptive)","Cerebellar hemisphere","Vestibular"],a:1,why:"Vision compensates for lost proprioception; cerebellar ataxia is present with eyes open."},
- {q:"New ataxia, nystagmus and slurred speech after a phenytoin dose increase. Next step?",opts:["MRI of the brain","Check a phenytoin level","Lumbar puncture","EMG"],a:1,why:"Phenytoin's zero-order kinetics make small dose increases cause toxicity."}]
-},
-cord:{
-"Tracts that matter":[
- {q:"A right hemisection of the cord at T10. Where is pain and temperature lost?",opts:["Right side below T10","Left side, starting a level or two below T10","Both sides at T10 only","Right side above T10"],a:1,why:"Spinothalamic fibers cross within 1–2 segments, so loss is contralateral and slightly lower."},
- {q:"A cord lesion causes loss of vibration in the left leg. Which side of the cord is damaged?",opts:["Left","Right","The anterior commissure","Both sides"],a:0,why:"Dorsal columns ascend on the same side and cross in the medulla."}],
-"Cord syndromes":[
- {q:"After repair of a thoracoabdominal aneurysm, a patient is paraplegic and can't feel pinprick below T8 but feels a tuning fork on the toes. Syndrome?",opts:["Anterior cord syndrome","Central cord syndrome","Brown-Séquard syndrome","Posterior cord syndrome"],a:0,why:"Anterior spinal artery infarct spares the dorsal columns."},
- {q:"Painless burns on both hands with pain and temperature loss over the shoulders and arms; light touch is normal. Cause?",opts:["Syringomyelia","B12 deficiency","ALS","Tabes dorsalis"],a:0,why:"A central syrinx cuts crossing spinothalamic fibers first: a cape-like, dissociated sensory loss."}],
-"Conus medullaris vs cauda equina":[
- {q:"Severe asymmetric radicular leg pain, saddle numbness, absent reflexes, and urinary retention that came later. Lesion?",opts:["Conus medullaris","Cauda equina","Thoracic cord compression","Brown-Séquard syndrome"],a:1,why:"Root (LMN) pattern, asymmetric, painful, with late sphincter involvement."},
- {q:"Best initial test for suspected cauda equina syndrome?",opts:["Lumbar X-ray","Emergent MRI of the lumbar spine","EMG","CT of the head"],a:1,why:"It's a surgical emergency; MRI shows the compressing disc or mass."}],
-"Epidural spinal cord compression":[
- {q:"A woman with breast cancer has 3 weeks of thoracic back pain worse lying flat; her neurologic exam is normal. Next step?",opts:["NSAIDs and follow-up","Urgent MRI of the entire spine","Bone scan in 2 weeks","Physical therapy"],a:1,why:"New back pain in a patient with cancer is cord compression until shown otherwise; act before deficits appear."},
- {q:"The same patient develops leg weakness. First treatment?",opts:["High-dose dexamethasone","Radiation before imaging","Morphine alone","Chemotherapy"],a:0,why:"Steroids now, then imaging, then radiation or surgery."}],
-"Infection and infarction":[
- {q:"Fever, back pain and new leg weakness in a man with diabetes; ESR 110. Imaging?",opts:["MRI with gadolinium","CT myelogram","Plain X-ray","Bone scan"],a:0,why:"MRI shows an epidural abscess; drainage and antibiotics are urgent."},
- {q:"Sudden paraplegia during aortic surgery results from loss of which artery's flow?",opts:["Artery of Adamkiewicz","Posterior spinal arteries","Vertebral artery","Basilar artery"],a:0,why:"The great radicular artery feeds the anterior spinal artery in the lower cord."}],
-"Spinal cord injury":[
- {q:"After a C5 injury, BP is 78/40 mm Hg, heart rate 48/min, and the legs are warm. Cause?",opts:["Hemorrhagic shock","Neurogenic shock","Septic shock","Cardiogenic shock"],a:1,why:"Loss of sympathetic tone gives hypotension with bradycardia; bleeding causes tachycardia."},
- {q:"A man with T4 paraplegia has BP 220/120 mm Hg, a pounding headache and flushing above the injury. First step?",opts:["IV labetalol","Sit him up and check bladder and bowel","Lay him flat","CT of the head"],a:1,why:"Autonomic dysreflexia: remove the trigger (distended bladder, impaction) first."}],
-"Other myelopathies":[
- {q:"An older man's leg weakness worsens after walking; MRI shows cord edema with dilated surface vessels. What should be avoided?",opts:["Spinal angiography","High-dose steroids","Endovascular closure","Neurosurgery referral"],a:1,why:"Steroids can worsen venous congestion from a spinal dural AV fistula."}]
-},
-cranial:{
-"Facial palsy":[
- {q:"Which finding shows that a facial palsy is central?",opts:["Can't close the eye","Forehead spared","Sounds seem too loud","Lost taste on the front of the tongue"],a:1,why:"The upper face receives input from both hemispheres."},
- {q:"A Bell palsy patient can't fully close her eye. Besides prednisone, what's most important?",opts:["Eye lubrication and nighttime taping","MRI","EMG on day 1","Antibiotics"],a:0,why:"Corneal exposure can cause ulceration."},
- {q:"Bilateral facial weakness after a summer camping trip in Wisconsin. Most useful test?",opts:["Lyme serology","Hemoglobin A1c","MRI alone","ANA"],a:0,why:"Lyme disease is a classic cause of bilateral facial palsy."}],
-"Eye movement nerves":[
- {q:"Vertical diplopia worse going downstairs; he tilts his head to the left to fix it. Which nerve?",opts:["Right CN IV","Left CN IV","Right CN VI","Left CN III"],a:0,why:"The head tilts away from the side of the weak superior oblique."},
- {q:"A 64-year-old with diabetes has a complete CN III palsy with a normal, reactive pupil. Management?",opts:["Emergent CTA","Control risk factors and recheck closely; image if the pupil becomes involved or no recovery","IV steroids","Lumbar puncture"],a:1,why:"Pupil-sparing complete palsy is usually microvascular and recovers over 2–3 months."}],
-"Horner syndrome":[
- {q:"Which combination points to a third-order (postganglionic) Horner syndrome?",opts:["Facial anhidrosis and arm pain","Normal facial sweating and neck pain after trauma","Crossed sensory loss","Hoarseness and dysphagia"],a:1,why:"Facial sweat fibers leave with the external carotid; carotid dissection is the classic cause."},
- {q:"Horner syndrome with shoulder pain and weak hand muscles in a smoker. Imaging?",opts:["CT of the chest","MRI of the brain","Carotid ultrasound","Orbital CT"],a:0,why:"Pancoast tumor at the lung apex involves the lower plexus and second-order neuron."}],
-"Cavernous sinus and skull base":[
- {q:"Ophthalmoplegia, numbness over the forehead and cheek, and Horner syndrome. Location?",opts:["Cavernous sinus","Orbital apex","Jugular foramen","Midbrain"],a:0,why:"V2 runs in the cavernous sinus; the orbital apex involves V1 and the optic nerve instead."},
- {q:"Pulsatile proptosis, a red eye and an orbital bruit weeks after head trauma. Diagnosis?",opts:["Carotid-cavernous fistula","Thyroid eye disease","Orbital cellulitis","Septic cavernous sinus thrombosis"],a:0,why:"Arterial blood shunts into the cavernous sinus."}],
-"Bulbar vs pseudobulbar palsy":[
- {q:"Brisk jaw jerk, a stiff slow tongue, and laughing at sad news. Where is the lesion?",opts:["Both corticobulbar tracts","Medullary motor nuclei","Neuromuscular junction","Hypoglossal nerves"],a:0,why:"UMN (pseudobulbar) palsy with pseudobulbar affect."}]
-},
-encephalopathy:{
-"Delirium":[
- {q:"Best bedside tool to diagnose delirium?",opts:["MMSE","Confusion Assessment Method","PHQ-9","Glasgow Coma Scale"],a:1,why:"CAM: acute fluctuating course plus inattention plus disorganized thinking or altered consciousness."},
- {q:"Hypoactive delirium in an older inpatient is most often mistaken for what?",opts:["Depression or fatigue","Mania","Primary psychosis","Seizure"],a:0,why:"Quiet, withdrawn patients are missed; screen attention."},
- {q:"Delirium with dangerous agitation in a patient with alcohol withdrawal. Drug of choice?",opts:["Haloperidol","A benzodiazepine","Quetiapine","Diphenhydramine"],a:1,why:"Withdrawal is the exception where benzodiazepines are the treatment."}],
-"Coma exam":[
- {q:"Coma with reactive pupils, full eye movements on doll's eyes, no focal signs, and asterixis earlier in the day. Likely cause?",opts:["Brainstem stroke","Toxic-metabolic encephalopathy","Uncal herniation","Locked-in syndrome"],a:1,why:"Metabolic coma usually spares pupils and brainstem reflexes."},
- {q:"With a painful stimulus, the arms extend and internally rotate. Level of injury?",opts:["Cortex only","Above the red nucleus","Midbrain or upper pons","Spinal cord"],a:2,why:"Decerebrate posturing is below the red nucleus and carries a worse prognosis than decorticate."},
- {q:"An unresponsive patient resists eye opening, and cold calorics produce nystagmus. This suggests what?",opts:["Brain death","Psychogenic unresponsiveness","Locked-in syndrome","Pontine hemorrhage"],a:1,why:"Nystagmus requires an awake cortex; true coma produces tonic deviation without a fast phase."}],
-"After cardiac arrest":[
- {q:"Earliest reliable time to judge neurologic prognosis after cardiac arrest?",opts:["24 hours after arrest","At least 72 hours after normothermia, off sedation","Immediately on arrival","Only after 2 weeks"],a:1,why:"Earlier exams are confounded by cooling and sedatives."},
- {q:"A cardiac arrest survivor has intact cognition but jerks whenever she reaches for something. Diagnosis?",opts:["Lance-Adams syndrome","Myoclonic status epilepticus","Tardive dyskinesia","Essential tremor"],a:0,why:"Chronic post-hypoxic action myoclonus with a good prognosis for cognition."}],
-"Toxidromes":[
- {q:"Hot dry skin, dilated pupils, urinary retention and delirium after a diphenhydramine overdose. Antidote in selected cases?",opts:["Physostigmine","Naloxone","Flumazenil","Atropine"],a:0,why:"A centrally acting cholinesterase inhibitor reverses anticholinergic delirium."},
- {q:"A farmer has pinpoint pupils, salivation, diarrhea, wheezing with secretions, and fasciculations. Treatment?",opts:["Atropine and pralidoxime","Naloxone","Physostigmine","Dantrolene"],a:0,why:"Organophosphate poisoning: atropine for muscarinic effects, pralidoxime to reactivate the enzyme."}]
-}
-});
-
-</script>
-<script>/* checkpoints-4.js */
-NEURO.checkpoints=NEURO.checkpoints||{};
-Object.assign(NEURO.checkpoints,{
-tbi:{
-"Glasgow Coma Scale":[
- {q:"Opens eyes only to pain, says inappropriate words, and withdraws from pain. GCS?",opts:["7","8","9","10"],a:2,why:"Eye 2 + verbal 3 + motor 4 = 9."}],
-"Who needs a head CT":[
- {q:"Minor head injury with brief loss of consciousness. Which finding by itself calls for a CT?",opts:["Mild headache","Age 70","Vomited once","Scalp laceration"],a:1,why:"Age 65 or older is high risk under the Canadian CT Head Rule; it takes two or more episodes of vomiting."},
- {q:"A patient on apixaban bumps her head and has a normal exam. CT?",opts:["No","Yes","Only if a headache develops","Only after 24 hours"],a:1,why:"Anticoagulated patients get imaging after head trauma regardless of symptoms."}],
-"Traumatic hemorrhage patterns":[
- {q:"A crescent-shaped collection crosses the coronal suture. Source?",opts:["Middle meningeal artery","Bridging veins","Lenticulostriate arteries","Berry aneurysm"],a:1,why:"Subdural blood spreads under the dura across sutures."},
- {q:"Coma after a high-speed crash with a nearly normal CT. Best test?",opts:["MRI with susceptibility-weighted imaging","Repeat CT in a week","EEG","Lumbar puncture"],a:0,why:"Diffuse axonal injury shows as microhemorrhages at the gray-white junction and corpus callosum."}],
-"Severe TBI management":[
- {q:"Which intervention increases mortality in traumatic brain injury?",opts:["High-dose corticosteroids","Avoiding hypotension","Elevating the head of the bed to 30°","Seven days of seizure prophylaxis"],a:0,why:"A large trial showed steroids increased deaths in TBI."},
- {q:"Which secondary insult each roughly doubles mortality after severe TBI?",opts:["Hypotension or hypoxia","Temperature of 37.8°C","Sodium of 146 mEq/L","PaCO₂ of 36 mm Hg"],a:0,why:"Keep systolic BP and oxygenation up from the field onward."}],
-"Concussion":[
- {q:"A concussed teen has been symptom-free for 2 days. Next step?",opts:["Full-contact practice today","Graduated return-to-play, at least 24 hours per step","MRI of the brain","Two more weeks of strict rest"],a:1,why:"Step up activity gradually; drop back a step if symptoms return."},
- {q:"What defines a concussion?",opts:["Loss of consciousness","Trauma-induced brain dysfunction without structural injury","An abnormal CT","Amnesia lasting over 30 minutes"],a:1,why:"Most concussions involve no loss of consciousness and normal imaging."}],
-"Abusive head trauma":[
- {q:"A 4-month-old has subdural hemorrhages of different ages. What else must be obtained?",opts:["Skeletal survey and dilated eye exam","EEG","Lumbar puncture","Coagulation studies only"],a:0,why:"Look for occult fractures and retinal hemorrhages, check coagulation, and report to child protective services."}]
-},
-neuroophth:{
-"Visual field defects":[
- {q:"Left homonymous hemianopia with macular sparing. Lesion?",opts:["Right occipital cortex","Left occipital cortex","Right optic nerve","Optic chiasm"],a:0,why:"A PCA infarct; the occipital pole often keeps MCA collateral supply."},
- {q:"Right inferior quadrantanopia. Lesion?",opts:["Left temporal lobe","Left parietal lobe","Right parietal lobe","Right temporal lobe"],a:1,why:"Parietal radiations carry the inferior field; the temporal Meyer loop carries the superior field."}],
-"Pupils":[
- {q:"Swinging flashlight test: both pupils dilate when the light moves onto the right eye. Lesion?",opts:["Right optic nerve","Left optic nerve","Right CN III","Left CN III"],a:0,why:"A right RAPD: less light signal reaches the brainstem through the right optic nerve."},
- {q:"A young woman has one large pupil that reacts poorly to light, constricts slowly to near, and has absent ankle reflexes. Diagnosis?",opts:["Holmes-Adie syndrome","Argyll Robertson pupil","Horner syndrome","CN III palsy"],a:0,why:"A tonic pupil from ciliary ganglion damage, with areflexia."}],
-"Swollen or pale disc":[
- {q:"Bilateral disc swelling, normal acuity, and headache worse lying down. First step?",opts:["Lumbar puncture","MRI with MR venography","Oral steroids","Observation"],a:1,why:"Papilledema means raised ICP: exclude a mass and venous thrombosis before any LP."},
- {q:"A 72-year-old has sudden vision loss, a pale swollen disc and jaw pain when chewing. Treatment now?",opts:["High-dose corticosteroids","Aspirin","Ocular massage","Acetazolamide"],a:0,why:"Arteritic ischemic optic neuropathy from GCA threatens the other eye within days."}],
-"Acute painless vision loss":[
- {q:"Sudden monocular vision loss with a pale retina and a cherry-red spot. Handle it like what?",opts:["An acute stroke","Acute glaucoma","Migraine aura","Retinal detachment"],a:0,why:"Central retinal artery occlusion needs emergent stroke evaluation and an embolic workup."},
- {q:"New flashes and floaters, then a curtain over part of the vision. Diagnosis?",opts:["Retinal detachment","Central retinal artery occlusion","Optic neuritis","Occipital stroke"],a:0,why:"Urgent ophthalmology; repair preserves vision."}],
-"Diplopia and eye movements":[
- {q:"Double vision persists in the right eye when the left eye is covered. Most likely cause?",opts:["An ocular problem such as cataract","CN VI palsy","Myasthenia gravis","Internuclear ophthalmoplegia"],a:0,why:"Monocular diplopia comes from the eye itself, not misalignment."},
- {q:"On right gaze the left eye doesn't adduct and the right eye has nystagmus; convergence is normal. Lesion?",opts:["Left MLF","Right MLF","Left CN III","Right PPRF"],a:0,why:"An INO is named for the side that fails to adduct."}]
-},
-vertigo:{
-"Sort by timing and trigger":[
- {q:"Seconds of vertigo with head turns, normal hearing, and a positive Dix-Hallpike. Treatment?",opts:["Epley maneuver","Daily meclizine","Prednisone","Low-salt diet"],a:0,why:"Canalith repositioning cures most posterior canal BPPV."},
- {q:"Continuous vertigo for 3 days after a cold, normal hearing, abnormal head impulse. Diagnosis?",opts:["Vestibular neuritis","Labyrinthitis","Ménière disease","BPPV"],a:0,why:"Labyrinthitis adds hearing loss; Ménière is episodic."},
- {q:"Repeated attacks of vertigo lasting hours with fluctuating hearing loss, tinnitus and ear fullness. Diagnosis?",opts:["Ménière disease","Vestibular migraine","Vestibular schwannoma","BPPV"],a:0,why:"Endolymphatic hydrops; start with sodium restriction and a diuretic."}],
-"HINTS exam":[
- {q:"Which HINTS finding is reassuring for a peripheral cause?",opts:["Normal head impulse","Abnormal head impulse with a corrective saccade","Direction-changing nystagmus","Skew deviation"],a:1,why:"A broken vestibulo-ocular reflex means the problem is in the nerve or labyrinth."},
- {q:"When should the HINTS exam be used?",opts:["Brief positional vertigo","Acute continuous vertigo with nystagmus","Chronic dizziness","Presyncope"],a:1,why:"Outside the acute vestibular syndrome, HINTS can mislead."}],
-"Hearing loss":[
- {q:"Weber lateralizes to the left; air conduction beats bone conduction on both sides. Which hearing loss?",opts:["Left conductive","Right sensorineural","Left sensorineural","Right conductive"],a:1,why:"In sensorineural loss, Weber goes to the better ear and Rinne stays normal."},
- {q:"A patient wakes with sudden one-sided sensorineural hearing loss. Treatment?",opts:["Urgent oral or intratympanic steroids","Observe for 3 months","Antibiotics","A hearing aid only"],a:0,why:"Treatment works best when started within about 2 weeks."},
- {q:"Asymmetric sensorineural hearing loss with tinnitus on that side. Next test?",opts:["MRI with gadolinium of the internal auditory canals","CT of the head","Repeat audiogram in a year","Reassurance"],a:0,why:"Rule out a vestibular schwannoma."}]
-},
-drugs:{
-"Extrapyramidal effects of dopamine blockers":[
- {q:"Inner restlessness and pacing a week after starting haloperidol. Best treatment?",opts:["Propranolol","Increase the haloperidol dose","IV dantrolene","Valbenazine"],a:0,why:"Akathisia: lower the dose and add propranolol or a benzodiazepine."},
- {q:"Which extrapyramidal syndrome gets worse with anticholinergics?",opts:["Acute dystonia","Tardive dyskinesia","Drug-induced parkinsonism","Akathisia"],a:1,why:"Treat tardive dyskinesia with a VMAT2 inhibitor instead."}],
-"Hyperthermic syndromes":[
- {q:"Which finding best separates serotonin syndrome from NMS?",opts:["Fever","Clonus and hyperreflexia","Altered mental status","Tachycardia"],a:1,why:"NMS gives lead-pipe rigidity with slow reflexes and develops over days rather than hours."},
- {q:"Jaw rigidity and rising end-tidal CO₂ minutes after succinylcholine. Drug?",opts:["Dantrolene","Cyproheptadine","Bromocriptine","Physostigmine"],a:0,why:"Malignant hyperthermia: stop the trigger and give dantrolene."}],
-"Drug effects by system":[
- {q:"Which smoking-cessation drug should be avoided in a patient with epilepsy?",opts:["Bupropion","Varenicline","Nicotine patch","Nicotine gum"],a:0,why:"Bupropion lowers the seizure threshold in a dose-related way."},
- {q:"Months after a kidney transplant, a patient on tacrolimus has headache, seizures and cortical blindness with severe hypertension. Diagnosis?",opts:["PRES","Venous sinus thrombosis","PML","Hypoglycemia"],a:0,why:"Posterior reversible encephalopathy: control BP and adjust the calcineurin inhibitor."},
- {q:"Red-green color vision loss after months of tuberculosis treatment. Culprit?",opts:["Ethambutol","Isoniazid","Rifampin","Pyrazinamide"],a:0,why:"Ethambutol optic neuropathy; check vision and color vision regularly."}],
-"Withdrawal syndromes":[
- {q:"On hospital day 3, a heavy drinker becomes confused, febrile and tachycardic. Diagnosis?",opts:["Delirium tremens","Wernicke encephalopathy","Alcoholic hallucinosis","Hepatic encephalopathy"],a:0,why:"DTs typically start 48–96 hours after the last drink; hallucinosis has a clear sensorium."},
- {q:"Which withdrawal syndrome does not cause seizures?",opts:["Opioid","Alcohol","Benzodiazepine","Barbiturate"],a:0,why:"Opioid withdrawal is miserable but rarely dangerous to adults."}],
-"Older adults":[
- {q:"Which sleep aid is most likely to cause delirium in an 82-year-old?",opts:["Diphenhydramine","Melatonin","CBT for insomnia","Sleep hygiene changes"],a:0,why:"Strong anticholinergic effects; on the Beers list."}]
-},
-muscle:{
-"Amyotrophic lateral sclerosis":[
- {q:"Which finding argues against ALS?",opts:["Fasciculations","Stocking-pattern sensory loss","Hyperreflexia","Tongue atrophy"],a:1,why:"ALS spares sensation; look for another diagnosis or a coexisting neuropathy."},
- {q:"When should a feeding tube be offered in ALS?",opts:["After FVC falls below 30%","Early, before FVC falls below 50%","Only after aspiration pneumonia","Never; it's futile"],a:1,why:"Placement gets riskier as respiratory function declines."}],
-"Other motor neuron disorders":[
- {q:"A 45-year-old man has slowly progressive bulbar weakness, gynecomastia and testicular atrophy. Diagnosis?",opts:["Kennedy disease (spinobulbar muscular atrophy)","ALS","Myasthenia gravis","Polymyositis"],a:0,why:"X-linked CAG repeat in the androgen receptor gene."}],
-"Approach to myopathy":[
- {q:"Proximal weakness with a normal CK after 4 months of prednisone 40 mg. Diagnosis?",opts:["Steroid myopathy","Polymyositis","Inclusion body myositis","Statin myopathy"],a:0,why:"Steroid myopathy has normal CK; inflammatory myopathies raise it."},
- {q:"A 68-year-old man has asymmetric quadriceps and finger flexor weakness that didn't respond to steroids. Diagnosis?",opts:["Inclusion body myositis","Polymyositis","Dermatomyositis","Polymyalgia rheumatica"],a:0,why:"That weakness pattern, older age, and steroid resistance are typical."}],
-"Muscular dystrophies":[
- {q:"Which test does a patient with myotonic dystrophy type 1 need regularly?",opts:["ECG","EEG","Pulmonary angiography","Nerve conduction studies"],a:0,why:"Conduction block can cause sudden death; some need a pacemaker."},
- {q:"What separates Duchenne from Becker muscular dystrophy?",opts:["Frameshift vs in-frame dystrophin deletion","X-linked vs autosomal inheritance","CK level alone","Calf size"],a:0,why:"In-frame deletions leave a partly working protein and milder disease."}],
-"Channelopathies and metabolic myopathies":[
- {q:"Cramps and dark urine with exercise, then a 'second wind' a few minutes in. Which enzyme is deficient?",opts:["Myophosphorylase","CPT II","Acid maltase","Phosphofructokinase"],a:0,why:"McArdle disease: muscle can't use glycogen until blood-borne fuel arrives."},
- {q:"A young adult has stroke-like episodes, seizures and lactic acidosis; his mother has diabetes and hearing loss. Diagnosis?",opts:["MELAS","CADASIL","Moyamoya disease","Multiple sclerosis"],a:0,why:"Maternally inherited mitochondrial disease."}],
-"Myopathy mimics and rhabdomyolysis":[
- {q:"In polymyalgia rheumatica, what should be asked about at every visit?",opts:["Headache, jaw claudication and vision changes","Rash","Muscle cramps","Diarrhea"],a:0,why:"Giant cell arteritis overlaps with PMR and needs high-dose steroids."},
- {q:"CK is 50,000 U/L after a marathon in the heat. First treatment?",opts:["Aggressive IV fluids","Dantrolene","Corticosteroids","Mannitol before fluids"],a:0,why:"Volume prevents myoglobin-induced kidney injury; watch potassium."}]
-}
-});
-
-</script>
-<script>/* checkpoints-5.js */
-NEURO.checkpoints=NEURO.checkpoints||{};
-Object.assign(NEURO.checkpoints,{
-localization:{
-"Where, then what":[
- {q:"Symptoms that reached their maximum within seconds most suggest which process?",opts:["Vascular event or seizure","Neoplasm","Degenerative disease","Autoimmune inflammation"],a:0,why:"Tempo predicts cause: seconds to minutes is vascular, ictal or traumatic."},
- {q:"Symmetric proximal weakness with normal sensation and normal reflexes. Where is the problem?",opts:["Muscle","Peripheral nerve","Spinal cord","Cortex"],a:0,why:"Neuropathy causes distal sensory loss; cord lesions cause a sensory level and UMN signs."}],
-"Upper vs lower motor neuron":[
- {q:"Which sign indicates a lower motor neuron lesion?",opts:["Clonus","Fasciculations with atrophy","Babinski sign","Spasticity"],a:1,why:"The others are upper motor neuron signs."},
- {q:"The day after a large stroke, the weak arm is flaccid with absent reflexes. Why?",opts:["The lesion is actually in the LMN","Acute UMN lesions can be flaccid before spasticity appears","A coexisting neuropathy","Functional weakness"],a:1,why:"Cerebral or spinal shock; spasticity and hyperreflexia emerge over days to weeks."}],
-"Localization by level":[
- {q:"Right arm and leg weakness with a left CN VI palsy. Where is the lesion?",opts:["Left pons","Right pons","Left internal capsule","Cervical cord"],a:0,why:"Crossed signs mean brainstem; the cranial nerve deficit is on the side of the lesion."},
- {q:"Weakness of both legs, a sensory level at the umbilicus, and urinary retention. Where?",opts:["Spinal cord around T10","Both cerebral hemispheres","Cauda equina","Peripheral nerves"],a:0,why:"A sensory level localizes to the cord; the umbilicus is T10."}],
-"Reflexes and signs":[
- {q:"An absent patellar reflex points to which root?",opts:["L4","S1","C7","L5"],a:0,why:"Knee L4, ankle S1, triceps C7, biceps C5–C6."},
- {q:"UMN signs in all four limbs plus a brisk jaw jerk. What does the jaw jerk add?",opts:["Disease above the foramen magnum, as in ALS","It confirms cervical myelopathy","It suggests peripheral neuropathy","Nothing useful"],a:0,why:"The jaw jerk is a trigeminal reflex; cervical cord lesions can't make it brisk."}],
-"Cortical syndromes":[
- {q:"Fluent speech with many word errors, intact comprehension, and a striking inability to repeat. Which aphasia?",opts:["Wernicke","Conduction","Broca","Transcortical motor"],a:1,why:"Arcuate fasciculus lesion: comprehension is preserved, repetition is not."},
- {q:"A right-handed man can't dress himself and ignores everything on his left. Lesion?",opts:["Right parietal lobe","Left parietal lobe","Left frontal lobe","Right occipital lobe"],a:0,why:"Neglect and dressing apraxia are nondominant parietal signs."}],
-"Normal aging on exam":[
- {q:"Which finding is normal in a healthy 80-year-old?",opts:["Reduced vibration sense at the toes","A unilateral Babinski sign","New need for help managing finances","Asymmetric reflexes"],a:0,why:"Mildly reduced distal vibration and ankle reflexes are expected; the others need evaluation."}]
-},
-diagnostics:{
-"CSF patterns":[
- {q:"CSF: 1,500 WBC/µL, mostly neutrophils; glucose 20 mg/dL with serum 100; protein 250 mg/dL. Most likely?",opts:["Bacterial meningitis","Viral meningitis","Guillain-Barré syndrome","Multiple sclerosis"],a:0,why:"Neutrophils, low CSF-to-serum glucose, and high protein."},
- {q:"Lymphocytic CSF with very high protein and low glucose; MRI shows basilar meningeal enhancement. Most likely?",opts:["Tuberculous meningitis","Enteroviral meningitis","HSV encephalitis","Subarachnoid hemorrhage"],a:0,why:"Low glucose with lymphocytes means TB, fungal, or carcinomatous meningitis."}],
-"Before the needle":[
- {q:"In suspected meningitis, which finding requires a head CT before LP?",opts:["Fever","A seizure 2 days ago","Neck stiffness","Photophobia"],a:1,why:"Seizure within a week, papilledema, focal deficit, altered consciousness or immunocompromise."},
- {q:"A positional headache 2 days after an LP persists despite fluids and caffeine. Treatment?",opts:["Epidural blood patch","Repeat LP","Sumatriptan","CT angiography"],a:0,why:"The patch seals the dural leak."}],
-"Choosing imaging":[
- {q:"Best test to confirm an acute ischemic stroke that isn't visible on CT?",opts:["MRI with diffusion-weighted imaging","Contrast CT","Carotid duplex","EEG"],a:0,why:"DWI shows ischemia within minutes."},
- {q:"Two weeks of low back pain with no red flags. Imaging?",opts:["None","Lumbar MRI","Lumbar X-ray","Lumbar CT"],a:0,why:"Early imaging without red flags doesn't change outcomes."}],
-"EEG signatures":[
- {q:"A confused patient with cirrhosis has triphasic waves on EEG. What do they mean?",opts:["Metabolic encephalopathy","Absence epilepsy","Creutzfeldt-Jakob disease","HSV encephalitis"],a:0,why:"Classic in hepatic and other metabolic encephalopathies."},
- {q:"A routine EEG between events is normal in a patient with suspected epilepsy. Interpretation?",opts:["Epilepsy is excluded","It doesn't exclude epilepsy; consider sleep-deprived or prolonged EEG","The events are psychogenic","The events are syncope"],a:1,why:"A single interictal EEG misses many patients with epilepsy."}],
-"Nerve conduction and EMG":[
- {q:"Slowed conduction velocities with conduction block suggest what?",opts:["Demyelinating neuropathy","Axonal neuropathy","Myopathy","Neuromuscular junction disease"],a:0,why:"Axonal neuropathies lower amplitude with near-normal velocity."},
- {q:"Small, short, polyphasic motor units with early recruitment. Disorder?",opts:["Myopathy","Motor neuron disease","Radiculopathy","Myasthenia gravis"],a:0,why:"Neurogenic disorders give large, long units with reduced recruitment."}]
-},
-neuroscience:{
-"Transmitter sources":[
- {q:"The cholinergic neurons lost early in Alzheimer disease are in which nucleus?",opts:["Nucleus basalis of Meynert","Locus coeruleus","Raphe nuclei","Substantia nigra pars compacta"],a:0,why:"Hence cholinesterase inhibitors."},
- {q:"Why do first-generation antihistamines cause drowsiness?",opts:["They block histamine from the tuberomammillary nucleus","They block dopamine","They activate GABA-A receptors","They block orexin"],a:0,why:"Hypothalamic histamine neurons promote wakefulness."}],
-"Basal ganglia and cerebellum":[
- {q:"A right cerebellar hemisphere lesion causes ataxia where?",opts:["Right limbs","Left limbs","Trunk only","Both legs"],a:0,why:"Cerebellar output crosses and the corticospinal tract crosses back."},
- {q:"Loss of nigral dopamine increases the activity of which nucleus?",opts:["Globus pallidus interna","Thalamus","Motor cortex","D1 striatal neurons"],a:0,why:"More GPi output inhibits the thalamus, causing bradykinesia."}],
-"CSF and the blood-brain barrier":[
- {q:"Hydrocephalus after bacterial meningitis enlarges which ventricles?",opts:["All four","Lateral only","Lateral and third only","Fourth only"],a:0,why:"Scarred arachnoid granulations fail to absorb CSF, a communicating hydrocephalus."},
- {q:"How do circulating toxins such as uremic solutes trigger vomiting?",opts:["The area postrema lacks a blood-brain barrier","Nausea opens the barrier","Through a CSF leak","Only through the vagus nerve"],a:0,why:"The chemoreceptor trigger zone samples blood directly."}],
-"Antiseizure drug mechanisms":[
- {q:"Which drug increases how often GABA-A chloride channels open?",opts:["Lorazepam","Phenobarbital","Gabapentin","Levetiracetam"],a:0,why:"Benzodiazepines raise frequency; barbiturates raise duration."},
- {q:"Which antiseizure drug binds synaptic vesicle protein SV2A?",opts:["Levetiracetam","Lamotrigine","Topiramate","Ethosuximide"],a:0,why:"SV2A modulates vesicle release; levetiracetam has few drug interactions."}],
-"Movement, dementia and migraine drugs":[
- {q:"How does valbenazine treat tardive dyskinesia?",opts:["Inhibits VMAT2","Blocks D2 receptors","Inhibits MAO-B","Blocks muscarinic receptors"],a:0,why:"It depletes presynaptic dopamine without blocking receptors."},
- {q:"Why can lasmiditan be used when triptans are contraindicated?",opts:["It's a 5-HT1F agonist that doesn't constrict vessels","It blocks CGRP receptors","It's an ergot derivative","It's an NSAID"],a:0,why:"Triptans act at 5-HT1B, which constricts coronary arteries."}],
-"Neuromuscular, spasticity and MS drugs":[
- {q:"Abrupt failure of an intrathecal baclofen pump can cause what?",opts:["Seizures, hyperthermia, rigidity and itching","Hypotension only","Bradycardia only","Nothing serious"],a:0,why:"Baclofen withdrawal can mimic NMS and be fatal."},
- {q:"The first dose of fingolimod requires monitoring for what?",opts:["Bradycardia","Hyperkalemia","Seizures","Hypoglycemia"],a:0,why:"S1P receptors on cardiac cells slow the heart rate."}],
-"Receptor side-effect patterns":[
- {q:"An older patient becomes confused with urinary retention and constipation after starting oxybutynin. Which receptor?",opts:["Muscarinic blockade","D2 blockade","H1 blockade","α1 blockade"],a:0,why:"Anticholinergic burden is a common, reversible cause of delirium."}]
-},
-prevention:{
-"Stroke prevention":[
- {q:"A 70-year-old woman with hypertension has nonvalvular atrial fibrillation (CHA₂DS₂-VASc 3). Recommendation?",opts:["Anticoagulate with a DOAC","Aspirin","No therapy","Aspirin plus clopidogrel"],a:0,why:"Score 3 or higher in women (2 or higher in men) warrants anticoagulation."},
- {q:"Treating which risk factor prevents the most strokes?",opts:["Hypertension","Hyperlipidemia","Obesity","Sleep apnea"],a:0,why:"Hypertension is the largest modifiable contributor."}],
-"Pregnancy planning":[
- {q:"A woman with juvenile myoclonic epilepsy on valproate wants to conceive next year. Best plan?",opts:["Switch to lamotrigine or levetiracetam before conception and take folic acid","Continue valproate and add folic acid","Stop all antiseizure drugs","Switch to phenytoin"],a:0,why:"Valproate is the most teratogenic and lowers childhood IQ."}],
-"Vaccines with neurologic payoffs":[
- {q:"What must be given before starting eculizumab?",opts:["Meningococcal vaccines","Pneumococcal vaccine only","BCG","Live zoster vaccine"],a:0,why:"Complement C5 blockade leaves patients unable to kill Neisseria."},
- {q:"A healthy 55-year-old asks how to avoid shingles and its lasting pain. Recommendation?",opts:["Recombinant zoster vaccine","Daily acyclovir","Prophylactic gabapentin","Nothing until age 65"],a:0,why:"Recommended from age 50; it also prevents postherpetic neuralgia."}],
-"Injury and fall prevention":[
- {q:"Which intervention has the best evidence for preventing falls in community-dwelling older adults?",opts:["Exercise and physical therapy","Vitamin D for everyone","Bed rest after a fall","Hip protectors alone"],a:0,why:"Vitamin D helps only when deficient."}],
-"Screening and surveillance":[
- {q:"When is autism-specific screening recommended?",opts:["18 and 24 months","6 months","School entry","Age 4"],a:0,why:"Early detection allows early intervention."},
- {q:"A healthy, asymptomatic 70-year-old asks about carotid screening. Recommendation?",opts:["Don't screen","Carotid duplex","CT angiography","Screen only if diabetic"],a:0,why:"Harms from false positives and procedures outweigh benefits."}],
-"Normal aging":[
- {q:"Which change is part of normal aging?",opts:["Slower processing with preserved independence","Getting lost in a familiar neighborhood","Unable to manage medications","A new rest tremor"],a:0,why:"Loss of independence or new focal signs are not normal aging."}]
-},
-syncope:{
-"Types of syncope":[
- {q:"An older man faints while shaving and turning his head. Diagnosis?",opts:["Carotid sinus hypersensitivity","Vasovagal syncope","Seizure","Vertebrobasilar TIA"],a:0,why:"Pressure on the carotid sinus triggers bradycardia or vasodilation."},
- {q:"Syncope while lying down, with no warning. Main concern?",opts:["Arrhythmia","Vasovagal syncope","Orthostatic hypotension","Situational syncope"],a:0,why:"Reflex and orthostatic syncope require upright posture."},
- {q:"Which test does every syncope patient need?",opts:["ECG","Head CT","EEG","Carotid duplex"],a:0,why:"Plus orthostatic vitals; the others are low yield without specific features."}],
-"Orthostatic hypotension and POTS":[
- {q:"On standing, systolic BP falls 35 mm Hg and heart rate rises only 5 beats/min. Meaning?",opts:["Neurogenic orthostatic hypotension","Volume depletion","POTS","Vasovagal syncope"],a:0,why:"No compensatory tachycardia means the autonomic reflex has failed."},
- {q:"A 22-year-old with 6 months of fatigue: standing heart rate rises from 70 to 115 with stable BP. Diagnosis?",opts:["POTS","Orthostatic hypotension","Volume depletion","Panic disorder"],a:0,why:"A rise of 30 or more within 10 minutes without hypotension, lasting at least 3 months."}],
-"The dizzy patient":[
- {q:"A patient feels \"dizzy, like I'm about to pass out\" when standing quickly. Category?",opts:["Presyncope","Vertigo","Disequilibrium","Nonspecific lightheadedness"],a:0,why:"Think orthostatic hypotension, arrhythmia, or reflex syncope."}],
-"Gait disorders":[
- {q:"A wide-based, staggering gait that is unsteady even with eyes open; he can't tandem walk. Localization?",opts:["Cerebellum","Dorsal columns","Basal ganglia","Peroneal nerve"],a:0,why:"Sensory ataxia worsens mainly with eyes closed."},
- {q:"With each step the pelvis drops on the side of the lifted leg. Which muscle is weak?",opts:["Gluteus medius on the standing side","Quadriceps","Tibialis anterior","Iliopsoas"],a:0,why:"The Trendelenburg sign: hip abductors of the stance leg can't hold the pelvis level."}]
-}
-});
-
-</script>
-<script>/* checkpoints-6.js */
-NEURO.checkpoints=NEURO.checkpoints||{};
-Object.assign(NEURO.checkpoints,{
-neuropain:{
-"Trigeminal neuralgia":[
- {q:"A 28-year-old with a history of optic neuritis develops trigeminal neuralgia. What should you suspect?",opts:["Multiple sclerosis","Vascular loop compression","Dental abscess","Migraine"],a:0,why:"A demyelinating plaque at the trigeminal root entry zone; get an MRI."},
- {q:"First-line drug for trigeminal neuralgia?",opts:["Carbamazepine","Gabapentin","Oxycodone","Sumatriptan"],a:0,why:"Oxcarbazepine is the alternative; surgery for refractory cases."}],
-"Postherpetic neuralgia":[
- {q:"An 80-year-old with heart block has burning, touch-sensitive pain 4 months after shingles. Best first option?",opts:["Topical lidocaine","Amitriptyline","Oxycodone","Carbamazepine"],a:0,why:"Topicals avoid systemic effects; TCAs worsen conduction disease."}],
-"Painful polyneuropathy":[
- {q:"Painful diabetic neuropathy in a patient who also has depression. One drug for both?",opts:["Duloxetine","Pregabalin","Tramadol","Lidocaine patch"],a:0,why:"An SNRI treats both neuropathic pain and depression."}],
-"Complex regional pain syndrome":[
- {q:"What is the cornerstone of treatment for complex regional pain syndrome?",opts:["Physical and occupational therapy","Immobilization","Long-term opioids","Amputation"],a:0,why:"Early mobilization; medications and blocks support therapy."},
- {q:"Which finding is part of complex regional pain syndrome?",opts:["Temperature and color changes of the limb","Fever","Elevated CK","Completely normal sensation"],a:0,why:"Vasomotor, sudomotor, edema and trophic changes with disproportionate pain."}],
-"Central and other pain":[
- {q:"Two months after a right thalamic stroke, a patient has burning pain on the left side of the body. Diagnosis?",opts:["Central post-stroke pain","Recurrent stroke","Complex regional pain syndrome","Polyneuropathy"],a:0,why:"Dejerine-Roussy syndrome; treat with amitriptyline, gabapentinoids or lamotrigine."},
- {q:"First-line treatment of fibromyalgia?",opts:["Graded aerobic exercise and CBT","Opioids","Prednisone","Bed rest"],a:0,why:"Duloxetine, milnacipran or pregabalin can be added."}]
-},
-systemic:{
-"Thiamine and Wernicke":[
- {q:"A woman with hyperemesis gravidarum becomes confused with nystagmus and an unsteady gait. Give what?",opts:["IV thiamine","IV glucose first","Ondansetron alone","MRI before treatment"],a:0,why:"Wernicke encephalopathy isn't limited to alcohol use; treat immediately."}],
-"Sodium and osmotic demyelination":[
- {q:"Safe correction limit for chronic hyponatremia?",opts:["About 8–10 mEq/L in 24 hours","20 mEq/L in 24 hours","15 mEq/L in 6 hours","No limit if symptomatic"],a:0,why:"Faster correction risks osmotic demyelination."},
- {q:"Sodium 112 mEq/L with a seizure. Treatment?",opts:["100–150 mL bolus of 3% saline","Fluid restriction","1 L normal saline","Tolvaptan"],a:0,why:"Raise sodium a few mEq/L quickly to stop seizures, then correct slowly."}],
-"B12 and other deficiencies":[
- {q:"A myelopathy identical to B12 deficiency develops after gastric bypass, but B12 is normal. Check what?",opts:["Copper","Vitamin E","Folate","Thiamine"],a:0,why:"Copper deficiency (also from zinc excess) mimics subacute combined degeneration."},
- {q:"Neuropathy in a patient on long-term metformin. Which lab?",opts:["Vitamin B12","TSH alone","Ammonia","CK"],a:0,why:"Metformin reduces B12 absorption; PPIs do too."}],
-"Organ failure and endocrine":[
- {q:"Hepatic encephalopathy after a GI bleed. First-line drug?",opts:["Lactulose","Strict protein restriction","Lorazepam","Neomycin"],a:0,why:"Add rifaximin for recurrence; treat the precipitant."},
- {q:"Slow-relaxing reflexes, carpal tunnel syndrome, and proximal weakness with a high CK. Check what?",opts:["TSH","Cortisol","Calcium","Glucose"],a:0,why:"Hypothyroid myopathy and neuropathy."}],
-"PRES":[
- {q:"Typical MRI pattern of posterior reversible encephalopathy syndrome?",opts:["Parieto-occipital vasogenic edema","Temporal lobe hemorrhage","Periventricular plaques","Cortical ribboning on DWI"],a:0,why:"Usually reversible with BP control and removal of the trigger."}],
-"Systemic inflammatory and other disorders":[
- {q:"Bilateral facial palsy, hilar adenopathy and uveitis. Diagnosis?",opts:["Sarcoidosis","Lyme disease","Guillain-Barré syndrome","Sjögren syndrome"],a:0,why:"Neurosarcoidosis often affects cranial nerves, especially VII."},
- {q:"Abdominal pain, psychiatric symptoms and motor neuropathy after starting a barbiturate. Test?",opts:["Urine porphobilinogen","Serum lipase","Heavy metal screen","Ammonia"],a:0,why:"Acute intermittent porphyria is triggered by CYP-inducing drugs."}]
-},
-tumors:{
-"Presentation":[
- {q:"A brain tumor patient has never had a seizure. Prophylactic antiseizure medication?",opts:["No","Yes, levetiracetam","Yes, phenytoin","Yes, for a year after surgery"],a:0,why:"Prophylaxis doesn't prevent first seizures and adds side effects."},
- {q:"Why hold steroids before biopsy of a suspected primary CNS lymphoma?",opts:["They shrink lymphoma and spoil the biopsy","They cause bleeding","They worsen edema","Lymphoma is steroid-resistant"],a:0,why:"Steroids are lympholytic."}],
-"Adult tumors":[
- {q:"Most common brain tumor in adults?",opts:["Metastasis","Glioblastoma","Meningioma","Schwannoma"],a:0,why:"Glioblastoma is the most common primary malignant tumor; meningioma the most common primary overall."},
- {q:"Unilateral hearing loss and tinnitus; MRI shows an enhancing mass at the cerebellopontine angle. Diagnosis?",opts:["Vestibular schwannoma","Meningioma","Ependymoma","Glioblastoma"],a:0,why:"Bilateral schwannomas mean NF2."},
- {q:"A prolactinoma causes bitemporal hemianopia. First-line treatment?",opts:["Cabergoline","Transsphenoidal surgery","Radiation","Observation"],a:0,why:"Dopamine agonists shrink prolactinomas even with visual loss."}],
-"Pediatric tumors":[
- {q:"A child has a cystic cerebellar hemisphere mass with an enhancing mural nodule. Prognosis?",opts:["Excellent after resection","Poor despite therapy","Fatal within a year","Depends on radiation response"],a:0,why:"Pilocytic astrocytoma is low grade and often cured by surgery."},
- {q:"A child with bitemporal hemianopia, growth failure and polyuria has a calcified suprasellar mass. Diagnosis?",opts:["Craniopharyngioma","Pituitary adenoma","Optic glioma","Germinoma"],a:0,why:"A Rathke pouch remnant compressing the chiasm, pituitary and hypothalamus."}],
-"Spinal tumors":[
- {q:"Most common tumor causing spinal cord compression in adults?",opts:["Vertebral metastasis (extradural)","Meningioma","Ependymoma","Astrocytoma"],a:0,why:"Lung, breast, prostate, kidney and myeloma."}],
-"Paraneoplastic syndromes":[
- {q:"Subacute sensory neuronopathy with anti-Hu antibodies. Search for what?",opts:["Small cell lung cancer","Ovarian cancer","Thymoma","Testicular cancer"],a:0,why:"Anti-Hu and anti-VGCC both point to small cell lung cancer."},
- {q:"A toddler develops opsoclonus-myoclonus. Search for what?",opts:["Neuroblastoma","Wilms tumor","Medulloblastoma","Leukemia"],a:0,why:"Image the chest and abdomen; check urine catecholamines."}],
-"Leptomeningeal disease and treatment effects":[
- {q:"Best way to confirm leptomeningeal metastasis?",opts:["MRI of the brain and spine with contrast, plus CSF cytology repeated if negative","A single head CT","EEG","Bone scan"],a:0,why:"One cytology sample misses many cases."}]
-},
-back:{
-"Root localization":[
- {q:"Weak wrist extension, a numb thumb, and a reduced brachioradialis reflex. Which root?",opts:["C6","C7","C8","C5"],a:0,why:"Usually from a C5–C6 disc."},
- {q:"Which disc herniation compresses the S1 root?",opts:["L5–S1","L4–L5","L3–L4","S1–S2"],a:0,why:"A posterolateral lumbar disc hits the root numbered below it."}],
-"Acute low back pain":[
- {q:"Which finding is a red flag that calls for imaging?",opts:["Prior cancer with new back pain","Pain that started while lifting","Paraspinal muscle spasm","Pain worse with sitting"],a:0,why:"Cancer, infection, fracture, cauda equina and progressive deficits are the red flags."},
- {q:"Advice for uncomplicated acute low back pain?",opts:["Stay active and use NSAIDs","Bed rest for a week","Opioids","Oral steroids"],a:0,why:"Most improve within 4–6 weeks; bed rest slows recovery."}],
-"Sciatica (lumbar radiculopathy)":[
- {q:"Which finding calls for urgent surgery in sciatica?",opts:["Progressive motor deficit or cauda equina syndrome","Pain persisting at 2 weeks","Positive straight leg raise","A disc bulge on MRI"],a:0,why:"Otherwise conservative care for about 6 weeks."}],
-"Lumbar spinal stenosis":[
- {q:"Leg pain walking downhill that resolves when sitting or leaning forward; pulses are normal. Diagnosis?",opts:["Lumbar spinal stenosis","Peripheral artery disease","Hip osteoarthritis","Deep vein thrombosis"],a:0,why:"Extension narrows the canal; flexion opens it."}],
-"Neck":[
- {q:"A 68-year-old has clumsy hands, a positive Hoffmann sign and an unsteady gait. Imaging?",opts:["MRI of the cervical spine","MRI of the brain","EMG alone","Lumbar MRI"],a:0,why:"Cervical spondylotic myelopathy; decompression halts progression."}],
-"Other back pain":[
- {q:"A young man has morning back stiffness lasting over 30 minutes that improves with exercise. Diagnosis?",opts:["Ankylosing spondylitis","Mechanical strain","Disc herniation","Spinal stenosis"],a:0,why:"Inflammatory back pain; check sacroiliac imaging and HLA-B27."},
- {q:"Sudden back pain after a minor strain in a woman on long-term steroids, with point tenderness. Diagnosis?",opts:["Vertebral compression fracture","Epidural abscess","Ankylosing spondylitis","Spondylolisthesis"],a:0,why:"Steroid-induced osteoporosis."}]
-},
-sleep:{
-"Insomnia":[
- {q:"First-line treatment of chronic insomnia?",opts:["CBT for insomnia","Zolpidem","Diphenhydramine","Trazodone"],a:0,why:"More durable than medication, with no side effects."}],
-"Obstructive sleep apnea":[
- {q:"Resistant hypertension, loud snoring and daytime sleepiness. Next step?",opts:["Sleep study","Add a fourth antihypertensive","Echocardiogram","Renal angiography"],a:0,why:"OSA is a common secondary cause of resistant hypertension."},
- {q:"First-line treatment for moderate obstructive sleep apnea?",opts:["CPAP","Modafinil","Tonsillectomy in adults","Hypnotics"],a:0,why:"Hypnotics can worsen apnea."}],
-"Narcolepsy":[
- {q:"What is cataplexy?",opts:["Brief loss of muscle tone with emotion, consciousness preserved","A seizure","A faint","Waking unable to move"],a:0,why:"Sleep paralysis is the last option; cataplexy is triggered by laughter or surprise."},
- {q:"Which multiple sleep latency test result supports narcolepsy?",opts:["Mean sleep latency of 8 minutes or less with 2 or more sleep-onset REM periods","Mean latency over 15 minutes","Frequent apneas","Periodic limb movements"],a:0,why:"Done the day after a normal overnight study."}],
-"Restless legs syndrome":[
- {q:"On pramipexole for a year, a patient's restless legs now start at noon and are more intense. Phenomenon?",opts:["Augmentation","Tolerance","Rebound","Wearing-off"],a:0,why:"A reason α2δ ligands are now preferred first."},
- {q:"First lab test in restless legs syndrome?",opts:["Ferritin and iron studies","TSH","Vitamin B12","CK"],a:0,why:"Replace iron if ferritin is 75 ng/mL or lower."}],
-"Parasomnias":[
- {q:"A child screams and thrashes an hour after falling asleep, can't be consoled, and remembers nothing. Diagnosis?",opts:["Sleep terror","Nightmare","Nocturnal seizure","REM sleep behavior disorder"],a:0,why:"An N3 arousal disorder; nightmares occur later and are remembered."},
- {q:"An older man acts out his dreams. Treatment besides making the bedroom safe?",opts:["Melatonin or clonazepam","Haloperidol","A stimulant","No treatment needed"],a:0,why:"Also follow for an emerging synucleinopathy."}],
-"Circadian rhythm and sleep across life":[
- {q:"A teen can't fall asleep until 3 a.m. but sleeps well until noon on weekends. Treatment?",opts:["Early-evening melatonin, morning light, fixed wake time","Zolpidem at bedtime","Bright light late in the evening","Afternoon naps"],a:0,why:"Delayed sleep-wake phase: shift the clock earlier."}]
-}
-});
-
-</script>
-<script>/* checkpoints-7.js */
-NEURO.checkpoints=NEURO.checkpoints||{};
-Object.assign(NEURO.checkpoints,{
-icp:{
-"Raised ICP":[
- {q:"A patient with a brain mass develops hypertension, bradycardia and irregular breathing. What does this signal?",opts:["Impending herniation","Pain","Hypovolemia","Sepsis"],a:0,why:"The Cushing triad is a late sign of brainstem compression."}],
-"Herniation syndromes":[
- {q:"Earliest localizing sign of uncal herniation?",opts:["A dilated pupil on the side of the mass","Bilateral pinpoint pupils","Respiratory arrest","Contralateral leg weakness"],a:0,why:"The uncus compresses CN III's outer pupillary fibers first."},
- {q:"Why is a lumbar puncture dangerous with a cerebellar mass?",opts:["It can precipitate tonsillar herniation","Infection risk","Bleeding risk","Post-LP headache"],a:0,why:"Lowering pressure below the foramen magnum pulls the tonsils down."}],
-"ICP treatment ladder":[
- {q:"How does hyperventilation lower ICP?",opts:["Cerebral vasoconstriction lowers blood volume","It reduces CSF production","An osmotic effect","It lowers blood pressure"],a:0,why:"Effect is brief, and prolonged use causes ischemia; use only as a bridge."},
- {q:"Osmotic agent for a hypotensive patient with raised ICP?",opts:["Hypertonic saline","Mannitol","Furosemide","Dexamethasone"],a:0,why:"Mannitol's diuresis can worsen hypotension."}],
-"Hydrocephalus":[
- {q:"A child with a VP shunt has headache, vomiting and lethargy. Next step?",opts:["CT of the head, shunt series and neurosurgery","Antiemetic and discharge","Lumbar puncture","Outpatient MRI next week"],a:0,why:"Shunt malfunction until proven otherwise."}],
-"Idiopathic intracranial hypertension":[
- {q:"In idiopathic intracranial hypertension, what must be monitored?",opts:["Visual fields","Head circumference","Hearing","Kidney function"],a:0,why:"Permanent vision loss is the main risk."},
- {q:"IIH with worsening vision loss despite acetazolamide. Next step?",opts:["Optic nerve sheath fenestration or CSF shunt","A higher acetazolamide dose only","Corticosteroids","Watchful waiting"],a:0,why:"Venous sinus stenting is another option when there's a transverse sinus stenosis."}]
-},
-peds:{
-"Neurocutaneous syndromes":[
- {q:"A child with facial angiofibromas, seizures and ash-leaf macules. Also screen for what?",opts:["Renal angiomyolipomas and cardiac rhabdomyomas","Pheochromocytoma","Bilateral vestibular schwannomas","Retinal hemangioblastomas"],a:0,why:"Tuberous sclerosis involves kidney, heart, lung and brain."},
- {q:"A newborn has a port-wine stain over the forehead and upper eyelid. What risks follow?",opts:["Seizures and glaucoma","Pheochromocytoma","Optic glioma","Hearing loss"],a:0,why:"Sturge-Weber: leptomeningeal angioma and raised eye pressure."}],
-"Neural tube and posterior fossa malformations":[
- {q:"Myelomeningocele is associated with which malformation?",opts:["Chiari II with hydrocephalus","Chiari I only","Dandy-Walker malformation","Holoprosencephaly"],a:0,why:"Most need a shunt; watch for brainstem signs."}],
-"Cerebral palsy":[
- {q:"Which feature argues against cerebral palsy?",opts:["Loss of skills the child already had","Spasticity","Delayed milestones","Seizures"],a:0,why:"CP is nonprogressive; regression means a metabolic or genetic disease."}],
-"Development and the hypotonic infant":[
- {q:"A floppy infant is weak with absent reflexes and tongue fasciculations but is alert. Localization?",opts:["Anterior horn cells","Cerebral hemispheres","Neuromuscular junction","Muscle only"],a:0,why:"Spinal muscular atrophy; central hypotonia keeps reflexes."},
- {q:"A 9-month-old clearly prefers one hand. What does it suggest?",opts:["Weakness of the other side","Normal development","Autism","Visual loss"],a:0,why:"Handedness before about 12–18 months is a red flag for hemiparesis."}],
-"Genetic and neurodegenerative":[
- {q:"A teen with ataxia, areflexia, Babinski signs and scoliosis. Leading cause of death in this disease?",opts:["Hypertrophic cardiomyopathy","Respiratory failure","Kidney failure","Status epilepticus"],a:0,why:"Friedreich ataxia; follow with ECG and echocardiogram."},
- {q:"A boy with declining school performance, skin darkening and low blood pressure. Test?",opts:["Very-long-chain fatty acids","Karyotype","Ceruloplasmin","Ammonia"],a:0,why:"X-linked adrenoleukodystrophy affects brain white matter and adrenals."}],
-"Acute pediatric presentations":[
- {q:"A toddler turns blue and briefly passes out after crying hard, then is fine. What should be checked?",opts:["Iron deficiency anemia","EEG","MRI","Echocardiogram"],a:0,why:"Breath-holding spells are benign; iron supplementation reduces them."}],
-"Neonatal neurology":[
- {q:"How is a preterm infant born at 27 weeks screened for intraventricular hemorrhage?",opts:["Cranial ultrasound","MRI at birth","CT","EEG"],a:0,why:"Bedside, no radiation, through the open fontanelle."},
- {q:"Periventricular calcifications in a newborn with microcephaly and hearing loss suggest which infection?",opts:["CMV","Toxoplasmosis","Rubella","Zika"],a:0,why:"Toxoplasmosis calcifications are scattered through the parenchyma."}],
-"Developmental delay and autism":[
- {q:"First-line genetic tests for unexplained global developmental delay?",opts:["Chromosomal microarray and fragile X testing","Karyotype only","No testing","Whole-genome sequencing for every child first"],a:0,why:"Highest yield first-tier tests."},
- {q:"An 18-month-old doesn't point, says few words, and screens positive on the M-CHAT. Next step?",opts:["Refer for evaluation and early intervention now","Wait until age 3","MRI","EEG"],a:0,why:"Earlier intervention improves outcomes; don't wait for a formal diagnosis."}]
-},
-neuropsych:{
-"Functional neurological disorder":[
- {q:"How is functional neurological disorder diagnosed?",opts:["Positive exam signs that don't fit structural disease","Only after every test is normal","From a psychiatric history","When the patient admits to faking"],a:0,why:"Hoover sign, entrainment, typical nonepileptic events; it's not feigned."},
- {q:"Best way to explain the diagnosis to the patient?",opts:["As real, common and treatable, showing the positive signs","Tell them nothing is wrong","Say it's all psychological","Order more tests first"],a:0,why:"Acceptance of the diagnosis predicts recovery with PT and CBT."}],
-"Related diagnoses":[
- {q:"A patient secretly injects insulin to be admitted, with no external gain. Diagnosis?",opts:["Factitious disorder","Malingering","Somatic symptom disorder","Functional neurological disorder"],a:0,why:"Intentional, to take on the sick role; malingering seeks external rewards."}],
-"Psychiatric presentations of neurologic disease":[
- {q:"A teenager has new psychiatric symptoms, tremor and elevated liver enzymes. Check what?",opts:["Ceruloplasmin and slit-lamp exam","Urine drug screen only","TSH only","MRI only"],a:0,why:"Wilson disease is treatable and often first appears psychiatric."}],
-"Treating psychiatric symptoms in neurology":[
- {q:"Which antidepressant should be avoided in a patient with epilepsy?",opts:["Bupropion","Sertraline","Escitalopram","Mirtazapine"],a:0,why:"Bupropion lowers the seizure threshold; SSRIs are safe."},
- {q:"A patient with ALS cries uncontrollably without feeling sad. Treatment?",opts:["Dextromethorphan-quinidine","Haloperidol","Lorazepam","No treatment exists"],a:0,why:"Pseudobulbar affect; SSRIs also help."}],
-"Catatonia":[
- {q:"Diagnostic and therapeutic test for catatonia?",opts:["Lorazepam challenge","Haloperidol","EEG","Naloxone"],a:0,why:"Antipsychotics can worsen catatonia; ECT if refractory."}]
-},
-ethics:{
-"Brain death":[
- {q:"Which finding is compatible with brain death?",opts:["Triple flexion of the leg to pain","Breathing during the apnea test","A reactive pupil","Coughing with suctioning"],a:0,why:"Spinal reflexes can persist; any brainstem function excludes brain death."},
- {q:"After brain death is declared, the family asks that the ventilator continue. Best response?",opts:["Explain that death has occurred, offer time and support, and follow hospital policy","Continue ventilation indefinitely","Seek a court order immediately","Ask them to consent again each day"],a:0,why:"Brain death is legal death; families still deserve time and compassion."}],
-"Disorders of consciousness":[
- {q:"Eyes open, sleep-wake cycles, but no purposeful responses. State?",opts:["Vegetative state","Minimally conscious state","Locked-in syndrome","Brain death"],a:0,why:"Wakefulness without awareness."},
- {q:"A patient sometimes follows a simple command. State?",opts:["Minimally conscious state","Vegetative state","Coma","Brain death"],a:0,why:"Inconsistent but reproducible purposeful behavior."}],
-"Capacity and surrogates":[
- {q:"Who can determine decision-making capacity?",opts:["Any treating physician","Only a psychiatrist","Only a court","The family"],a:0,why:"Competence is the legal term decided by courts; capacity is clinical."},
- {q:"Which standard should a surrogate use when the patient's wishes are known?",opts:["Substituted judgment","Best interest","The physician's preference","A family majority vote"],a:0,why:"Best interest applies only when wishes are unknown."}],
-"Driving, genetics, disclosure":[
- {q:"A patient with new-onset seizures asks about driving. Physician's duty?",opts:["Counsel according to state law and document it","Report to police in every state","Say nothing","Revoke the license yourself"],a:0,why:"Reporting is mandatory only in some states."},
- {q:"The Genetic Information Nondiscrimination Act protects against discrimination in what?",opts:["Health insurance and employment","Life insurance","Long-term care insurance","Disability insurance"],a:0,why:"Relevant to presymptomatic Huntington testing."}],
-"Palliative neurology":[
- {q:"A daughter asks for a feeding tube for her mother, who has advanced dementia and aspirates. Best response?",opts:["Careful hand feeding; tubes don't prolong survival or prevent aspiration","Place a PEG","Place a nasogastric tube","Start TPN"],a:0,why:"Align feeding with comfort-focused goals."},
- {q:"What is the hospice eligibility standard?",opts:["Expected prognosis of 6 months or less","Must be bedbound","Must stop all medications","Must have cancer"],a:0,why:"Neurologic diseases such as ALS, dementia and stroke qualify."}]
-}
-});
-
-</script>
 <script>/* module.js */
 (function(){
 const N=window.NEURO;
 const L="ABCDEFGH";
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const norm=s=>s.replace(/\s+/g," ").trim();
-const frag=html=>{const t=document.createElement("template");t.innerHTML=html;return t.content};
 const wrapTables=h=>h.replace(/<table/g,'<div class="tbl"><table').replace(/<\/table>/g,"</table></div>");
-// Seeded randomness so a module's checkpoints stay stable until the learner restarts it.
 const hash=s=>{let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0};
 const rngOf=s=>{let a=hash(s);return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}};
 const sh=(arr,r)=>{const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 
-/* ---------- checkpoint items, generated from the topic's own tables, bold terms and pearls ---------- */
-function tableItems(html){
-  const out=[];
-  frag(html).querySelectorAll("table").forEach(tb=>{
-    const heads=[...tb.querySelectorAll("thead th")].map(th=>norm(th.textContent));
-    const rows=[...tb.querySelectorAll("tbody tr")].map(tr=>[...tr.children].map(td=>norm(td.textContent))).filter(r=>r.length===heads.length&&r[0]);
-    if(heads.length<2||rows.length<3)return;
-    if(heads[0]){ // rows are the things to identify
-      for(let c=1;c<heads.length;c++){const col=rows.map(r=>r[c]);
-        rows.forEach(r=>{const cell=r[c];
-          if(!cell||cell.length<6||/^(none|normal|—)$/i.test(cell)||col.filter(x=>x===cell).length>1)return;
-          if(cell.toLowerCase().includes(r[0].toLowerCase()))return;
-          out.push({kind:"mcq",lead:heads[c],prompt:cell,ask:`Which ${heads[0].toLowerCase()} fits?`,answer:r[0],pool:rows.map(x=>x[0])});});}
-    }else{ // columns are the things to identify (comparison tables)
-      rows.forEach(r=>{for(let c=1;c<heads.length;c++){const cell=r[c];
-        if(!cell||cell.length<4||r.slice(1).filter(x=>x===cell).length>1)continue;
-        out.push({kind:"mcq",lead:r[0],prompt:cell,ask:"Which one is this?",answer:heads[c],pool:heads.slice(1)});}});
-    }
-  });
-  return out;
+/* ---------- answer checking ---------- */
+// Lenient on purpose: an answer counts when it carries most of the key words. The learner can flip any mark.
+const STOP=new Set("the and with for from that this into over under than then when what which their there were been have has had are was not but its your you they them also only more most less very each per any all can may often usually".split(" "));
+const SYN=[[/\b(high|higher|increased?|elevated|raised|up)\b/g,"↑"],[/\b(low|lower|decreased?|reduced|down)\b/g,"↓"],[/\bipsi\b/g,"ipsilateral"],[/\bcontra\b/g,"contralateral"]];
+const prep=s=>{s=String(s).toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g,"");SYN.forEach(([r,v])=>s=s.replace(r,v));return s};
+const toks=s=>prep(s).replace(/([↑↓])/g," $1 ").split(/[^a-z0-9↑↓%]+/).filter(w=>w&&(w.length>=3||/[\d↑↓]/.test(w))&&!STOP.has(w));
+const squash=s=>prep(s).replace(/[^a-z0-9↑↓]/g,"");
+// Same word allowing for endings and small typos: compare a prefix that grows with word length.
+const same=(u,x)=>{if(u===x)return true;if(x.length<4||u.length<4)return false;const n=x.length<=5?4:x.length<=7?5:6;return u.slice(0,n)===x.slice(0,n)};
+function matches(user,ans){
+  if(squash(user)===squash(ans))return true;
+  const at=[...new Set(toks(ans))]; if(!at.length)return false;
+  const ut=toks(user),hit=at.filter(x=>ut.some(u=>same(u,x))).length;
+  return hit>=(at.length<=3?Math.max(1,at.length-1):Math.ceil(at.length*0.5));
 }
-function clozeItems(html){
-  const out=[];
-  frag(html).querySelectorAll("li,p").forEach(el=>{
-    if(el.closest("table")||el.querySelector("ul,ol,table"))return;
-    const text=norm(el.textContent); if(text.length<30)return;
-    el.querySelectorAll("b").forEach(b=>{const term=norm(b.textContent);
-      if(term.length<3||term.length>70)return;
-      const i=text.indexOf(term); if(i<0)return;
-      let s=text.slice(0,i)+"_____"+text.slice(i+term.length);
-      if(s.length>260){const st=Math.max(0,i-120);s=(st?"…":"")+s.slice(st,st+260)+"…"}
-      out.push({kind:"cloze",prompt:s,answer:term});});
-  });
-  return out;
+function grade(user,ans){
+  if(!squash(user))return false;
+  const core=ans.replace(/\([^)]*\)/g," ");
+  return [ans,core,...core.split(/\bor\b|;|\//)].map(s=>s.trim()).filter(Boolean).some(a=>matches(user,a));
 }
-function withOpts(it,r){
-  if(it.kind!=="mcq")return it;
-  const others=[...new Set(it.pool)].filter(x=>x!==it.answer&&!x.includes(it.answer)&&!it.answer.includes(x))
-    .sort((a,b)=>Math.abs(a.length-it.answer.length)-Math.abs(b.length-it.answer.length)).slice(0,6);
-  return others.length?Object.assign({},it,{opts:sh([it.answer,...sh(others,r).slice(0,3)],r)}):null;
-}
-const plans=new Map();
-function plan(t,M){
-  const key=t.id+"|"+(M.n||0); if(plans.has(key))return plans.get(key);
-  const auth=(N.checkpoints||{})[t.id]||{};
-  const secs=t.sections.map((s,i)=>{if(auth[s.h]){const ra=rngOf(key+"|a"+i);return auth[s.h].map(x=>({kind:"mcq",prompt:x.q,opts:sh(x.opts,ra),answer:x.opts[x.a],why:x.why}))}const r=rngOf(key+"|s"+i),tb=sh(tableItems(s.html),r),cz=sh(clozeItems(s.html),r);
-    const items=tb.length&&cz.length?[tb[0],cz[0]]:(tb.length?tb:cz).slice(0,2);return items.map(it=>withOpts(it,r)).filter(Boolean)});
-  const rw=rngOf(key+"|warm"),pearls=(t.pearls||[]).map(p=>({kind:"mcq",prompt:p[0],answer:p[1],pool:t.pearls.map(x=>x[1])}));
-  const warm=sh([...sh(t.sections.flatMap(s=>tableItems(s.html)),rw).slice(0,2),...sh(pearls,rw).slice(0,2)],rw).map(it=>withOpts(it,rw)).filter(Boolean).slice(0,3);
-  const qs=N.questions.filter(q=>q.t===t.id);
-  const stages=[];if(warm.length)stages.push({k:"warm",label:"Warm-up"});stages.push({k:"learn",label:"Learn"});
-  if(qs.length)stages.push({k:"apply",label:"Apply"});if(pearls.length)stages.push({k:"recall",label:"Recall"});stages.push({k:"sum",label:"Summary"});
-  const p={secs,warm,qs,stages};plans.set(key,p);return p;
-}
+N.gradeAnswer=grade;
 
-/* ---------- module UI ---------- */
-const fresh=n=>({st:0,si:0,reach:0,sreach:0,n:n||0,w:{},cp:{},q:{},rc:{},qi:0,ri:0});
-const rev=new Set(), typed=new Map();
-function itemHTML(key,it,rec,ns){
-  if(it.kind==="mcq")return `<div class="ck" data-key="${key}">${it.lead?`<div class="eyebrow">${esc(it.lead)}</div>`:""}<p class="ck-q">${esc(it.prompt)}</p>${it.ask?`<p class="muted" style="margin:-4px 0 8px;font-size:13px">${esc(it.ask)}</p>`:""}
-  <div class="opts">${it.opts.map((o,i)=>`<button class="opt ${rec?(o===it.answer?"ok":rec.pick===o?"bad":""):""}" data-ans="${i}" ${rec?"disabled":""}><span class="l">${L[i]}</span><span>${esc(o)}</span></button>`).join("")}</div>
-  ${rec?`<p class="ck-fb ${rec.c?"ok":"bad"}">${rec.c?"Correct.":"Not quite. Answer: "+esc(it.answer)+"."}</p>${it.why?`<p class="ck-why">${it.why}</p>`:""}`:""}</div>`;
-  const shown=rec||rev.has(ns+key);
-  return `<div class="ck" data-key="${key}"><div class="eyebrow">Fill in the blank</div><p class="ck-q">${esc(it.prompt).replace("_____",`<span class="blank">${shown?esc(it.answer):"?"}</span>`)}</p>
-  ${rec?`<p class="ck-fb ${rec.c?"ok":"bad"}">${rec.c?"You knew it.":"Marked for review."}</p>`:shown?`<div class="topic-actions" style="margin-top:4px"><button class="btn" data-self="0">I didn't know it</button><button class="btn primary" data-self="1">I knew it</button></div>`:`<div class="topic-actions" style="margin-top:4px"><button class="btn primary" data-reveal="1">Show answer</button><span class="muted" style="font-size:13px;align-self:center">Say the answer to yourself first.</span></div>`}</div>`;
+/* ---------- turn a section into a recall exercise ---------- */
+const tests=new Map();
+function buildTest(t,si){
+  const key=t.id+"|"+si; if(tests.has(key))return tests.get(key);
+  const tpl=document.createElement("template"); tpl.innerHTML=wrapTables(t.sections[si].html);
+  const root=tpl.content, blanks=[], tables=[];
+  root.querySelectorAll(".tbl table").forEach((tb,ti)=>{
+    const rows=[...tb.querySelectorAll("tbody tr")],col={};
+    rows.forEach(tr=>[...tr.children].forEach((td,ci)=>{if(ci)(col[ci]=col[ci]||[]).push(norm(td.textContent))}));
+    rows.forEach((tr,ri)=>[...tr.children].forEach((td,ci)=>{const ans=norm(td.textContent);
+      if(!ci||!ans||ans==="—")return;
+      const k=`t${ti}r${ri}c${ci}`;blanks.push({k,ans,cell:1,ti,choices:[...new Set(col[ci].filter(Boolean))]});
+      td.innerHTML=`<span data-slot="${k}"></span>`;td.className="cellq";}));
+    const bar=document.createElement("div");bar.className="tq-bar";bar.dataset.ti=ti;tb.closest(".tbl").before(bar);tables.push(ti);
+  });
+  let bi=0;
+  root.querySelectorAll("p b, li b").forEach(b=>{if(b.closest("table"))return;const ans=norm(b.textContent);if(ans.length<2)return;
+    const k=`b${bi++}`;blanks.push({k,ans});const sp=document.createElement("span");sp.dataset.slot=k;b.replaceWith(sp);});
+  const div=document.createElement("div");div.appendChild(root);
+  const T={html:div.innerHTML,blanks,map:Object.fromEntries(blanks.map(b=>[b.k,b])),tables};tests.set(key,T);return T;
 }
-function bindItems(box,items,onRec,redraw,ns){
-  box.querySelectorAll(".ck[data-key]").forEach(ck=>{const key=ck.dataset.key,it=items[key];if(!it)return;
-    ck.querySelectorAll("[data-ans]").forEach(b=>b.onclick=()=>{const o=it.opts[+b.dataset.ans];onRec(key,{pick:o,c:o===it.answer})});
-    const rv=ck.querySelector("[data-reveal]");if(rv)rv.onclick=()=>{rev.add(ns+key);redraw()};
-    ck.querySelectorAll("[data-self]").forEach(b=>b.onclick=()=>onRec(key,{c:b.dataset.self==="1"}));});
-}
+N.buildRecallTest=buildTest;
+
+/* ---------- module ---------- */
+const fresh=()=>({v:2,st:0,si:0,reach:0,sreach:0,rx:{},q:{},rc:{},qi:0,ri:0});
+const rec=(M,si)=>M.rx[si]||(M.rx[si]={ph:"read",ans:{},res:null,ovr:{},mode:{},first:null,last:null,checks:0,free:""});
+const pct=a=>a&&a[1]?Math.round(a[0]/a[1]*100):0;
+const typed=new Map(),rev=new Set();
 
 N.renderModule=function(id){
   const A=N.app,S=A.S,t=A.byId[id];if(!t)return;
-  S.mod=S.mod||{};const M=S.mod[id]||(S.mod[id]=fresh());
-  const authored=!!(N.checkpoints||{})[id],cv=authored?"a1":"g";if(M.cv!==cv){M.cp={};M.cv=cv}
-  const P=plan(t,M),save=A.save,main=document.getElementById("main"),ns=id+"|"+(M.n||0)+"|";
-  const idx=k=>P.stages.findIndex(s=>s.k===k);
-  M.st=Math.min(M.st,P.stages.length-1);
-  main.innerHTML=`<article class="col"><div class="topic-head"><div class="eyebrow">${esc(A.catName(t.cat))} · module${authored?" · hand-written checkpoints":""}</div><h1>${esc(t.title)}</h1><p class="lede">${t.summary}</p>
+  S.mod=S.mod||{};if(!S.mod[id]||S.mod[id].v!==2)S.mod[id]=fresh();const M=S.mod[id];
+  const save=A.save,main=document.getElementById("main"),ns=id+"|";
+  let saveT;const saveSoon=()=>{clearTimeout(saveT);saveT=setTimeout(save,400)};
+  const qs=N.questions.filter(q=>q.t===id),ps=t.pearls||[];
+  const stages=[{k:"learn",label:"Learn"}];if(qs.length)stages.push({k:"apply",label:"Apply"});if(ps.length)stages.push({k:"recall",label:"Recall"});stages.push({k:"sum",label:"Summary"});
+  const idx=k=>stages.findIndex(s=>s.k===k);
+  M.st=Math.min(M.st,stages.length-1);
+  main.innerHTML=`<article class="col"><div class="topic-head"><div class="eyebrow">${esc(A.catName(t.cat))} · module</div><h1>${esc(t.title)}</h1><p class="lede">${t.summary}</p>
   <ol class="steps" id="steps" aria-label="Module steps"></ol><div class="topic-actions"><button class="btn" id="readAll">Read the whole page instead</button></div></div><div id="stage"></div></article>`;
   const stage=main.querySelector("#stage");
   main.querySelector("#readAll").onclick=()=>{S.view="read";save();A.readTopic(id);window.scrollTo(0,0)};
   const go=i=>{M.st=i;M.reach=Math.max(M.reach,i);save();draw();window.scrollTo(0,0)};
   const advance=()=>go(M.st+1);
-
   function steps(){
-    main.querySelector("#steps").innerHTML=P.stages.map((s,i)=>{const open=i<=M.reach||M.done,cur=i===M.st,done=!cur&&(i<M.reach||M.done);
+    main.querySelector("#steps").innerHTML=stages.map((s,i)=>{const open=i<=M.reach||M.done,cur=i===M.st,done=!cur&&(i<M.reach||M.done);
       const extra=s.k==="learn"?` <span class="mono">${Math.min(M.sreach+1,t.sections.length)}/${t.sections.length}</span>`:"";
       return `<li><button class="step ${cur?"cur":done?"done":""}" data-st="${i}" ${open?"":"disabled"} ${cur?'aria-current="step"':""}><i>${done?"✓":i+1}</i>${s.label}${extra}</button></li>`}).join("");
     main.querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>go(+b.dataset.st));
   }
-  function draw(){steps();({warm,learn,apply,recall,sum:summary})[P.stages[M.st].k]();A.renderRail(id)}
+  function draw(){steps();({learn,apply,recall,sum:summary})[stages[M.st].k]();A.renderRail(id)}
 
-  function warm(){
-    const items={};P.warm.forEach((it,i)=>items["w"+i]=it);
-    const n=P.warm.filter((_,i)=>M.w[i]).length,all=n===P.warm.length;
-    stage.innerHTML=`<section class="sec"><h2>Warm-up</h2><p class="muted">Answer before you read. Guessing is fine: trying to retrieve an answer first makes the material stick when you meet it.</p>
-    ${P.warm.map((it,i)=>itemHTML("w"+i,it,M.w[i],ns)).join("")}
-    <div class="qnav"><span class="muted" style="font-size:13px;align-self:center">${n}/${P.warm.length} answered</span><button class="btn primary" id="go" ${all?"":"disabled"}>Start learning →</button></div></section>`;
-    bindItems(stage,items,(k,r)=>{M.w[+k.slice(1)]=r;save();warm()},warm,ns);
-    stage.querySelector("#go").onclick=advance;
-  }
-
+  /* ----- learn: read, then recall the section ----- */
   function learn(){
-    const si=Math.min(M.si,t.sections.length-1),s=t.sections[si];
-    const prose=s.html.replace(/<table[\s\S]*?<\/table>/g,""),hasB=/<b>/.test(prose),hasT=/<table/.test(s.html);
-    stage.innerHTML=`<div class="learn-top"><span class="mono">Section ${si+1} of ${t.sections.length}</span><div class="qprog"><i style="width:${si/t.sections.length*100}%"></i></div></div>
-    <section class="sec" id="lsec"><h2>${esc(s.h)}</h2>
-    ${hasB||hasT?`<div class="tools">${hasB?'<button class="chip" data-tool="cloze-on" aria-pressed="false">Hide key terms</button>':""}${hasT?'<button class="chip" data-tool="tq-on" aria-pressed="false">Quiz me on the table</button>':""}<span class="muted" style="font-size:12.5px">Tap a hidden term or cell to reveal it.</span></div>`:""}
-    <div class="sec-body">${wrapTables(s.html)}${N.figsFor?N.figsFor(t.id,s.h).map(N.figTag).join(""):""}</div></section>
-    <div id="ckBox"></div><div id="navBox"></div>`;
-    if(N.mountFigures)N.mountFigures(stage);
-    const sec=stage.querySelector("#lsec"),body=sec.querySelector(".sec-body");
-    sec.querySelectorAll("[data-tool]").forEach(b=>b.onclick=()=>{const on=sec.classList.toggle(b.dataset.tool);b.setAttribute("aria-pressed",on);body.querySelectorAll(".shown").forEach(x=>x.classList.remove("shown"))});
-    body.addEventListener("click",e=>{if(e.target.closest(".fig"))return;
-      const b=e.target.closest("b");if(b&&sec.classList.contains("cloze-on")){b.classList.toggle("shown");return}
-      const td=e.target.closest(".tbl td");if(td&&sec.classList.contains("tq-on"))td.classList.add("shown")});
-    drawCk();
+    const si=Math.min(M.si,t.sections.length-1),s=t.sections[si],R=rec(M,si),T=buildTest(t,si);
+    const top=`<div class="learn-top"><span class="mono">Section ${si+1} of ${t.sections.length}</span><div class="qprog"><i style="width:${si/t.sections.length*100}%"></i></div></div>`;
+    if(R.ph==="read"){
+      stage.innerHTML=`${top}<section class="sec"><h2>${esc(s.h)}</h2>
+      <p class="muted" style="font-size:13.5px">Read this section closely. Next it will come back with ${T.blanks.length?`${T.blanks.length} blanks to fill from memory`:"a prompt to recall it in your own words"}.</p>
+      <div class="sec-body">${wrapTables(s.html)}${N.figsFor?N.figsFor(t.id,s.h).map(N.figTag).join(""):""}</div></section>
+      <div class="qnav"><button class="btn" id="prevS" ${si?"":"disabled"}>← Previous section</button><button class="btn primary" id="toTest">${R.first?"Back to my answers →":"Hide it and test me →"}</button></div>`;
+      if(N.mountFigures)N.mountFigures(stage);
+      stage.querySelector("#toTest").onclick=()=>{R.ph="test";save();learn();window.scrollTo(0,0)};
+      stage.querySelector("#prevS").onclick=()=>{M.si=si-1;save();learn();window.scrollTo(0,0)};
+      return;
+    }
+    stage.innerHTML=`${top}<section class="sec"><h2>${esc(s.h)}</h2><div class="rx-wrap" id="rx"></div></section><div id="navBox"></div>`;
+    drawTest();
   }
-  function drawCk(){
-    const si=Math.min(M.si,t.sections.length-1),list=P.secs[si],items={};list.forEach((it,i)=>items[`c${si}-${i}`]=it);
-    const box=stage.querySelector("#ckBox");
-    box.innerHTML=list.length?`<div class="ck-wrap"><div class="eyebrow">Checkpoint · answer to continue</div>${list.map((it,i)=>itemHTML(`c${si}-${i}`,it,M.cp[`${si}-${i}`],ns)).join("")}</div>`:"";
-    bindItems(box,items,(k,r)=>{M.cp[k.slice(1)]=r;save();drawCk()},drawCk,ns);
-    const done=list.every((_,i)=>M.cp[`${si}-${i}`]),last=si===t.sections.length-1;
-    stage.querySelector("#navBox").innerHTML=`<div class="qnav"><button class="btn" id="prevS" ${si?"":"disabled"}>← Previous section</button><button class="btn primary" id="nextS" ${done?"":"disabled"}>${last?"Finish reading →":"Next section →"}</button></div>`;
+  function slot(T,R,k){
+    const b=T.map[k],val=R.ans[k]||"",done=R.res&&k in R.res,ok=done&&R.res[k];
+    let ctl;
+    if(b.cell&&R.mode[b.ti]==="pick"){const r=rngOf(ns+M.si+"|"+k);
+      ctl=`<select class="bl bl-c" data-k="${k}" ${ok?"disabled":""} aria-label="Answer"><option value="">Choose…</option>${sh(b.choices,r).map(c=>`<option ${c===val?"selected":""}>${esc(c)}</option>`).join("")}</select>`;}
+    else if(b.cell)ctl=`<textarea class="bl bl-c" data-k="${k}" rows="1" ${ok?"readonly":""} aria-label="Answer" spellcheck="false">${esc(val)}</textarea>`;
+    else ctl=`<input class="bl" data-k="${k}" value="${esc(val)}" size="${Math.min(30,Math.max(6,b.ans.length+1))}" ${ok?"readonly":""} aria-label="Missing term" autocomplete="off" spellcheck="false">`;
+    const mark=done?`<button class="mk ${ok?"ok":"bad"}" data-mk="${k}" title="${ok?"Counted correct. Click to mark it wrong":"Counted wrong. Click if your answer means the same thing"}">${ok?"✓":"✗"}</button>`:"";
+    return `<span class="slot ${done?(ok?"ok":"bad"):""}">${ctl}${mark}${done&&!ok?`<span class="bl-ans">${esc(b.ans)}</span>`:""}</span>`;
+  }
+  function drawTest(){
+    const si=Math.min(M.si,t.sections.length-1),R=rec(M,si),T=buildTest(t,si),box=stage.querySelector("#rx");
+    const right=R.res?Object.values(R.res).filter(Boolean).length:0,total=T.blanks.length;
+    if(!total){ // nothing to blank: free recall, then compare
+      box.innerHTML=`<p><b>Recall this section.</b> Write the key points from memory, then compare.</p><textarea class="rc-in" id="free" rows="5">${esc(R.free||"")}</textarea>
+      ${R.first?`<div class="sec-body" style="margin-top:12px">${wrapTables(t.sections[si].html)}</div><p class="ck-fb ${R.first[0]?"ok":"bad"}">${R.first[0]?"You recalled most of it.":"Marked for review."}</p>`:
+      '<div class="topic-actions"><button class="btn primary" id="cmp">Compare with the section</button></div>'}<div id="selfBox"></div>`;
+      box.querySelector("#free").oninput=e=>{R.free=e.target.value;saveSoon()};
+      const c=box.querySelector("#cmp");if(c)c.onclick=()=>{box.querySelector("#selfBox").innerHTML=`<div class="sec-body" style="margin-top:12px">${wrapTables(t.sections[si].html)}</div><div class="topic-actions"><button class="btn" data-self="0">I missed a lot</button><button class="btn primary" data-self="1">I got most of it</button></div>`;
+        c.remove();box.querySelectorAll("[data-self]").forEach(b=>b.onclick=()=>{R.first=R.last=[+b.dataset.self,1];R.checks=1;save();drawTest()})};
+      nav(si,R);return;
+    }
+    const html=T.html.replace(/<span data-slot="([^"]+)"><\/span>/g,(m,k)=>slot(T,R,k));
+    box.innerHTML=`<div class="rx-head"><span><b>Fill in every blank from memory</b>${T.tables.length?". In tables, the first column is given.":"."}</span><span class="rx-score">${R.res?`${right} of ${total} correct${R.first&&R.checks>1?` · first try ${pct(R.first)}%`:""}`:`${total} blanks`}</span></div>
+    <div class="sec-body">${html}</div>
+    <div class="topic-actions" style="margin-top:14px"><button class="btn primary" id="rxCheck">${R.res?"Check again":"Check answers"}</button>${R.res&&right<total?'<button class="btn" id="rxRetry">Clear the ones I missed</button>':""}<button class="btn" id="rxRead">Reread the section</button></div>
+    ${R.res?'<p class="muted" style="font-size:13px;margin:8px 0 0">Wrong marks show the expected answer in green. If yours means the same thing, click its ✗ to count it.</p>':""}`;
+    box.querySelectorAll(".tq-bar").forEach(bar=>{const ti=+bar.dataset.ti,mode=R.mode[ti]||"type";
+      bar.innerHTML=`<span>Answer this table by</span><button class="chip" data-mode="type" aria-pressed="${mode==="type"}">typing</button><button class="chip" data-mode="pick" aria-pressed="${mode==="pick"}">picking from the column</button>`;
+      bar.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{R.mode[ti]=b.dataset.mode;save();drawTest()});});
+    box.querySelectorAll("[data-k]").forEach(el=>{const k=el.dataset.k;
+      const grow=()=>{if(el.tagName==="TEXTAREA"){el.style.height="auto";el.style.height=el.scrollHeight+"px"}};grow();
+      el.addEventListener("input",()=>{R.ans[k]=el.value;grow();saveSoon()});el.addEventListener("change",()=>{R.ans[k]=el.value;saveSoon()});
+      if(el.tagName==="INPUT")el.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();const all=[...box.querySelectorAll("[data-k]:not([readonly]):not([disabled])")];const n=all[all.indexOf(el)+1];n?n.focus():box.querySelector("#rxCheck").click()}});});
+    box.querySelectorAll("[data-mk]").forEach(b=>b.onclick=()=>{const k=b.dataset.mk;R.res[k]=!R.res[k];R.ovr[k]=R.res[k];tally(R,T);save();drawTest()});
+    box.querySelector("#rxCheck").onclick=()=>{const res={},lv=R.lastVal||{};
+      T.blanks.forEach(b=>{const v=R.ans[b.k]||"";
+        res[b.k]=(b.k in R.ovr&&v===lv[b.k])?R.ovr[b.k]:(b.cell&&R.mode[b.ti]==="pick"?v===b.ans:grade(v,b.ans))});
+      R.res=res;R.lastVal=Object.assign({},R.ans);R.checks++;tally(R,T);save();drawTest();
+      const first=box.querySelector(".slot.bad");if(first)first.scrollIntoView({block:"center",behavior:"smooth"})};
+    const rt=box.querySelector("#rxRetry");if(rt)rt.onclick=()=>{Object.keys(R.res).forEach(k=>{if(!R.res[k]){delete R.ans[k];delete R.res[k];delete R.ovr[k]}});save();drawTest();const f=box.querySelector("[data-k]:not([readonly])");if(f)f.focus()};
+    box.querySelector("#rxRead").onclick=()=>{R.ph="read";save();learn();window.scrollTo(0,0)};
+    nav(si,R);
+  }
+  function tally(R,T){const r=[Object.values(R.res).filter(Boolean).length,T.blanks.length];R.last=r;if(!R.first||R.checks<=1)R.first=r}
+  function nav(si,R){
+    const last=si===t.sections.length-1,done=!!R.first;
+    stage.querySelector("#navBox").innerHTML=`<div class="qnav"><button class="btn" id="prevS" ${si?"":"disabled"}>← Previous section</button><button class="btn primary" id="nextS" ${done?"":"disabled"}>${last?"Finish this unit →":"Next section →"}</button></div>${done?"":'<p class="muted" style="text-align:right;font-size:13px">Check your answers to unlock the next section.</p>'}`;
     stage.querySelector("#prevS").onclick=()=>{M.si=si-1;save();learn();window.scrollTo(0,0)};
-    stage.querySelector("#nextS").onclick=()=>{if(last){M.sreach=si;advance();return}M.si=si+1;M.sreach=Math.max(M.sreach,si+1);save();steps();learn();window.scrollTo(0,0)};
+    stage.querySelector("#nextS").onclick=()=>{if(last){M.sreach=si;advance();return}M.si=si+1;M.sreach=Math.max(M.sreach,si+1);const n=rec(M,si+1);n.ph=n.first?"test":"read";save();steps();learn();window.scrollTo(0,0)};
   }
 
+  /* ----- apply: vignettes ----- */
   function apply(){
-    const qs=P.qs,i=Math.min(M.qi,qs.length-1),q=qs[i],rec=M.q[q.id],n=qs.filter(x=>M.q[x.id]).length;
-    stage.innerHTML=`<section class="sec"><h2>Apply</h2><p class="muted">Shelf-style cases on this topic. ${n}/${qs.length} answered; these also count in the question bank.</p>
+    const i=Math.min(M.qi,qs.length-1),q=qs[i],r=M.q[q.id],n=qs.filter(x=>M.q[x.id]).length;
+    stage.innerHTML=`<section class="sec"><h2>Apply</h2><p class="muted">Shelf-style cases on this unit. ${n}/${qs.length} answered; these also count in the question bank.</p>
     <div class="qbar"><span class="mono" style="font-size:13px">${i+1} / ${qs.length}</span><div class="qprog"><i style="width:${n/qs.length*100}%"></i></div></div>
-    <div class="stem">${q.stem}</div><div class="opts">${q.opts.map((o,k)=>`<button class="opt ${rec?(k===q.a?"ok":k===rec.p?"bad":""):""}" data-qa="${k}" ${rec?"disabled":""}><span class="l">${L[k]}</span><span>${o}</span></button>`).join("")}</div>
-    ${rec?`<div class="exp"><div class="verdict ${rec.c?"ok":"bad"}">${rec.c?"Correct":"Incorrect"}: the answer is ${L[q.a]}.</div>${q.exp}</div>`:""}
-    <div class="qnav"><button class="btn" id="qp" ${i?"":"disabled"}>← Previous</button>${rec?`<button class="btn primary" id="qn">${i<qs.length-1?"Next case →":"Continue →"}</button>`:""}</div></section>`;
+    <div class="stem">${q.stem}</div><div class="opts">${q.opts.map((o,k)=>`<button class="opt ${r?(k===q.a?"ok":k===r.p?"bad":""):""}" data-qa="${k}" ${r?"disabled":""}><span class="l">${L[k]}</span><span>${o}</span></button>`).join("")}</div>
+    ${r?`<div class="exp"><div class="verdict ${r.c?"ok":"bad"}">${r.c?"Correct":"Incorrect"}: the answer is ${L[q.a]}.</div>${q.exp}</div>`:""}
+    <div class="qnav"><button class="btn" id="qp" ${i?"":"disabled"}>← Previous</button>${r?`<button class="btn primary" id="qn">${i<qs.length-1?"Next case →":"Continue →"}</button>`:""}</div></section>`;
     stage.querySelectorAll("[data-qa]").forEach(b=>b.onclick=()=>{const k=+b.dataset.qa;M.q[q.id]={p:k,c:k===q.a};S.answers[q.id]={c:k===q.a,p:k};save();apply()});
     stage.querySelector("#qp").onclick=()=>{M.qi=i-1;save();apply();window.scrollTo(0,0)};
     const nx=stage.querySelector("#qn");if(nx)nx.onclick=()=>{if(i<qs.length-1){M.qi=i+1;save();apply();window.scrollTo(0,0)}else advance()};
   }
 
+  /* ----- recall: rapid-recall cards ----- */
   function recall(){
-    const ps=t.pearls,i=Math.min(M.ri,ps.length-1),p=ps[i],g=M.rc[i],shown=g||rev.has(ns+"r"+i),n=ps.filter((_,k)=>M.rc[k]).length;
-    stage.innerHTML=`<section class="sec"><h2>Recall</h2><p class="muted">Pull each answer from memory before revealing it. Typing it out is optional but makes the check honest.</p>
+    const i=Math.min(M.ri,ps.length-1),p=ps[i],g=M.rc[i],shown=g||rev.has(ns+"r"+i),n=ps.filter((_,k)=>M.rc[k]).length;
+    stage.innerHTML=`<section class="sec"><h2>Recall</h2><p class="muted">Pull each answer from memory before revealing it.</p>
     <div class="learn-top"><span class="mono">${i+1} / ${ps.length}</span><div class="qprog"><i style="width:${n/ps.length*100}%"></i></div></div>
     <div class="ck"><p class="ck-q" style="font:500 19px/1.4 var(--f-display)">${p[0]}</p>
     ${shown?`${typed.get(ns+i)?`<p class="muted" style="margin:0;font-size:13px">You wrote: ${esc(typed.get(ns+i))}</p>`:""}<div class="ck-ans">${p[1]}</div>
-      ${g?`<p class="ck-fb ${g==="k"?"ok":"bad"}">${g==="k"?"Marked known.":"Marked for review; it will come up first in Flashcards."}</p>`:`<div class="topic-actions"><button class="btn" data-g="a">Missed it</button><button class="btn primary" data-g="k">Got it</button></div>`}`
-    :`<label for="rcIn" class="muted" style="font-size:13px">Your answer (optional)</label><textarea id="rcIn" class="rc-in" rows="2"></textarea><div class="topic-actions"><button class="btn primary" id="rcShow">Show answer</button></div>`}</div>
+      ${g?`<p class="ck-fb ${g==="k"?"ok":"bad"}">${g==="k"?"Marked known.":"Marked for review; it comes up first in Flashcards."}</p>`:'<div class="topic-actions"><button class="btn" data-g="a">Missed it</button><button class="btn primary" data-g="k">Got it</button></div>'}`
+    :'<label for="rcIn" class="muted" style="font-size:13px">Your answer</label><textarea id="rcIn" class="rc-in" rows="2"></textarea><div class="topic-actions"><button class="btn primary" id="rcShow">Show answer</button></div>'}</div>
     <div class="qnav"><button class="btn" id="rp" ${i?"":"disabled"}>← Previous</button>${g?`<button class="btn primary" id="rn">${i<ps.length-1?"Next →":"See summary →"}</button>`:""}</div></section>`;
     const sw=stage.querySelector("#rcShow");if(sw){const ta=stage.querySelector("#rcIn");ta.focus({preventScroll:true});
       ta.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sw.click()}});
@@ -3854,27 +3233,25 @@ N.renderModule=function(id){
     const nx=stage.querySelector("#rn");if(nx)nx.onclick=()=>{if(i<ps.length-1){M.ri=i+1;save();recall()}else advance()};
   }
 
+  /* ----- summary ----- */
   function summary(){
     M.done=true;S.reviewed[id]=true;
-    const cpK=P.secs.flatMap((l,si)=>l.map((_,i)=>`${si}-${i}`)),cpR=cpK.filter(k=>M.cp[k]&&M.cp[k].c).length;
-    const wR=P.warm.filter((_,i)=>M.w[i]&&M.w[i].c).length,qs=P.qs,qR=qs.filter(q=>M.q[q.id]&&M.q[q.id].c).length,ps=t.pearls||[],rK=ps.filter((_,i)=>M.rc[i]==="k").length;
-    const parts=[cpK.length&&[cpR,cpK.length],qs.length&&[qR,qs.length],ps.length&&[rK,ps.length]].filter(Boolean);
+    const secs=t.sections.map((s,si)=>({s,si,R:M.rx[si]})),tested=secs.filter(x=>x.R&&x.R.first);
+    const blanks=tested.reduce((a,x)=>[a[0]+x.R.first[0],a[1]+x.R.first[1]],[0,0]);
+    const qR=qs.filter(q=>M.q[q.id]&&M.q[q.id].c).length,rK=ps.filter((_,i)=>M.rc[i]==="k").length;
+    const parts=[blanks[1]&&blanks,qs.length&&[qR,qs.length],ps.length&&[rK,ps.length]].filter(Boolean);
     M.score=parts.length?Math.round(parts.reduce((a,[x,y])=>a+x/y,0)/parts.length*100):0;save();
-    const row=(label,x,y)=>`<div class="sum-row"><span>${label}</span><span class="mono">${x}/${y}</span><div class="sum-bar"><i style="width:${y?x/y*100:0}%"></i></div></div>`;
-    const missCp=[...new Set(cpK.filter(k=>M.cp[k]&&!M.cp[k].c).map(k=>k.split("-")[0]))].map(si=>si+"-0"),missQ=qs.filter(q=>M.q[q.id]&&!M.q[q.id].c),missR=ps.map((p,i)=>[p,i]).filter(([,i])=>M.rc[i]==="a");
+    const row=(label,x,y)=>`<div class="sum-row"><span>${label}</span><span class="mono">${y?Math.round(x/y*100)+"%":"—"}</span><div class="sum-bar"><i style="width:${y?x/y*100:0}%"></i></div></div>`;
+    const weak=secs.filter(x=>x.R&&x.R.first&&pct(x.R.first)<80).sort((a,b)=>pct(a.R.first)-pct(b.R.first));
     const ti=N.topics.indexOf(t),next=N.topics[ti+1];
     stage.innerHTML=`<section class="sec"><h2>Summary</h2>
-    <p class="lede" style="margin-bottom:12px">Mastery <b>${M.score}%</b>${M.score>=85?". Solid. Revisit in a few days to keep it.":M.score>=60?". Review the misses below, then retry recall.":". Worth another pass through the sections you missed."}</p>
-    <div class="panel">${P.warm.length?row("Warm-up, before reading",wR,P.warm.length):""}${cpK.length?row("Checkpoints, first try",cpR,cpK.length):""}${qs.length?row("Cases",qR,qs.length):""}${ps.length?row("Recall",rK,ps.length):""}</div>
-    ${missCp.length||missQ.length||missR.length?`<h3 style="margin-top:20px">Review these</h3>
-      ${missCp.map(k=>{const si=+k.split("-")[0];return `<a class="miss" href="#" data-sec="${si}">Checkpoint in <b>${esc(t.sections[si].h)}</b>: reopen the section →</a>`}).join("")}
-      ${missQ.map(q=>`<a class="miss" href="#" data-q="${q.id}">Case: ${esc(q.stem.replace(/<[^>]+>/g,"").slice(0,110))}… →</a>`).join("")}
-      ${missR.map(([p,i])=>`<span class="miss">Recall: ${p[0]} <span class="muted">→ ${p[1]}</span></span>`).join("")}`:`<p class="muted" style="margin-top:16px">No misses to review.</p>`}
-    <div class="topic-actions" style="margin-top:18px">${missR.length?'<button class="btn primary" id="redoR">Retry missed recall</button>':""}<button class="btn" id="restart">Restart with new checkpoints</button>${next?`<a class="btn ${missR.length?"":"primary"}" href="#topic-${next.id}" data-go="topic-${next.id}">Next module: ${esc(next.title)} →</a>`:""}</div></section>`;
-    stage.querySelectorAll("[data-sec]").forEach(a=>a.onclick=e=>{e.preventDefault();M.si=+a.dataset.sec;go(idx("learn"))});
-    stage.querySelectorAll("[data-q]").forEach(a=>a.onclick=e=>{e.preventDefault();M.qi=qs.findIndex(q=>q.id===a.dataset.q);go(idx("apply"))});
-    const rr=stage.querySelector("#redoR");if(rr)rr.onclick=()=>{missR.forEach(([,i])=>{delete M.rc[i];rev.delete(ns+"r"+i)});M.ri=missR[0][1];go(idx("recall"))};
-    stage.querySelector("#restart").onclick=()=>{[...rev].forEach(k=>rev.delete(k));S.mod[id]=fresh((M.n||0)+1);S.mod[id].done=true;save();N.renderModule(id);window.scrollTo(0,0)};
+    <p class="lede" style="margin-bottom:12px">Mastery <b>${M.score}%</b>${M.score>=85?". Solid. Revisit in a few days to keep it.":M.score>=60?". Redo the weakest sections below.":". Worth another pass through the sections below."}</p>
+    <div class="panel"><h3 style="margin-top:0">Sections recalled, first try</h3>${secs.map(x=>row(esc(x.s.h),x.R&&x.R.first?x.R.first[0]:0,x.R&&x.R.first?x.R.first[1]:0)).join("")}
+    <h3>Other parts</h3>${qs.length?row("Cases",qR,qs.length):""}${ps.length?row("Recall cards",rK,ps.length):""}</div>
+    ${weak.length?`<h3 style="margin-top:20px">Redo these</h3>${weak.map(x=>`<a class="miss" href="#" data-sec="${x.si}"><b>${esc(x.s.h)}</b>: ${pct(x.R.first)}% on first try. Clear it and recall again →</a>`).join("")}`:""}
+    <div class="topic-actions" style="margin-top:18px"><button class="btn" id="restart">Start the unit over</button>${next?`<a class="btn primary" href="#topic-${next.id}" data-go="topic-${next.id}">Next unit: ${esc(next.title)} →</a>`:""}</div></section>`;
+    stage.querySelectorAll("[data-sec]").forEach(a=>a.onclick=e=>{e.preventDefault();const si=+a.dataset.sec;M.rx[si]={ph:"read",ans:{},res:null,ovr:{},mode:(M.rx[si]||{}).mode||{},first:null,last:null,checks:0,free:""};M.si=si;go(idx("learn"))});
+    stage.querySelector("#restart").onclick=()=>{S.mod[id]=fresh();S.mod[id].done=true;save();N.renderModule(id);window.scrollTo(0,0)};
   }
   draw();
 };
@@ -3965,7 +3342,7 @@ function home(){
     <div>
       <div class="eyebrow">Clinical neurology subject exam · core clerkship review</div>
       <h1>Every shelf topic, organized the way the NBME outline is.</h1>
-      <p class="lede">${N.topics.length} topics across all ${N.cats.length} content areas, ${N.questions.length} vignette questions with explanations, ${cards.length} flashcards, ${Object.keys(N.FIGS||{}).length} diagrams (most of them interactive), and a lesion localizer. Each topic runs as a module: warm-up questions, short sections that end in checkpoints, cases, then recall. Progress is saved in this browser.</p>
+      <p class="lede">${N.topics.length} topics across all ${N.cats.length} content areas, ${N.questions.length} vignette questions with explanations, ${cards.length} flashcards, ${Object.keys(N.FIGS||{}).length} diagrams (most of them interactive), and a lesion localizer. Each topic runs as a module: read a section, then fill in its tables and key terms from memory before moving on, then cases and recall. Progress is saved in this browser.</p>
       <div class="stats">
         <div class="stat"><b>${rev}/${N.topics.length}</b><span>topics reviewed</span></div>
         <div class="stat"><b>${answered}/${N.questions.length}</b><span>questions done</span></div>
