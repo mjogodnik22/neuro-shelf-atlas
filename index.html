@@ -282,6 +282,11 @@ td .slot{display:flex;flex-direction:column;align-items:stretch;gap:4px}
 .tq-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:12px 0 -2px;font-size:13px;color:var(--ink-3)}
 .tbl td.cellq{min-width:9.5rem}
 
+.sync-steps{margin:6px 0 0;padding-left:20px;font-size:14px}
+.sync-steps li{margin:4px 0}
+.tok-in{flex:1 1 220px;min-width:0;height:36px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);font:inherit;font-size:14px;padding:0 10px}
+.backup{margin-top:14px;border-top:1px solid var(--line);padding-top:10px}
+.backup summary{cursor:pointer;font-weight:600;font-size:14px}
 .muted{color:var(--ink-3)}
 .foot{margin-top:40px;font-size:12.5px;color:var(--ink-3);max-width:70ch}
 
@@ -3113,7 +3118,7 @@ const typed=new Map(),rev=new Set();
 N.renderModule=function(id){
   const A=N.app,S=A.S,t=A.byId[id];if(!t)return;
   S.mod=S.mod||{};if(!S.mod[id]||S.mod[id].v!==2)S.mod[id]=fresh();const M=S.mod[id];
-  const save=A.save,main=document.getElementById("main"),ns=id+"|";
+  const save=()=>{M.u=Date.now();A.save()},main=document.getElementById("main"),ns=id+"|";
   let saveT;const saveSoon=()=>{clearTimeout(saveT);saveT=setTimeout(save,400)};
   const qs=N.questions.filter(q=>q.t===id),ps=t.pearls||[];
   const stages=[{k:"learn",label:"Learn"}];if(qs.length)stages.push({k:"apply",label:"Apply"});if(ps.length)stages.push({k:"recall",label:"Recall"});stages.push({k:"sum",label:"Summary"});
@@ -3258,6 +3263,90 @@ N.renderModule=function(id){
 })();
 
 </script>
+<script>/* sync.js */
+// Cross-device progress: the whole progress object is mirrored to one private gist on the learner's GitHub account.
+(function(){
+const N=window.NEURO;
+const TK="nsa.gh",GK="nsa.gist",DESC="Neuro Shelf Atlas progress",FILE="neuro-shelf-atlas-progress.json";
+const get=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
+const set=(k,v)=>{try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}};
+
+async function api(path,opt={}){
+  const r=await fetch("https://api.github.com"+path,Object.assign({},opt,{headers:Object.assign({Accept:"application/vnd.github+json",Authorization:"Bearer "+get(TK),"X-GitHub-Api-Version":"2022-11-28"},opt.body?{"Content-Type":"application/json"}:{})}));
+  if(r.status===401)throw new Error("GitHub rejected the token. Check it hasn't expired and has Gists read and write access.");
+  if(r.status===403||r.status===404)throw new Error("The token can't reach your gists. Give it Gists read and write access.");
+  if(!r.ok)throw new Error("GitHub returned an error ("+r.status+"). Try again in a minute.");
+  return r.json();
+}
+async function findGist(){
+  const id=get(GK);
+  if(id){try{return await api("/gists/"+id)}catch(e){set(GK,null)}}
+  const g=(await api("/gists?per_page=100")).find(x=>x.description===DESC&&x.files&&x.files[FILE]);
+  if(!g)return null;set(GK,g.id);return api("/gists/"+g.id);
+}
+async function pull(){
+  const g=await findGist();if(!g)return null;
+  const f=g.files[FILE];const txt=f.truncated?await (await fetch(f.raw_url)).text():f.content;
+  try{return JSON.parse(txt)}catch(e){return null}
+}
+async function push(state){
+  const files={[FILE]:{content:JSON.stringify(state)}},id=get(GK);
+  if(id)return api("/gists/"+id,{method:"PATCH",body:JSON.stringify({files})});
+  const g=await api("/gists",{method:"POST",body:JSON.stringify({description:DESC,public:false,files})});set(GK,g.id);
+}
+// Merge so nothing done on either device is lost: union of answers, cards and reviewed topics; per unit, keep the copy touched last.
+function merge(local,remote){
+  if(!remote)return local;
+  const m=Object.assign({},remote,local);
+  for(const k of ["reviewed","answers","cards"]){
+    // A deliberate reset ("clear history") wins over older entries from the other device.
+    const rk="reset_"+k,lr=local[rk]||0,rr=remote[rk]||0;
+    if(lr>(remote.updatedAt||0)&&lr>rr)m[k]=Object.assign({},local[k]||{});
+    else if(rr>(local.updatedAt||0)&&rr>lr)m[k]=Object.assign({},remote[k]||{});
+    else m[k]=Object.assign({},remote[k]||{},local[k]||{});
+    if(lr||rr)m[rk]=Math.max(lr,rr);
+  }
+  m.mod=Object.assign({},remote.mod||{});
+  for(const [id,v] of Object.entries(local.mod||{})){const r=m.mod[id];if(!r||(v.u||0)>=(r.u||0))m.mod[id]=v;}
+  m.updatedAt=Math.max(local.updatedAt||0,remote.updatedAt||0);
+  return m;
+}
+
+let status={state:get(TK)?"idle":"off",msg:""},timer=null,running=null;
+const subs=new Set(),emit=s=>{status=Object.assign({},status,s);subs.forEach(f=>f(status))};
+async function syncNow(){
+  if(!get(TK))return;
+  if(running)return running;
+  running=(async()=>{
+    emit({state:"busy",msg:"Syncing…"});
+    try{
+      const local=JSON.parse(JSON.stringify(N.app.S)),merged=merge(local,await pull());
+      if(JSON.stringify(merged)!==JSON.stringify(local))N.app.applyState(merged);
+      await push(merged);
+      emit({state:"ok",msg:"",at:Date.now()});
+    }catch(e){emit({state:"error",msg:e.message==="Failed to fetch"?"Can't reach GitHub from here. Check your connection; sync doesn't run inside Claude.":e.message})}
+    running=null;
+  })();
+  return running;
+}
+N.sync={
+  available:()=>/github\.io$/.test(location.hostname)||location.protocol==="file:"||/^(localhost|127\.0\.0\.1)$/.test(location.hostname),
+  enabled:()=>!!get(TK),
+  status:()=>status,
+  on:f=>{subs.add(f);return()=>subs.delete(f)},
+  async connect(token){
+    set(TK,token.trim());set(GK,null);emit({state:"busy",msg:"Connecting…"});
+    try{await api("/gists?per_page=1")}catch(e){set(TK,null);emit({state:"off",msg:e.message==="Failed to fetch"?"Can't reach GitHub. Check your connection.":e.message});throw e}
+    await syncNow();
+  },
+  disconnect(){set(TK,null);set(GK,null);emit({state:"off",msg:"",at:null})},
+  syncNow,
+  schedule(){if(!get(TK))return;clearTimeout(timer);timer=setTimeout(syncNow,4000)},
+  merge
+};
+})();
+
+</script>
 <script>/* app.js */
 (function(){
 const N=window.NEURO, $=s=>document.querySelector(s), main=$("#main"), rail=$("#rail");
@@ -3271,7 +3360,7 @@ const KEY="nsa.v1";
 let S={reviewed:{},answers:{},cards:{},mod:{},view:"module"};
 try{const r=JSON.parse(localStorage.getItem(KEY)||"null");if(r)S=Object.assign(S,r)}catch(e){}
 S.mod=S.mod||{};
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const save=()=>{S.updatedAt=Date.now();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}if(N.sync)N.sync.schedule()};
 
 /* ---------- index data ---------- */
 const catIdx=c=>N.cats.findIndex(x=>x.id===c);
@@ -3325,6 +3414,55 @@ function coverage(){
     return `<tr><td>${esc(name)}${k==="Task"?' <span class="muted">(task)</span>':""}</td><td>${ts.map(i=>`<a href="#topic-${i}" data-go="topic-${i}">${esc(byId[i].title)}</a>`).join("<br>")}</td><td>${q}</td><td>${figIn(ts)}</td></tr>`}).join("")}</tbody></table></div>`;
 }
 
+
+// Progress panel on the home page: storage status, GitHub sync, backup code.
+function progressPanel(){
+  return `<section class="panel prog" id="prog" style="margin-bottom:28px"><div class="eyebrow">Your progress</div>
+  <p id="persistNote" style="margin:6px 0 10px">Saved in this browser.</p><div id="syncBox"></div>
+  <details class="backup"><summary>Backup code</summary><p class="muted" style="font-size:13px;margin:8px 0">Copy a code that holds all your progress, then paste it on another device or browser to merge it in.</p>
+  <div class="topic-actions" style="margin:0"><button class="btn" id="bkCopy">Copy backup code</button><span class="muted" id="bkMsg" style="align-self:center;font-size:13px"></span></div>
+  <label for="bkIn" class="muted" style="display:block;font-size:13px;margin:12px 0 4px">Restore from a backup code</label><textarea id="bkIn" class="rc-in" rows="2"></textarea>
+  <div class="topic-actions" style="margin-top:6px"><button class="btn" id="bkRestore">Restore and merge</button></div></details></section>`;
+}
+function drawSync(){
+  const box=$("#syncBox");if(!box)return;const sy=N.sync;
+  if(!sy||!sy.available()){box.innerHTML=`<p class="muted" style="font-size:13.5px;margin:0">To keep progress across devices, use the GitHub version of this site, <a href="https://mjogodnik22.github.io/neuro-shelf-atlas/">mjogodnik22.github.io/neuro-shelf-atlas</a>, and turn on sync there. Or move progress with a backup code.</p>`;return}
+  const st=sy.status();
+  if(sy.enabled()){
+    const when=st.at?new Date(st.at).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"}):"";
+    box.innerHTML=`<p style="margin:0"><b>Synced to your GitHub account.</b> <span class="muted">${st.state==="busy"?esc(st.msg):st.state==="error"?"":when?"Last synced "+when+".":""}</span></p>
+    ${st.state==="error"?`<p class="ck-fb bad" style="margin:6px 0 0">${esc(st.msg)}</p>`:""}
+    <div class="topic-actions" style="margin-top:10px"><button class="btn" id="syNow">Sync now</button><button class="btn" id="syOff">Turn off on this device</button></div>`;
+    $("#syNow").onclick=()=>sy.syncNow();$("#syOff").onclick=()=>{sy.disconnect();drawSync()};
+  }else{
+    box.innerHTML=`<p style="margin:0 0 6px"><b>Sync across devices with GitHub.</b> Progress saves to a private gist in your GitHub account, so it follows you between phone and laptop and survives a cleared browser.</p>
+    <ol class="sync-steps"><li>Create a token: <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a>. Name it, pick an expiration, then under <b>Account permissions</b> set <b>Gists</b> to <b>Read and write</b>. Generate and copy it.</li><li>Paste it here and connect. Do this once on each device.</li></ol>
+    <div class="topic-actions" style="margin-top:8px"><input id="ghTok" type="password" class="tok-in" placeholder="github_pat_…" autocomplete="off" aria-label="GitHub token"><button class="btn primary" id="syOn">Connect</button></div>
+    <p class="muted" style="font-size:12.5px;margin:6px 0 0">The token stays in this browser and is sent only to GitHub. It can read and write your gists and nothing else.</p>
+    ${st.msg?`<p class="ck-fb bad" style="margin:6px 0 0">${esc(st.msg)}</p>`:""}`;
+    $("#syOn").onclick=async()=>{const v=$("#ghTok").value.trim();if(!v){$("#ghTok").focus();return}
+      $("#syOn").disabled=true;try{await sy.connect(v)}catch(e){}drawSync()};
+  }
+}
+function wireProgress(){
+  drawSync();
+  if(navigator.storage&&navigator.storage.persisted)navigator.storage.persisted().then(p=>{const el=$("#persistNote");if(el)el.textContent=p?"Saved in this browser, which has agreed not to clear it automatically.":"Saved in this browser. Browsers can clear site data when storage runs low, and Safari after about a week without a visit, so turn on GitHub sync or keep a backup code."}).catch(()=>{});
+  const enc=()=>btoa(unescape(encodeURIComponent(JSON.stringify(S))));
+  $("#bkCopy").onclick=()=>{const code=enc();
+    const done=()=>$("#bkMsg").textContent="Copied. Paste it into another browser's restore box.";
+    const fallback=()=>{$("#bkIn").value=code;$("#bkIn").select();$("#bkMsg").textContent="Couldn't copy automatically. The code is selected in the box below; copy it from there."};
+    try{navigator.clipboard.writeText(code).then(done,fallback)}catch(e){fallback()}};
+  $("#bkRestore").onclick=()=>{try{const data=JSON.parse(decodeURIComponent(escape(atob($("#bkIn").value.trim()))));
+      if(!data||typeof data!=="object"||!("reviewed" in data))throw 0;
+      applyState(N.sync?N.sync.merge(JSON.parse(JSON.stringify(S)),data):Object.assign({},data,S));save();$("#bkMsg").textContent="Restored and merged."}
+    catch(e){$("#bkMsg").textContent="That code isn't a valid backup. Copy the whole code and try again."}};
+}
+function applyState(next){
+  Object.keys(S).forEach(k=>delete S[k]);Object.assign(S,next);S.mod=S.mod||{};
+  try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
+  renderRail((location.hash.match(/^#topic-(.+)/)||[])[1]);route();
+}
+
 /* ---------- rail ---------- */
 function renderRail(cur){
   rail.innerHTML=N.cats.map(c=>{const ts=topicsIn(c.id);if(!ts.length)return"";
@@ -3361,6 +3499,7 @@ function home(){
       ${bp}
     </div>
   </div>
+  ${progressPanel()}
   <h2>Content areas</h2>
   <p class="muted" style="margin-bottom:14px">Grouped by the subcategories NBME lists under Nervous System &amp; Special Senses, plus behavioral health and ethics.</p>
   <div class="grid-cats">${N.cats.map(c=>{const ts=topicsIn(c.id);if(!ts.length)return"";
@@ -3369,6 +3508,7 @@ function home(){
   ${coverage()}
   <p class="foot">Study aid written for the neurology clerkship. Verify dosing and protocols against current guidelines and your institution before using anything clinically. Blueprint ranges are from the NBME Clinical Neurology content outline.</p>
   </div>`;
+  wireProgress();
 }
 
 /* ---------- topic ---------- */
@@ -3431,7 +3571,7 @@ function quizSetup(){
   $("#qPool").onchange=e=>{qcfg.pool=e.target.value;upd()};
   $("#qN").onchange=e=>{qcfg.n=Math.max(1,+e.target.value||20)};
   $("#goQuiz").onclick=()=>{const p=pool();if(!p.length){$("#poolCount").textContent="No questions match. Change the pool or content areas.";return}startQuiz(shuffle(p).slice(0,qcfg.n))};
-  let armed=false;$("#resetQ").onclick=()=>{if(!armed){armed=true;$("#resetMsg").textContent="Click again to clear all answers.";return}S.answers={};save();quizSetup()};
+  let armed=false;$("#resetQ").onclick=()=>{if(!armed){armed=true;$("#resetMsg").textContent="Click again to clear all answers.";return}S.answers={};S.reset_answers=Date.now();save();quizSetup()};
 }
 function startQuiz(list){Q={list:shuffle(list),i:0,picks:{}};location.hash="quiz";setNav("quiz");drawQ()}
 function drawQ(){
@@ -3477,7 +3617,7 @@ function cardsView(){
   $("#cCat").value=ccat;
   $("#cCat").onchange=e=>{ccat=e.target.value;C=null;cardsView()};
   $("#cShuf").onclick=()=>{C=null;cardsView()};
-  $("#cReset").onclick=()=>{deck.forEach(c=>delete S.cards[c.id]);save();C=null;cardsView()};
+  $("#cReset").onclick=()=>{deck.forEach(c=>delete S.cards[c.id]);S.reset_cards=Date.now();save();C=null;cardsView()};
   if(!c)return;
   const flip=()=>{C.flip=!C.flip;cardsView()};
   $("#fcard").onclick=flip; const f=$("#cFlip"); if(f)f.onclick=flip;
@@ -3534,8 +3674,10 @@ document.addEventListener("keydown",e=>{
     else if(e.key==="ArrowRight")move(1); else if(e.key==="ArrowLeft")move(-1);
     else if(C.flip&&(e.key==="1"||e.key==="2")){S.cards[C.deck[C.i].id]=e.key==="2"?"k":"a";save();move(1)}}
 });
-N.app={S,save,esc,strip,shuffle,byId,catName,renderRail,readTopic,cards};
+N.app={S,save,esc,strip,shuffle,byId,catName,renderRail,readTopic,cards,applyState};
 route();
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+if(N.sync){N.sync.on(()=>drawSync());if(N.sync.enabled()){N.sync.syncNow();document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")N.sync.syncNow()})}}
 })();
 
 </script>
