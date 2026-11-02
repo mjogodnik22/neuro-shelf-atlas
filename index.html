@@ -287,6 +287,9 @@ td .slot{display:flex;flex-direction:column;align-items:stretch;gap:4px}
 .tok-in{flex:1 1 220px;min-width:0;height:36px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);font:inherit;font-size:14px;padding:0 10px}
 .backup{margin-top:14px;border-top:1px solid var(--line);padding-top:10px}
 .backup summary{cursor:pointer;font-weight:600;font-size:14px}
+ol.cloze-list{margin:14px 0 0;padding-left:22px}
+ol.cloze-list li{margin:12px 0;line-height:2;max-width:72ch}
+ol.cloze-list li::marker{font:500 12px var(--f-mono);color:var(--ink-3)}
 .muted{color:var(--ink-3)}
 .foot{margin-top:40px;font-size:12.5px;color:var(--ink-3);max-width:70ch}
 
@@ -3053,6 +3056,702 @@ function drawRoots(root){
 })();
 
 </script>
+<script>/* recall-1.js */
+// Hand-picked recall per section. tables: which table (t), and which columns (cols) and/or rows (rows) to blank.
+// cloze: sentences where [[answer|accepted alternative]] marks a blank. Pick what the exam asks for, not what is merely bolded.
+NEURO.recall=NEURO.recall||{};
+Object.assign(NEURO.recall,{
+localization:{
+"Where, then what":{cloze:[
+ "Onset over seconds to minutes points to a [[vascular|stroke|seizure|vascular or seizure]] cause; over weeks to months, to a [[neoplasm|tumor|compressive lesion]].",
+ "Crossed findings (cranial nerve on one side, body on the other) localize to the [[brainstem]].",
+ "A sensory level with bladder involvement localizes to the [[spinal cord|cord]].",
+ "Fatigable weakness with normal sensation and reflexes localizes to the [[neuromuscular junction|NMJ]]."]},
+"Upper vs lower motor neuron":{tables:[{t:0,cols:["UMN (brain, cord)","LMN (anterior horn, root, nerve)"],rows:["Tone","Reflexes","Fasciculations"]}],cloze:[
+ "UMN and LMN signs in the same limbs with normal sensation: [[ALS|amyotrophic lateral sclerosis]]."]},
+"Localization by level":{tables:[{t:0,cols:["Level"]}]},
+"Reflexes and signs":{tables:[{t:0,cols:["Root"]}],cloze:[
+ "A positive Romberg sign tests [[proprioception|position sense|dorsal columns]], not the cerebellum.",
+ "A brisk jaw jerk places UMN disease above the [[foramen magnum]].",
+ "A destructive hemispheric lesion pulls the eyes [[toward|towards]] the lesion; a seizure focus pushes them [[away]]."]},
+"Cortical syndromes":{tables:[{t:0,cols:["Aphasia"]}],cloze:[
+ "Agraphia, acalculia, finger agnosia, left–right confusion: dominant [[angular gyrus]] (Gerstmann).",
+ "Hemineglect and anosognosia: [[nondominant parietal|right parietal]] lobe."]},
+"Normal aging on exam":{cloze:[
+ "Normal with age: reduced [[vibration]] sense at the toes and reduced [[ankle reflexes|ankle jerks|Achilles reflexes]].",
+ "Not normal aging: losing independence in [[instrumental activities|finances|IADLs|managing finances]], or any [[asymmetric|focal]] finding."]}
+},
+diagnostics:{
+"CSF patterns":{tables:[{t:0,cols:["Condition"]}],cloze:[
+ "[[Xanthochromia]] separates true subarachnoid hemorrhage from a traumatic tap.",
+ "[[Oligoclonal bands]] in CSF but not serum support MS."]},
+"Before the needle":{cloze:[
+ "CT before LP for: immunocompromise, known CNS lesion, seizure within [[1 week|a week|7 days]], [[papilledema]], altered consciousness, or a focal deficit.",
+ "If imaging must come first in suspected meningitis, draw [[blood cultures]] and give dexamethasone and antibiotics before the CT.",
+ "Post-LP headache is worse [[upright|sitting up|standing]]; if it persists, give an [[epidural blood patch|blood patch]]."]},
+"Choosing imaging":{tables:[{t:0,cols:["First study"]}],cloze:[
+ "Acute ischemia invisible on CT shows within minutes on [[diffusion-weighted MRI|DWI|MRI DWI|diffusion weighted imaging]]."]},
+"EEG signatures":{tables:[{t:0,cols:["Association"]}],cloze:[
+ "A normal interictal EEG [[does not exclude|doesn't exclude|doesn't rule out]] epilepsy.",
+ "Best test for suspected psychogenic nonepileptic seizures: [[video EEG|video EEG monitoring]]."]},
+"Nerve conduction and EMG":{cloze:[
+ "Axonal neuropathy lowers [[amplitude|amplitudes]]; demyelination slows [[conduction velocity|velocity|conduction]] and causes conduction block.",
+ "Myasthenia: [[decrement|decremental response]] on slow repetitive stimulation; the most sensitive test is [[single-fiber EMG|SFEMG|single fiber EMG]].",
+ "Lambert-Eaton: low baseline amplitude that [[increases|increment|doubles|rises]] after brief exercise.",
+ "Myopathy: small, short, polyphasic units with [[early recruitment|early]]; neurogenic disease: large units with [[reduced recruitment|reduced]]."]}
+},
+neuroscience:{
+"Transmitter sources":{tables:[{t:0,cols:["Main source"]}]},
+"Basal ganglia and cerebellum":{tables:[{t:0,cols:["Thalamic nucleus"]}],cloze:[
+ "A cerebellar hemisphere lesion causes [[ipsilateral|same-side]] limb ataxia; a [[vermis]] lesion causes truncal and gait ataxia.",
+ "In Parkinson disease, overactive [[GPi|globus pallidus interna|internal globus pallidus]] output over-inhibits the thalamus."]},
+"CSF and the blood-brain barrier":{cloze:[
+ "CSF path: lateral ventricles → foramina of [[Monro]] → third ventricle → [[cerebral aqueduct|aqueduct|aqueduct of Sylvius]] → fourth ventricle → foramina of Luschka and Magendie.",
+ "CSF is absorbed by the [[arachnoid granulations|arachnoid villi]].",
+ "Aqueductal stenosis enlarges the lateral and [[third]] ventricles but not the fourth.",
+ "The [[area postrema]] lacks a blood-brain barrier and triggers vomiting.",
+ "[[Carbidopa]] blocks peripheral conversion of levodopa, so more reaches the brain."]},
+"Antiseizure drug mechanisms":{tables:[{t:0,cols:["Mechanism"]}]},
+"Movement, dementia and migraine drugs":{tables:[{t:0,cols:["Mechanism"]}]},
+"Neuromuscular, spasticity and MS drugs":{tables:[{t:0,cols:["Mechanism"]}]},
+"Receptor side-effect patterns":{cloze:[
+ "Dry mouth, urinary retention, constipation and confusion: [[muscarinic|anticholinergic|antimuscarinic]] blockade.",
+ "Parkinsonism, dystonia and high prolactin: [[D2|dopamine D2|dopamine]] blockade.",
+ "Orthostatic hypotension: [[α1|alpha-1|alpha 1]] blockade."]}
+},
+prevention:{
+"Stroke prevention":{cloze:[
+ "Largest modifiable stroke risk factor: [[hypertension|high blood pressure]].",
+ "Anticoagulate atrial fibrillation at CHA₂DS₂-VASc ≥ [[2]] in men or ≥ [[3]] in women.",
+ "Screen asymptomatic adults for carotid stenosis? [[No]].",
+ "Sickle cell disease: annual [[transcranial Doppler|TCD]] from age 2 to 16."]},
+"Pregnancy planning":{cloze:[
+ "Folic acid 0.4–0.8 mg daily; [[4 mg|4]] after a prior neural tube defect.",
+ "Switch off [[valproate]] before conception; prefer lamotrigine or levetiracetam.",
+ "Migraine with aura: avoid [[estrogen|estrogen-containing contraception|combined pills|combined OCPs]]."]},
+"Vaccines with neurologic payoffs":{tables:[{t:0,cols:["Vaccine"]}],cloze:[
+ "Before eculizumab or ravulizumab, give [[meningococcal]] vaccines."]},
+"Injury and fall prevention":{cloze:[
+ "Best evidence for preventing falls in older adults: [[exercise|physical therapy|exercise and physical therapy]].",
+ "Vitamin D helps fall prevention only when [[deficient|deficiency is present]]."]},
+"Screening and surveillance":{cloze:[
+ "Autism-specific screening at [[18 and 24 months|18 and 24]].",
+ "Diabetes: annual [[monofilament]] foot exam.",
+ "Newborn screening now includes [[spinal muscular atrophy|SMA]]."]},
+"Normal aging":{cloze:[
+ "Normal aging slows [[processing speed|processing]] but preserves [[independence|daily function|function]]."]}
+},
+stroke:{
+"First ten minutes":{cloze:[
+ "Every window is timed from [[last known well]].",
+ "Check a [[fingerstick glucose|glucose|blood glucose]] first; [[hypoglycemia]] can mimic stroke.",
+ "First imaging: [[noncontrast CT|noncontrast head CT|CT head without contrast|CT]] to rule out [[hemorrhage|bleeding|ICH]]; add [[CTA|CT angiography]] to find a large-vessel occlusion."]},
+"IV thrombolysis":{cloze:[
+ "Window for IV thrombolysis: [[4.5 hours|4.5|4.5 h]] from last known well.",
+ "BP must be below [[185/110]] before and below [[180/105]] for 24 h after.",
+ "No antiplatelets or anticoagulants for [[24 hours|24 h|24]] after thrombolysis.",
+ "Contraindicated if platelets are below [[100,000|100000|100k]] or INR is above [[1.7]].",
+ "Contraindicated after ischemic stroke or head trauma within [[3 months|3|three months]] or a GI bleed within [[21 days|21|3 weeks]].",
+ "Tongue swelling during alteplase in a patient on an [[ACE inhibitor|ACEi|lisinopril]]: orolingual angioedema."]},
+"Mechanical thrombectomy":{cloze:[
+ "Thrombectomy treats a [[large-vessel occlusion|LVO|large vessel occlusion]] such as ICA, M1 or basilar.",
+ "Window: [[6 hours|6|6 h]], extended to [[24 hours|24|24 h]] with favorable perfusion imaging.",
+ "If eligible, give IV thrombolysis and go to thrombectomy [[without waiting|immediately|right away]]."]},
+"If no thrombolysis":{cloze:[
+ "Without thrombolysis, treat BP only above [[220/120]].",
+ "Give [[aspirin]] within 24–48 h.",
+ "Minor stroke (NIHSS ≤3) or high-risk TIA: [[aspirin plus clopidogrel|aspirin and clopidogrel|DAPT|dual antiplatelet therapy]] for [[21 days|21|3 weeks]], then one agent.",
+ "Before anything by mouth: a [[swallow screen|swallow|dysphagia screen]]."]},
+"Find the mechanism":{tables:[{t:0,cols:["Mechanism"]}]},
+"Secondary prevention":{cloze:[
+ "Noncardioembolic stroke: an antiplatelet plus a [[high-intensity statin|statin]] with LDL goal below [[70]].",
+ "Atrial fibrillation: anticoagulate, preferably with a [[DOAC|apixaban|direct oral anticoagulant]]; [[warfarin]] for mechanical valves.",
+ "Symptomatic carotid stenosis [[70–99%|70-99|70 to 99%|70%]] → [[carotid endarterectomy|endarterectomy|CEA]] within [[2 weeks|2|two weeks|14 days]].",
+ "Consider PFO closure up to age [[60]] for cryptogenic stroke."]},
+"TIA":{cloze:[
+ "A TIA leaves [[no infarct|no infarction]] on imaging.",
+ "ABCD² gives 2 points each for [[unilateral weakness|weakness]] and duration ≥ [[60 minutes|60|60 min]]; ≥ [[4]] is high risk.",
+ "Transient monocular blindness (amaurosis fugax): image the [[ipsilateral carotid|carotid]]."]},
+"Complications":{cloze:[
+ "Malignant MCA edema peaks on days [[2–5|2-5|3-5]]; treat with [[decompressive hemicraniectomy|hemicraniectomy|craniectomy]].",
+ "Seizure prophylaxis after stroke: [[not indicated|no|none]].",
+ "Post-stroke depression: [[SSRI|SSRIs]]."]},
+"Less common causes":{tables:[{t:0,cols:["Cause"]}],cloze:[
+ "Antiphospholipid syndrome: [[warfarin]], not a DOAC.",
+ "Septic emboli from endocarditis: [[no thrombolysis|no tPA|avoid thrombolysis]]; treat the infection."]},
+"Recovery and rehabilitation":{cloze:[
+ "Post-stroke spasticity: [[botulinum toxin|botox]] injections plus stretching.",
+ "Very early intensive mobilization in the first [[24 hours|24|24 h]] doesn't help."]}
+},
+syndromes:{
+"Hemispheric territories":{tables:[{t:0,cols:["Artery"]}]},
+"Lacunar syndromes":{tables:[{t:0,cols:["Location"]}],cloze:[
+ "Lacunes come from [[lipohyalinosis]] of penetrating arteries in hypertension and diabetes.",
+ "Lacunes never cause [[cortical signs|aphasia|neglect]]."]},
+"Brainstem syndromes":{tables:[{t:0,cols:["Syndrome (artery)"]}],cloze:[
+ "Wallenberg has no [[limb weakness|weakness|hemiparesis]] because the pyramids are medial.",
+ "Hoarseness and dysphagia localize to the [[nucleus ambiguus]].",
+ "The tongue deviates [[toward|towards]] a CN XII lesion."]},
+"Other posterior circulation":{cloze:[
+ "Vertigo with arm exercise and an arm BP difference over 15–20 mm Hg: [[subclavian steal]].",
+ "A large cerebellar infarct can cause [[hydrocephalus|brainstem compression]] at 2–4 days; treat with [[suboccipital decompression|decompression|craniectomy]].",
+ "Bilateral paramedian thalamic infarcts with coma and vertical gaze palsy: artery of [[Percheron]]."]}
+},
+hemorrhage:{
+"Intracerebral hemorrhage":{tables:[{t:0,cols:["Cause"]}],cloze:[
+ "Warfarin ICH: [[4-factor PCC|PCC|4F-PCC|prothrombin complex concentrate]] plus IV [[vitamin K]].",
+ "Dabigatran reversal: [[idarucizumab]]. Factor Xa inhibitors: [[andexanet alfa|andexanet]]. Heparin: [[protamine]].",
+ "Lower systolic BP toward [[140]], not below 130.",
+ "Cerebellar hemorrhage over [[3 cm|3]] or with brainstem compression: [[surgical evacuation|evacuation|surgery]]."]},
+"Subarachnoid hemorrhage":{cloze:[
+ "Thunderclap headache, CT negative after 6 h: [[lumbar puncture|LP]] for [[xanthochromia]].",
+ "Most common aneurysm site: [[anterior communicating artery|AComm|ACom|anterior communicating]].",
+ "[[Nimodipine]] for [[21 days|21|3 weeks]] improves outcome.",
+ "Rebleeding risk is highest in the first [[24 hours|24|day|24 h]]; vasospasm peaks around day [[7]].",
+ "SAH hyponatremia: never [[fluid restrict|restrict fluids|fluid restriction]].",
+ "Pupil-involving CN III palsy with headache: [[PComm aneurysm|posterior communicating artery aneurysm|PCom aneurysm]]."]},
+"Vascular malformations":{cloze:[
+ "Young adult with ICH or seizure: [[AVM|arteriovenous malformation]]; associated with [[HHT|hereditary hemorrhagic telangiectasia|Osler-Weber-Rendu]].",
+ "Popcorn lesion with a hemosiderin rim on MRI: [[cavernous malformation|cavernoma|cavernous angioma]]."]},
+"Cerebral venous sinus thrombosis":{cloze:[
+ "Classic setting: [[postpartum|pregnancy|pregnancy or postpartum]], oral contraceptives, or thrombophilia.",
+ "Diagnose with [[MR venography|MRV|CT venography|CTV|venography]].",
+ "Treat with [[anticoagulation|heparin|LMWH]] even when there is [[hemorrhage|a bleed]]."]}
+},
+seizures:{
+"Definitions":{cloze:[
+ "Epilepsy: [[two|2]] unprovoked seizures more than 24 h apart, or one with high recurrence risk.",
+ "A provoked seizure (hypoglycemia, hyponatremia, withdrawal) is treated by [[correcting the cause|treating the cause]], not long-term drugs."]},
+"First seizure workup":{cloze:[
+ "Every new unprovoked seizure gets an [[MRI|MRI brain]] and an [[EEG]].",
+ "After one unprovoked seizure with normal EEG and MRI: usually [[no medication|don't treat|no treatment|no]]."]},
+"Seizure types":{tables:[{t:0,cols:["Type"]}]},
+"Seizure vs syncope vs functional":{cloze:[
+ "Lateral tongue bite and prolonged postictal confusion favor an [[epileptic seizure|seizure]].",
+ "Eyes squeezed shut, side-to-side head movement, pelvic thrusting: [[functional seizure|PNES|psychogenic nonepileptic seizure]].",
+ "Confirm functional seizures with [[video EEG|video EEG monitoring]].",
+ "Brief jerks [[can occur|occur]] with ordinary syncope."]},
+"Pediatric and named syndromes":{tables:[{t:0,cols:["Syndrome"]}],cloze:[
+ "Childhood absence: [[ethosuximide]].",
+ "Infantile spasms: [[ACTH|steroids|high-dose steroids]]; with tuberous sclerosis, [[vigabatrin]].",
+ "Dravet syndrome: avoid [[sodium channel blockers]].",
+ "Simple febrile seizure: [[reassurance|no workup|reassure]] and treat the fever source."]},
+"Choosing a medication":{cloze:[
+ "Most effective drug for generalized epilepsy: [[valproate]].",
+ "Drugs that worsen absence and myoclonic seizures: [[carbamazepine|phenytoin|oxcarbazepine|sodium channel blockers]].",
+ "For someone who could become pregnant: [[lamotrigine|levetiracetam]].",
+ "Drug-resistant epilepsy = failure of [[two|2]] appropriate drugs → refer for surgery."]},
+"Medication adverse effects":{tables:[{t:0,cols:["Drug"]}]},
+"Status epilepticus":{cloze:[
+ "Status epilepticus: seizure ≥ [[5 minutes|5|5 min]].",
+ "First line: [[benzodiazepine|lorazepam|midazolam]]; with no IV, IM [[midazolam]].",
+ "Second line: [[fosphenytoin|levetiracetam|valproate]] (all similar).",
+ "Not waking after a convulsion: [[EEG]] for nonconvulsive status.",
+ "Seizure in pregnancy or postpartum with hypertension: [[magnesium sulfate|magnesium]].",
+ "Isoniazid overdose seizures: [[pyridoxine|B6|vitamin B6]]."]},
+"Counseling":{cloze:[
+ "Driving after a seizure follows [[state law|state laws|the state]].",
+ "Uncontrolled generalized seizures carry a risk of [[SUDEP|sudden unexpected death]]."]}
+},
+headache:{
+"Red flags (SNOOP)":{cloze:[
+ "New headache after age [[50]] is a red flag.",
+ "Headache triggered by [[Valsalva|cough|coughing|straining]] needs imaging.",
+ "Primary headache pattern with a normal exam: [[no imaging|none|no]]."]},
+"Primary headaches":{tables:[{t:0,rows:["Duration","Associated","Acute","Prevention"]}],cloze:[
+ "Indomethacin-responsive headaches: [[paroxysmal hemicrania]] and [[hemicrania continua]]."]},
+"Migraine treatment details":{cloze:[
+ "Triptans are contraindicated with [[coronary artery disease|CAD|coronary disease|vascular disease]]; use a [[gepant|ubrogepant|rimegepant|lasmiditan]] instead.",
+ "Start prevention at ≥ [[4]] headache days per month.",
+ "Prevention with obesity: [[topiramate]]. With hypertension or anxiety: [[propranolol|beta-blocker]]. With insomnia or depression: [[amitriptyline]].",
+ "Give diphenhydramine with IV prochlorperazine to prevent [[akathisia|dystonia|akathisia and dystonia]].",
+ "Medication overuse: simple analgesics ≥ [[15]] days per month, or triptans and opioids ≥ [[10]]."]},
+"Secondary headaches":{tables:[{t:0,cols:["Cause"]}]}
+},
+syncope:{
+"Types of syncope":{tables:[{t:0,cols:["Type"]}],cloze:[
+ "Every syncope patient gets [[orthostatic vitals]] and an [[ECG|EKG]].",
+ "Syncope during exertion or while [[supine|lying down]] suggests a cardiac cause."]},
+"Orthostatic hypotension and POTS":{cloze:[
+ "Orthostatic hypotension: fall of ≥ [[20]] systolic or ≥ [[10]] diastolic within 3 minutes.",
+ "Neurogenic orthostatic hypotension: heart rate rises less than about [[15]].",
+ "POTS: heart rate rise ≥ [[30]] on standing without hypotension.",
+ "Drugs for orthostatic hypotension: [[fludrocortisone]], [[midodrine]], droxidopa."]},
+"The dizzy patient":{tables:[{t:0,cols:["Complaint"]}]},
+"Gait disorders":{tables:[{t:0,cols:["Gait"]}]}
+}
+});
+
+</script>
+<script>/* recall-2.js */
+NEURO.recall=NEURO.recall||{};
+Object.assign(NEURO.recall,{
+neuropain:{
+"Trigeminal neuralgia":{cloze:[
+ "First-line for trigeminal neuralgia: [[carbamazepine]] (or oxcarbazepine).",
+ "Trigeminal neuralgia in a young adult or bilateral: suspect [[MS|multiple sclerosis]].",
+ "Usual cause: a vascular loop of the [[superior cerebellar artery|SCA]].",
+ "Medically refractory: [[microvascular decompression]].",
+ "Throat and ear paroxysms on swallowing, sometimes with syncope: [[glossopharyngeal neuralgia]]."]},
+"Postherpetic neuralgia":{cloze:[
+ "Defined as pain ≥ [[3 months|3|90 days]] after shingles.",
+ "First options: [[topical lidocaine|lidocaine patch|lidocaine]], gabapentinoids, nortriptyline.",
+ "Prevent it with the [[recombinant zoster vaccine|zoster vaccine|Shingrix]] from age [[50]]."]},
+"Painful polyneuropathy":{cloze:[
+ "First-line drugs: [[duloxetine]], [[pregabalin|gabapentin]], or TCAs.",
+ "Avoid TCAs in older adults or with [[cardiac conduction disease|heart block|conduction disease]]."]},
+"Complex regional pain syndrome":{cloze:[
+ "Mainstay of treatment: [[physical and occupational therapy|PT and OT|physical therapy|PT/OT]].",
+ "Type II CRPS follows a [[nerve injury]].",
+ "Vitamin [[C]] after a wrist fracture may lower the risk."]},
+"Central and other pain":{tables:[{t:0,cols:["Class"]}],cloze:[
+ "Burning contralateral pain weeks after a thalamic stroke: [[central post-stroke pain|Dejerine-Roussy|thalamic pain syndrome]].",
+ "Fibromyalgia first-line: graded [[aerobic exercise|exercise]] and CBT."]}
+},
+dementia:{
+"Definitions and screening":{cloze:[
+ "MCI differs from dementia because [[independence|daily function|function]] is preserved.",
+ "Screen more sensitive for MCI: [[MoCA|Montreal Cognitive Assessment]]."]},
+"Reversible causes workup":{cloze:[
+ "Every cognitive workup: CBC, metabolic panel, [[TSH]], [[B12|vitamin B12]], and [[brain imaging|CT or MRI|neuroimaging|imaging]]."]},
+"Types":{tables:[{t:0,cols:["Type"]}]},
+"Treatment":{cloze:[
+ "Alzheimer disease, mild to severe: a [[cholinesterase inhibitor|donepezil|rivastigmine|galantamine]]; moderate to severe, add [[memantine]].",
+ "Cholinesterase inhibitors can cause [[bradycardia|heart block|syncope]].",
+ "Anti-amyloid antibodies risk [[ARIA|amyloid-related imaging abnormalities]], highest in APOE ε4 [[homozygotes|homozygous]].",
+ "Behavioral symptoms in FTD: [[SSRI|SSRIs|sertraline]]; cholinesterase inhibitors can worsen them.",
+ "Avoid [[haloperidol|typical antipsychotics]] in Lewy body dementia."]},
+"Amnestic syndromes":{tables:[{t:0,cols:["Syndrome"]}]}
+},
+encephalopathy:{
+"Delirium":{tables:[{t:0,rows:["Onset","Course","Attention"]}],cloze:[
+ "Core feature of delirium: acute, fluctuating [[inattention|attention|impaired attention]].",
+ "The [[hypoactive]] form is the one most often missed.",
+ "Avoid [[benzodiazepines]] in delirium, except in alcohol or benzodiazepine withdrawal."]},
+"Coma exam":{tables:[{t:0,cols:["Meaning"]}],cloze:[
+ "In an unconscious, malnourished patient, give [[thiamine]] before dextrose."]},
+"After cardiac arrest":{cloze:[
+ "Don't prognosticate before [[72 hours|72|72 h]] after return to normothermia, off sedation.",
+ "Chronic action myoclonus in a survivor with intact cognition: [[Lance-Adams]] syndrome."]},
+"Toxidromes":{tables:[{t:0,cols:["Toxidrome","Treatment"]}]}
+},
+systemic:{
+"Thiamine and Wernicke":{cloze:[
+ "Wernicke triad: confusion, [[ophthalmoplegia|nystagmus|eye movement abnormalities]], [[ataxia]].",
+ "Give IV [[thiamine]] before [[glucose|dextrose]].",
+ "Untreated Wernicke becomes [[Korsakoff]] syndrome, with confabulation."]},
+"Sodium and osmotic demyelination":{cloze:[
+ "Correct chronic hyponatremia by no more than about [[8–10|8-10|8|10]] mEq/L in 24 h.",
+ "Overcorrection causes [[osmotic demyelination|ODS|central pontine myelinolysis]]: dysarthria, dysphagia, quadriparesis days later.",
+ "Seizures from acute hyponatremia: a bolus of [[3% saline|hypertonic saline]]."]},
+"B12 and other deficiencies":{tables:[{t:0,cols:["Deficiency"]}],cloze:[
+ "Borderline B12: check [[methylmalonic acid|MMA]] and homocysteine."]},
+"Organ failure and endocrine":{cloze:[
+ "Hepatic encephalopathy: [[lactulose]], then add [[rifaximin]].",
+ "Hypothyroidism: delayed [[reflex relaxation|relaxation of reflexes]], carpal tunnel, and high CK.",
+ "Hypocalcemia: tetany with [[Chvostek|Trousseau]] and Trousseau signs."]},
+"PRES":{cloze:[
+ "PRES triggers: severe hypertension, eclampsia, [[cyclosporine|tacrolimus|calcineurin inhibitors]].",
+ "MRI: [[parieto-occipital|posterior|occipital]] vasogenic edema; usually [[reversible]]."]},
+"Systemic inflammatory and other disorders":{tables:[{t:0,cols:["Disorder"]}]}
+},
+parkinson:{
+"Diagnosis":{cloze:[
+ "Parkinsonism requires [[bradykinesia]] plus rest tremor or rigidity.",
+ "Premotor clues: anosmia, constipation, and [[REM sleep behavior disorder|RBD|dream enactment]].",
+ "Pathology: loss of [[substantia nigra pars compacta|SNc|substantia nigra]] dopamine neurons with [[Lewy bodies|alpha-synuclein|α-synuclein]].",
+ "Symmetric parkinsonism on metoclopramide: [[drug-induced parkinsonism|drug-induced]]; stop the drug."]},
+"Treatment":{tables:[{t:0,cols:["Drug"]}],cloze:[
+ "Deep brain stimulation targets: [[subthalamic nucleus|STN]] or GPi.",
+ "Parkinson psychosis: [[pimavanserin|quetiapine|clozapine]]; never haloperidol.",
+ "Stopping levodopa abruptly risks a [[parkinsonism-hyperpyrexia|NMS-like|neuroleptic malignant-like]] syndrome."]},
+"Atypical parkinsonism":{tables:[{t:0,cols:["Disorder"]}]}
+},
+hyperkinetic:{
+"Tremor":{tables:[{t:0,cols:["Tremor"]}],cloze:[
+ "Essential tremor: [[propranolol]] or [[primidone]]; refractory, DBS of thalamic [[VIM|ventral intermediate nucleus]]."]},
+"Huntington disease":{cloze:[
+ "Autosomal dominant [[CAG]] repeat on chromosome [[4]].",
+ "Earlier onset in each generation: [[anticipation]], mainly through the [[father|paternal]] line.",
+ "Imaging: [[caudate]] atrophy.",
+ "Chorea: [[VMAT2 inhibitors|tetrabenazine|deutetrabenazine|valbenazine]]."]},
+"Wilson disease":{cloze:[
+ "Gene: [[ATP7B]], autosomal recessive.",
+ "Tests: low [[ceruloplasmin]], high 24-h urine copper, and [[Kayser-Fleischer rings|KF rings]] on slit lamp.",
+ "Treatment: [[penicillamine|trientine]] chelation, then zinc.",
+ "Screen the patient's [[siblings]]."]},
+"Dystonia, ballism, myoclonus":{cloze:[
+ "Focal dystonia: [[botulinum toxin|botox]].",
+ "Hemiballismus: lesion of the contralateral [[subthalamic nucleus|STN]].",
+ "Young-onset dystonia worse in the evening: trial of [[levodopa]] (dopa-responsive dystonia).",
+ "Asterixis is [[negative myoclonus]]."]},
+"Tics and Tourette syndrome":{cloze:[
+ "Tics come with a [[premonitory urge]] and brief suppressibility.",
+ "Tourette: multiple motor tics plus at least one [[vocal|phonic]] tic for over [[1 year|a year|12 months]].",
+ "Common comorbidities: [[ADHD]] and [[OCD]].",
+ "First-line drug, especially with ADHD: [[guanfacine|clonidine|alpha-2 agonist]]."]},
+"Ataxia":{cloze:[
+ "Unsteady in the dark and Romberg positive: [[sensory ataxia|sensory]].",
+ "Wide-based gait with legs worse than arms in heavy drinkers: [[anterior vermis|vermis]] degeneration.",
+ "Subacute cerebellar ataxia with ovarian or breast cancer: anti-[[Yo]].",
+ "Older male premutation carrier with tremor and ataxia: [[FXTAS|fragile X tremor-ataxia syndrome|fragile X]]."]}
+},
+infections:{
+"Bacterial meningitis":{tables:[{t:0,cols:["Likely organisms","Empiric therapy"]}],cloze:[
+ "Give [[dexamethasone]] before or with the first antibiotic dose.",
+ "Meningococcal close contacts get [[rifampin|ciprofloxacin|ceftriaxone]] prophylaxis.",
+ "Recurrent Neisseria infection: test for [[complement deficiency|terminal complement deficiency]]."]},
+"Viral meningitis and encephalitis":{tables:[{t:0,cols:["Virus"]}],cloze:[
+ "Most common viral meningitis: [[enterovirus|enteroviruses]].",
+ "HSV encephalitis hits the [[temporal]] lobe; start IV [[acyclovir]] on suspicion."]},
+"Brain abscess":{cloze:[
+ "Empiric therapy: [[ceftriaxone]] plus [[metronidazole]].",
+ "Avoid [[lumbar puncture|LP]]: herniation risk, low yield."]},
+"HIV and immunocompromise":{tables:[{t:0,cols:["Condition"]}]},
+"Spirochetes, TB, and fungi":{cloze:[
+ "Neurosyphilis: IV [[penicillin G|penicillin]] for 10–14 days.",
+ "Pupils that accommodate but don't react to light: [[Argyll Robertson]].",
+ "Lyme facial palsy: oral [[doxycycline]].",
+ "TB meningitis: add [[dexamethasone|steroids|corticosteroids]] to four-drug therapy.",
+ "Leading cause of acquired epilepsy worldwide: [[neurocysticercosis]].",
+ "Black nasal eschar in diabetic ketoacidosis: [[mucormycosis]]."]},
+"Toxin-mediated":{cloze:[
+ "Tetanus: [[tetanus immune globulin|TIG]], wound care, metronidazole, benzodiazepines, and vaccine.",
+ "Botulism: [[descending]] paralysis with dilated pupils."]},
+"Other infections to know":{cloze:[
+ "Vesicles on the nasal tip with V1 zoster: [[Hutchinson sign|Hutchinson]] → urgent ophthalmology.",
+ "Slow spastic paraparesis in someone from the Caribbean or Japan: [[HTLV-1]].",
+ "Thickened ulnar and peroneal nerves with anesthetic skin patches: [[leprosy]]."]}
+},
+demyelinating:{
+"Multiple sclerosis":{cloze:[
+ "Diagnosis needs dissemination in [[space]] and [[time]].",
+ "Bilateral INO in a young adult: [[multiple sclerosis|MS]].",
+ "Electric shock down the spine on neck flexion: [[Lhermitte]] sign.",
+ "Worsening with heat: [[Uhthoff]] phenomenon.",
+ "CSF finding that can replace dissemination in time: [[oligoclonal bands]]."]},
+"MS treatment":{tables:[{t:0,cols:["Drug"]}],cloze:[
+ "Relapse: high-dose IV [[methylprednisolone|steroids]]; refractory, [[plasma exchange|PLEX]].",
+ "Approved for primary progressive MS: [[ocrelizumab]].",
+ "Walking speed: [[dalfampridine]] (seizure risk)."]},
+"MS look-alikes":{tables:[{t:0,cols:["Disorder"]}],cloze:[
+ "NMOSD antibody: [[aquaporin-4|AQP4]].",
+ "Optic neuritis: don't give low-dose oral [[prednisone]] alone."]},
+"Autoimmune encephalitis":{cloze:[
+ "Anti-NMDA receptor encephalitis: search for an [[ovarian teratoma|teratoma]].",
+ "Faciobrachial dystonic seizures with hyponatremia: anti-[[LGI1]]."]}
+}
+});
+
+</script>
+<script>/* recall-3.js */
+NEURO.recall=NEURO.recall||{};
+Object.assign(NEURO.recall,{
+tumors:{
+"Presentation":{cloze:[
+ "Vasogenic edema around a tumor: [[dexamethasone]].",
+ "Hold steroids before biopsy if [[lymphoma|CNS lymphoma]] is possible.",
+ "Seizure prophylaxis for a tumor patient who has never seized: [[not indicated|no|none]]."]},
+"Adult tumors":{tables:[{t:0,cols:["Tumor"]}]},
+"Pediatric tumors":{tables:[{t:0,cols:["Tumor"]}]},
+"Spinal tumors":{cloze:[
+ "Most spinal tumors that compress the cord are [[extradural|metastases|vertebral metastases]].",
+ "Intramedullary tumor in adults: [[ependymoma]]; in children: astrocytoma."]},
+"Paraneoplastic syndromes":{tables:[{t:0,cols:["Antibody","Associated cancer"]}]},
+"Leptomeningeal disease and treatment effects":{cloze:[
+ "Several cranial neuropathies plus radicular pain in a cancer patient: [[leptomeningeal metastasis|leptomeningeal disease|carcinomatous meningitis]].",
+ "Confirm with MRI of the brain and whole spine plus [[CSF cytology|cytology]], repeated if negative.",
+ "An enhancing lesion months after radiation that mimics recurrence: [[radiation necrosis]]."]}
+},
+cord:{
+"Tracts that matter":{cloze:[
+ "Corticospinal and dorsal column deficits below a cord lesion are [[ipsilateral|same side]].",
+ "Spinothalamic fibers cross within 1–2 segments in the [[anterior white commissure|anterior commissure]], so pain and temperature loss is [[contralateral|opposite side]]."]},
+"Cord syndromes":{tables:[{t:0,cols:["Syndrome"]}]},
+"Conus medullaris vs cauda equina":{tables:[{t:0,rows:["Onset","Pain","Bladder and bowel","Reflexes"]}],cloze:[
+ "Saddle anesthesia with urinary retention: emergent [[MRI]] and decompression."]},
+"Epidural spinal cord compression":{cloze:[
+ "Cancer patient with new back pain and weakness: [[dexamethasone]] first, then MRI of the [[whole spine|entire spine]].",
+ "Best predictor of outcome: [[ambulatory status|ability to walk|walking]] at diagnosis.",
+ "New back pain in a cancer patient with a normal exam still needs urgent [[MRI]]."]},
+"Infection and infarction":{cloze:[
+ "Spinal epidural abscess organism: [[Staphylococcus aureus|S. aureus|staph aureus]].",
+ "Cord infarct after aortic surgery: loss of the artery of [[Adamkiewicz]] → anterior cord syndrome."]},
+"Spinal cord injury":{cloze:[
+ "Neurogenic shock: hypotension with [[bradycardia]] and warm skin.",
+ "Autonomic dysreflexia happens with injuries at [[T6]] or above; first step: sit up and empty the [[bladder|bladder and bowel]].",
+ "High-dose steroids for acute spinal cord injury: [[not routinely recommended|not recommended|no]]."]},
+"Other myelopathies":{cloze:[
+ "Myelopathy that worsens with exertion, with cord edema and flow voids: [[spinal dural arteriovenous fistula|dural AV fistula|dural arteriovenous fistula]].",
+ "Tethered cord worsens during [[growth spurts|growth]]."]}
+},
+back:{
+"Root localization":{tables:[{t:0,cols:["Root"]}],cloze:[
+ "An L4–L5 disc compresses the [[L5]] root; C5–C6 compresses [[C6]].",
+ "Foot drop with weak inversion and hip abduction: [[L5]] radiculopathy, not peroneal neuropathy."]},
+"Acute low back pain":{cloze:[
+ "Without red flags: no imaging for the first [[6 weeks|6|4-6 weeks]].",
+ "Treatment: stay [[active]], NSAIDs, heat; avoid bed rest and opioids."]},
+"Sciatica (lumbar radiculopathy)":{cloze:[
+ "Sensitive test: [[straight leg raise|SLR]]. Specific test: [[crossed straight leg raise|crossed SLR]].",
+ "Surgery for cauda equina syndrome or a [[progressive motor deficit|progressive deficit|worsening weakness]]."]},
+"Lumbar spinal stenosis":{tables:[{t:0,rows:["Relief","Pulses"]}],cloze:[
+ "Neurogenic claudication eases with [[flexion|leaning forward|sitting]], like pushing a shopping cart."]},
+"Neck":{cloze:[
+ "Test for cervical radiculopathy: [[Spurling]].",
+ "Hand sign of cervical myelopathy: [[Hoffmann]].",
+ "Atlantoaxial instability: rheumatoid arthritis and [[Down syndrome]]."]},
+"Other back pain":{tables:[{t:0,cols:["Condition"]}]}
+},
+cranial:{
+"Facial palsy":{tables:[{t:0,rows:["Forehead"]}],cloze:[
+ "Bell palsy within 72 h: [[prednisone|steroids|oral steroids]] plus [[eye protection|eye lubrication|taping the eye]].",
+ "Facial palsy with vesicles in the ear canal: [[Ramsay Hunt|Ramsay Hunt syndrome]].",
+ "Bilateral facial palsy: [[Lyme disease|Lyme]], Guillain-Barré, or sarcoidosis."]},
+"Eye movement nerves":{tables:[{t:0,cols:["Nerve"]}],cloze:[
+ "Pupil-involving CN III palsy means [[compression|aneurysm|compressive]]; pupil-sparing complete palsy usually means [[microvascular|ischemia|diabetic]].",
+ "CN IV palsy: the head tilts [[away]] from the weak side."]},
+"Horner syndrome":{tables:[{t:0,cols:["Neuron"]}],cloze:[
+ "Acute painful Horner with neck pain: [[carotid dissection|carotid artery dissection]].",
+ "Third-order lesions spare facial [[sweating]]."]},
+"Cavernous sinus and skull base":{cloze:[
+ "The cavernous sinus carries CN III, IV, [[V1]], [[V2]], VI and sympathetics.",
+ "Pulsatile proptosis and an orbital bruit after trauma: [[carotid-cavernous fistula]].",
+ "Anosmia, ipsilateral optic atrophy, contralateral papilledema: [[Foster Kennedy]] syndrome."]},
+"Bulbar vs pseudobulbar palsy":{tables:[{t:0,rows:["Tongue","Jaw jerk, gag","Emotion"]}]}
+},
+neuropathy:{
+"Polyneuropathy":{tables:[{t:0,cols:["Cause"]}],cloze:[
+ "First labs: glucose or A1c, [[B12]], and [[SPEP with immunofixation|SPEP|serum protein electrophoresis]].",
+ "Painful, asymmetric, stepwise deficits in named nerves: [[mononeuritis multiplex]], usually [[vasculitis]]."]},
+"Guillain-Barré syndrome":{cloze:[
+ "Classic preceding infection: [[Campylobacter jejuni|Campylobacter]].",
+ "CSF: [[albuminocytologic dissociation]].",
+ "Intubate when FVC falls below [[20 mL/kg|20]].",
+ "Treat with [[IVIG]] or [[plasma exchange|PLEX]]; [[steroids]] don't help.",
+ "Ophthalmoplegia, ataxia, areflexia: [[Miller Fisher]] variant, anti-[[GQ1b]]."]},
+"CIDP":{cloze:[
+ "CIDP progresses for more than [[8 weeks|8]].",
+ "Unlike GBS, CIDP responds to [[steroids|corticosteroids|prednisone]]."]},
+"Upper limb entrapments":{tables:[{t:0,cols:["Nerve and site"]}]},
+"Lower limb entrapments":{tables:[{t:0,cols:["Nerve and site"]}]},
+"Brachial plexus":{cloze:[
+ "Erb palsy: [[C5–C6|C5-C6|upper trunk]], waiter's tip posture.",
+ "Klumpke palsy: [[C8–T1|C8-T1|lower trunk]], claw hand ± [[Horner|Horner syndrome]].",
+ "Severe shoulder pain, then patchy weakness: [[Parsonage-Turner|neuralgic amyotrophy]]."]}
+},
+nmj:{
+"Myasthenia gravis":{cloze:[
+ "Antibodies against [[acetylcholine receptors|AChR]]; if negative, test [[MuSK]].",
+ "Bedside test: [[ice pack]] test.",
+ "Most sensitive test: [[single-fiber EMG|SFEMG]].",
+ "After diagnosis, image the chest for [[thymoma]].",
+ "Pupils in MG are [[spared|normal]]."]},
+"MG treatment":{tables:[{t:0,cols:["Treatment"]}],cloze:[
+ "Pyridostigmine side effects are [[muscarinic|cholinergic]]: cramps, diarrhea, salivation."]},
+"Myasthenic crisis":{cloze:[
+ "Follow [[FVC|vital capacity]] and NIF, not oxygen saturation.",
+ "Fastest treatments: [[IVIG]] or [[plasma exchange|PLEX]].",
+ "Antibiotics that worsen MG: [[fluoroquinolones|aminoglycosides|macrolides]], aminoglycosides, macrolides.",
+ "Drug that can induce MG: [[penicillamine]]."]},
+"Lambert-Eaton myasthenic syndrome":{cloze:[
+ "Antibodies against presynaptic [[P/Q-type calcium channels|voltage-gated calcium channels|VGCC|calcium channels]].",
+ "Associated cancer: [[small cell lung cancer|SCLC|small cell]].",
+ "Strength and reflexes [[improve|increase]] after brief exercise.",
+ "Symptomatic drug: [[amifampridine|3,4-diaminopyridine]]."]},
+"Botulism":{tables:[{t:0,cols:["Form"]}],cloze:[
+ "Botulism: descending paralysis with [[dilated|fixed dilated]] pupils.",
+ "Avoid [[aminoglycosides]]."]}
+},
+muscle:{
+"Amyotrophic lateral sclerosis":{cloze:[
+ "ALS: UMN and LMN signs with normal [[sensation]], eye movements and sphincters.",
+ "Survival drug: [[riluzole]].",
+ "Largest survival benefit: [[noninvasive ventilation|NIV|BiPAP]].",
+ "Place a feeding tube before FVC falls below [[50%|50]].",
+ "Most common familial gene: [[C9orf72]]."]},
+"Other motor neuron disorders":{cloze:[
+ "Spinal muscular atrophy gene: [[SMN1]].",
+ "Bulbar weakness with gynecomastia: [[Kennedy disease|spinobulbar muscular atrophy|SBMA]]."]},
+"Approach to myopathy":{tables:[{t:0,cols:["Disorder"]}]},
+"Muscular dystrophies":{tables:[{t:0,cols:["Dystrophy"]}]},
+"Channelopathies and metabolic myopathies":{cloze:[
+ "Weakness on waking after a carbohydrate meal with low potassium: [[hypokalemic periodic paralysis]].",
+ "Exercise cramps with a second wind: [[McArdle disease|McArdle|myophosphorylase deficiency]].",
+ "Rhabdomyolysis after prolonged exercise or fasting: [[CPT II deficiency|CPT II|CPT2]].",
+ "Mitochondrial myopathies: [[maternal]] inheritance and [[ragged red fibers]].",
+ "Malignant hyperthermia: [[RYR1]] mutation, treated with [[dantrolene]]."]},
+"Myopathy mimics and rhabdomyolysis":{cloze:[
+ "Polymyalgia rheumatica: high ESR with a [[normal CK|normal creatine kinase]], and a dramatic response to [[low-dose prednisone|prednisone]].",
+ "Rhabdomyolysis urine: dipstick positive for blood with [[no red cells|no RBCs]].",
+ "Rhabdomyolysis treatment: aggressive [[IV fluids|fluids]]."]}
+}
+});
+
+</script>
+<script>/* recall-4.js */
+NEURO.recall=NEURO.recall||{};
+Object.assign(NEURO.recall,{
+sleep:{
+"Insomnia":{cloze:[
+ "First-line for chronic insomnia: [[CBT-I|CBT for insomnia|cognitive behavioral therapy]].",
+ "In older adults avoid [[benzodiazepines]] and sedating antihistamines."]},
+"Obstructive sleep apnea":{cloze:[
+ "Diagnosis: [[polysomnography|sleep study]] (home testing if uncomplicated).",
+ "First-line treatment: [[CPAP]].",
+ "Central apnea with Cheyne-Stokes breathing: [[heart failure]]."]},
+"Narcolepsy":{cloze:[
+ "Cataplexy is triggered by [[laughter|emotion|strong emotion]], with preserved consciousness.",
+ "Lost neurons: hypothalamic [[hypocretin|orexin]].",
+ "MSLT: mean sleep latency ≤ [[8]] minutes with ≥ [[2]] sleep-onset REM periods.",
+ "Treats both sleepiness and cataplexy: [[sodium oxybate]]."]},
+"Restless legs syndrome":{cloze:[
+ "First lab: [[ferritin|iron studies]]; replace iron if ferritin ≤ [[75]].",
+ "Preferred drugs now: [[alpha-2-delta ligands|gabapentinoids|gabapentin|pregabalin|α2δ ligands]].",
+ "Dopamine agonists cause [[augmentation]] over time."]},
+"Parasomnias":{tables:[{t:0,rows:["Timing","Recall","Management"]}],cloze:[
+ "REM sleep behavior disorder predicts a [[synucleinopathy|Parkinson disease|alpha-synucleinopathy]]."]},
+"Circadian rhythm and sleep across life":{cloze:[
+ "Teen who can't fall asleep until 3 a.m.: [[delayed sleep-wake phase|delayed sleep phase]]; early-evening [[melatonin]] and morning light.",
+ "Older adult sleepy at 7 p.m., awake at 3 a.m.: [[advanced sleep phase|advanced phase|advanced sleep-wake phase]].",
+ "Normal aging reduces [[slow-wave|N3|deep]] sleep."]}
+},
+tbi:{
+"Glasgow Coma Scale":{tables:[{t:0,cols:["Eye","Verbal","Motor"]}],cloze:[
+ "Intubate at GCS ≤ [[8]]."]},
+"Who needs a head CT":{cloze:[
+ "High-risk minor head injury: GCS below 15 at [[2 hours|2|2 h]], signs of skull fracture, ≥ [[2]] episodes of vomiting, or age ≥ [[65]].",
+ "Always image head trauma in a patient on [[anticoagulants|anticoagulation|blood thinners]].",
+ "Signs of basilar skull fracture: raccoon eyes, [[Battle sign|Battle's sign]], hemotympanum, CSF leak."]},
+"Traumatic hemorrhage patterns":{tables:[{t:0,cols:["Type"]}]},
+"Severe TBI management":{cloze:[
+ "Two secondary insults that each double mortality: [[hypotension]] and [[hypoxia]].",
+ "Seizure prophylaxis for [[7 days|7|one week]]; prevents early seizures only.",
+ "[[Steroids|Corticosteroids]] increase mortality in TBI.",
+ "[[Tranexamic acid|TXA]] within 3 h helps mild to moderate TBI."]},
+"Concussion":{cloze:[
+ "Loss of consciousness is [[not required|not needed]] for concussion.",
+ "Same-day return to play: [[never|no]]. Each step of the return protocol lasts at least [[24 hours|24|24 h]].",
+ "A second blow before recovery in a teen: [[second impact syndrome]]."]},
+"Abusive head trauma":{cloze:[
+ "Subdurals of different ages plus [[retinal hemorrhages]] in an infant: abusive head trauma.",
+ "Get a [[skeletal survey]] and report to [[child protective services|CPS]]."]}
+},
+icp:{
+"Raised ICP":{cloze:[
+ "Cushing triad: hypertension, [[bradycardia]], irregular breathing.",
+ "Cerebral perfusion pressure = [[MAP − ICP|MAP - ICP|MAP minus ICP]].",
+ "Edema that responds to dexamethasone: [[vasogenic]]."]},
+"Herniation syndromes":{tables:[{t:0,cols:["Type"]}]},
+"ICP treatment ladder":{cloze:[
+ "Head of bed at [[30°|30|30 degrees]], neck midline.",
+ "Osmotic therapy: [[mannitol]] or [[hypertonic saline]]; use hypertonic saline if hypotensive.",
+ "Hyperventilate only briefly, to PaCO₂ [[30–35|30-35|30 to 35]]."]},
+"Hydrocephalus":{tables:[{t:0,cols:["Type"]}],cloze:[
+ "Infant hydrocephalus: growing head, bulging fontanelle, [[sunsetting|sunset]] eyes."]},
+"Idiopathic intracranial hypertension":{cloze:[
+ "LP opening pressure above [[25]] cm H₂O with normal CSF.",
+ "Main long-term risk: permanent [[vision loss|visual loss|blindness]].",
+ "First-line drug: [[acetazolamide]].",
+ "Drug causes: tetracyclines and [[vitamin A|isotretinoin|retinoids]]."]}
+},
+peds:{
+"Neurocutaneous syndromes":{tables:[{t:0,cols:["Syndrome"]}]},
+"Neural tube and posterior fossa malformations":{cloze:[
+ "Myelomeningocele comes with Chiari [[II|2]] and hydrocephalus.",
+ "Chiari I: tonsils more than [[5 mm|5]] below the foramen magnum, often with [[syringomyelia|a syrinx]].",
+ "Elevated maternal serum [[AFP|alpha-fetoprotein]] suggests a neural tube defect."]},
+"Cerebral palsy":{cloze:[
+ "Prematurity → [[periventricular leukomalacia|PVL]] → spastic [[diplegia]].",
+ "Kernicterus → [[dyskinetic|athetoid]] cerebral palsy with hearing loss.",
+ "Loss of skills is [[never|not]] cerebral palsy."]},
+"Development and the hypotonic infant":{tables:[{t:0,rows:["Strength","Reflexes"]}],cloze:[
+ "Hand preference before [[12 months|12|1 year]] suggests weakness of the other side."]},
+"Genetic and neurodegenerative":{tables:[{t:0,cols:["Disorder"]}]},
+"Acute pediatric presentations":{cloze:[
+ "Ataxia a week after chickenpox in a toddler: [[acute cerebellar ataxia]].",
+ "Breath-holding spells: check for [[iron deficiency|iron deficiency anemia]].",
+ "Puff of smoke on angiography: [[moyamoya]]."]},
+"Neonatal neurology":{tables:[{t:0,cols:["Problem"]},{t:1,cols:["Congenital infection"]}],cloze:[
+ "Term HIE: [[therapeutic hypothermia|cooling]] started within [[6 hours|6|6 h]].",
+ "First-line drug for neonatal seizures: [[phenobarbital]]."]},
+"Developmental delay and autism":{cloze:[
+ "First genetic tests for global developmental delay: [[chromosomal microarray|microarray]] and [[fragile X]].",
+ "Any [[regression|loss of skills]] is a red flag.",
+ "Severe irritability in autism: [[risperidone|aripiprazole]]."]}
+},
+drugs:{
+"Extrapyramidal effects of dopamine blockers":{tables:[{t:0,cols:["Syndrome","Treatment"]}]},
+"Hyperthermic syndromes":{tables:[{t:0,rows:["Onset","Muscle","Treatment"]}]},
+"Drug effects by system":{tables:[{t:0,cols:["Effect"]}],cloze:[
+ "Severe lithium toxicity: [[hemodialysis|dialysis]]."]},
+"Withdrawal syndromes":{tables:[{t:0,cols:["Timing after last drink"]}],cloze:[
+ "Alcohol withdrawal: [[benzodiazepines]] plus [[thiamine]].",
+ "Withdrawal that doesn't cause seizures: [[opioid|opioids]]."]},
+"Older adults":{cloze:[
+ "In older adults avoid strongly [[anticholinergic]] drugs such as diphenhydramine and oxybutynin."]}
+},
+neuroophth:{
+"Visual field defects":{tables:[{t:0,cols:["Defect"]}]},
+"Pupils":{tables:[{t:0,cols:["Pupil"]}]},
+"Swollen or pale disc":{tables:[{t:0,cols:["Condition"]}]},
+"Acute painless vision loss":{cloze:[
+ "Pale retina with a cherry-red spot: [[central retinal artery occlusion|CRAO]], managed like a [[stroke]].",
+ "Blood-and-thunder retina: [[central retinal vein occlusion|CRVO]].",
+ "Flashes, floaters, then a curtain: [[retinal detachment]].",
+ "Painful red eye with halos and a mid-dilated pupil: [[acute angle-closure glaucoma|angle-closure glaucoma]]."]},
+"Diplopia and eye movements":{cloze:[
+ "Diplopia that persists with the other eye covered is [[monocular]] and comes from the eye itself.",
+ "Internuclear ophthalmoplegia: lesion of the [[MLF|medial longitudinal fasciculus]].",
+ "Downbeat nystagmus: [[cervicomedullary junction|Chiari]] lesions, lithium, Wernicke.",
+ "Restricted upgaze, proptosis, lid retraction: [[thyroid eye disease]]."]}
+},
+vertigo:{
+"Sort by timing and trigger":{tables:[{t:0,cols:["Diagnosis"]}]},
+"HINTS exam":{tables:[{t:0,cols:["Peripheral (reassuring)","Central (dangerous)"]}],cloze:[
+ "Use HINTS only in acute [[continuous]] vertigo with nystagmus."]},
+"Hearing loss":{tables:[{t:0,cols:["Weber (fork on forehead)","Rinne (mastoid vs ear)"]}],cloze:[
+ "Asymmetric sensorineural hearing loss: [[MRI]] for vestibular schwannoma.",
+ "Sudden sensorineural hearing loss: urgent [[steroids|corticosteroids]].",
+ "Most common nongenetic cause of congenital hearing loss: [[CMV|cytomegalovirus]]."]}
+},
+neuropsych:{
+"Functional neurological disorder":{tables:[{t:0,cols:["Sign"]}],cloze:[
+ "Functional disorder is diagnosed by [[positive signs|positive exam signs]], not by exclusion.",
+ "Treatment: explain the diagnosis, [[physical therapy|PT]] and [[CBT]]."]},
+"Related diagnoses":{tables:[{t:0,cols:["Disorder"]}]},
+"Psychiatric presentations of neurologic disease":{tables:[{t:0,cols:["Neurologic disorder"]}]},
+"Treating psychiatric symptoms in neurology":{cloze:[
+ "Antidepressant to avoid in epilepsy: [[bupropion]].",
+ "Pseudobulbar affect: [[dextromethorphan-quinidine|dextromethorphan]].",
+ "Post-stroke depression: [[SSRI|SSRIs]]."]},
+"Catatonia":{cloze:[
+ "Catatonia: [[lorazepam]] challenge; refractory cases get [[ECT|electroconvulsive therapy]].",
+ "Avoid [[antipsychotics]] during acute catatonia."]}
+},
+ethics:{
+"Brain death":{cloze:[
+ "Exclude confounders first, including core temperature below [[36]] °C.",
+ "Apnea test: no breathing with PaCO₂ ≥ [[60]] and ≥ [[20]] above baseline.",
+ "Triple flexion to pain is a [[spinal reflex]] and fits brain death.",
+ "Donation is raised by the [[organ procurement organization|OPO]], not the treating team."]},
+"Disorders of consciousness":{tables:[{t:0,cols:["State"]}]},
+"Capacity and surrogates":{cloze:[
+ "Capacity: understand, [[appreciate]], reason, and [[express a choice|communicate a choice]].",
+ "Surrogates use [[substituted judgment]] when the patient's wishes are known.",
+ "Capacity can be assessed by [[any treating physician|any physician|the treating physician]]."]},
+"Driving, genetics, disclosure":{cloze:[
+ "GINA protects against discrimination in [[health insurance]] and [[employment]].",
+ "Framework for breaking bad news: [[SPIKES]]."]},
+"Palliative neurology":{cloze:[
+ "Advanced dementia with poor intake: [[careful hand feeding|hand feeding]], not a feeding tube.",
+ "Hospice eligibility: prognosis ≤ [[6 months|6]].",
+ "Terminal secretions: [[glycopyrrolate|scopolamine]].",
+ "In ALS, discuss NIV, gastrostomy and [[tracheostomy|ventilation]] preferences early."]}
+}
+});
+
+</script>
 <script>/* module.js */
 (function(){
 const N=window.NEURO;
@@ -3073,51 +3772,64 @@ const toks=s=>prep(s).replace(/([↑↓])/g," $1 ").split(/[^a-z0-9↑↓%]+/).f
 const squash=s=>prep(s).replace(/[^a-z0-9↑↓]/g,"");
 // Same word allowing for endings and small typos: compare a prefix that grows with word length.
 const same=(u,x)=>{if(u===x)return true;if(x.length<4||u.length<4)return false;const n=x.length<=5?4:x.length<=7?5:6;return u.slice(0,n)===x.slice(0,n)};
+// Numbers must match exactly (thresholds and windows are the point); "100k" equals "100,000". Units are optional.
+const nums=s=>String(s).toLowerCase().replace(/(\d+(?:\.\d+)?)\s*k\b/g,(m,n)=>String(Math.round(parseFloat(n)*1000))).replace(/(\d),(\d{3})/g,"$1$2").match(/\d+(?:\.\d+)?/g)||[];
+const UNITS=new Set("h hr hrs hour hours min mins minute minutes day days week weeks month months year years cm mm kg mg ml meq".split(" "));
 function matches(user,ans){
   if(squash(user)===squash(ans))return true;
-  const at=[...new Set(toks(ans))]; if(!at.length)return false;
+  const an=nums(ans);
+  if(an.length){const un=nums(user);if(!an.every(n=>un.includes(n)))return false;}
+  const at=[...new Set(toks(ans))].filter(w=>!/\d/.test(w)&&!UNITS.has(w));
+  if(!at.length)return an.length>0;
   const ut=toks(user),hit=at.filter(x=>ut.some(u=>same(u,x))).length;
   return hit>=(at.length<=3?Math.max(1,at.length-1):Math.ceil(at.length*0.5));
 }
 function grade(user,ans){
   if(!squash(user))return false;
   const core=ans.replace(/\([^)]*\)/g," ");
-  return [ans,core,...core.split(/\bor\b|;|\//)].map(s=>s.trim()).filter(Boolean).some(a=>matches(user,a));
+  // Split alternatives on "or", ";" and spaced slashes only, so "185/110" stays one answer.
+  return [ans,core,...core.split(/\bor\b|;|\s\/\s/)].map(s=>s.trim()).filter(Boolean).some(a=>matches(user,a));
 }
 N.gradeAnswer=grade;
 
 /* ---------- turn a section into a recall exercise ---------- */
+// What gets blanked is hand-picked per section in recall-*.js: table columns or rows in the direction the exam asks,
+// plus short fill-in sentences built around the deciding fact. Nothing is blanked automatically.
 const tests=new Map();
 function buildTest(t,si){
   const key=t.id+"|"+si; if(tests.has(key))return tests.get(key);
-  const tpl=document.createElement("template"); tpl.innerHTML=wrapTables(t.sections[si].html);
-  const root=tpl.content, blanks=[], tables=[];
-  root.querySelectorAll(".tbl table").forEach((tb,ti)=>{
-    const rows=[...tb.querySelectorAll("tbody tr")],col={};
-    rows.forEach(tr=>[...tr.children].forEach((td,ci)=>{if(ci)(col[ci]=col[ci]||[]).push(norm(td.textContent))}));
-    rows.forEach((tr,ri)=>[...tr.children].forEach((td,ci)=>{const ans=norm(td.textContent);
-      if(!ci||!ans||ans==="—")return;
-      const k=`t${ti}r${ri}c${ci}`;blanks.push({k,ans,cell:1,ti,choices:[...new Set(col[ci].filter(Boolean))]});
-      td.innerHTML=`<span data-slot="${k}"></span>`;td.className="cellq";}));
-    const bar=document.createElement("div");bar.className="tq-bar";bar.dataset.ti=ti;tb.closest(".tbl").before(bar);tables.push(ti);
-  });
-  let bi=0;
-  root.querySelectorAll("p b, li b").forEach(b=>{if(b.closest("table"))return;const ans=norm(b.textContent);if(ans.length<2)return;
-    const k=`b${bi++}`;blanks.push({k,ans});const sp=document.createElement("span");sp.dataset.slot=k;b.replaceWith(sp);});
-  const div=document.createElement("div");div.appendChild(root);
-  const T={html:div.innerHTML,blanks,map:Object.fromEntries(blanks.map(b=>[b.k,b])),tables};tests.set(key,T);return T;
+  const sec=t.sections[si],spec=((N.recall||{})[t.id]||{})[sec.h]||{},blanks=[],tables=[];let html="";
+  const tpl=document.createElement("template");tpl.innerHTML=wrapTables(sec.html);
+  const wraps=[...tpl.content.querySelectorAll(".tbl")];
+  (spec.tables||[]).forEach(ts=>{const w=wraps[ts.t];if(!w)return;const tb=w.querySelector("table").cloneNode(true);
+    const heads=[...tb.querySelectorAll("thead th")].map(th=>norm(th.textContent).toLowerCase());
+    const cols=ts.cols?ts.cols.map(c=>heads.indexOf(c.toLowerCase())):null,rows=ts.rows?ts.rows.map(r=>r.toLowerCase()):null;
+    const trs=[...tb.querySelectorAll("tbody tr")],col={};
+    trs.forEach(tr=>[...tr.children].forEach((td,ci)=>(col[ci]=col[ci]||[]).push(norm(td.textContent))));
+    trs.forEach((tr,ri)=>{const label=norm(tr.children[0].textContent).toLowerCase();
+      if(rows&&!rows.some(r=>label.startsWith(r)))return;
+      [...tr.children].forEach((td,ci)=>{const ans=norm(td.textContent);
+        if(!ans||ans==="—"||(cols?!cols.includes(ci):ci===0))return;
+        const k=`t${ts.t}r${ri}c${ci}`;blanks.push({k,ans,cell:1,ti:ts.t,choices:[...new Set(col[ci].filter(Boolean))]});
+        td.innerHTML=`<span data-slot="${k}"></span>`;td.className="cellq";});});
+    tables.push(ts.t);html+=`<div class="tq-bar" data-ti="${ts.t}"></div><div class="tbl">${tb.outerHTML}</div>`;});
+  let n=0;
+  if(spec.cloze&&spec.cloze.length)html+=`<ol class="cloze-list">${spec.cloze.map(line=>"<li>"+line.split(/(\[\[[^\]]+\]\])/).map(part=>{
+    const m=part.match(/^\[\[(.+)\]\]$/);if(!m)return esc(part);
+    const alts=m[1].split("|").map(x=>x.trim()),k=`c${n++}`;blanks.push({k,ans:alts[0],alts});return `<span data-slot="${k}"></span>`;}).join("")+"</li>").join("")}</ol>`;
+  const T={html,blanks,map:Object.fromEntries(blanks.map(b=>[b.k,b])),tables};tests.set(key,T);return T;
 }
 N.buildRecallTest=buildTest;
 
 /* ---------- module ---------- */
-const fresh=()=>({v:2,st:0,si:0,reach:0,sreach:0,rx:{},q:{},rc:{},qi:0,ri:0});
+const fresh=()=>({v:3,st:0,si:0,reach:0,sreach:0,rx:{},q:{},rc:{},qi:0,ri:0});
 const rec=(M,si)=>M.rx[si]||(M.rx[si]={ph:"read",ans:{},res:null,ovr:{},mode:{},first:null,last:null,checks:0,free:""});
 const pct=a=>a&&a[1]?Math.round(a[0]/a[1]*100):0;
 const typed=new Map(),rev=new Set();
 
 N.renderModule=function(id){
   const A=N.app,S=A.S,t=A.byId[id];if(!t)return;
-  S.mod=S.mod||{};if(!S.mod[id]||S.mod[id].v!==2)S.mod[id]=fresh();const M=S.mod[id];
+  S.mod=S.mod||{};if(!S.mod[id]||S.mod[id].v!==3)S.mod[id]=fresh();const M=S.mod[id];
   const save=()=>{M.u=Date.now();A.save()},main=document.getElementById("main"),ns=id+"|";
   let saveT;const saveSoon=()=>{clearTimeout(saveT);saveT=setTimeout(save,400)};
   const qs=N.questions.filter(q=>q.t===id),ps=t.pearls||[];
@@ -3161,7 +3873,7 @@ N.renderModule=function(id){
     if(b.cell&&R.mode[b.ti]==="pick"){const r=rngOf(ns+M.si+"|"+k);
       ctl=`<select class="bl bl-c" data-k="${k}" ${ok?"disabled":""} aria-label="Answer"><option value="">Choose…</option>${sh(b.choices,r).map(c=>`<option ${c===val?"selected":""}>${esc(c)}</option>`).join("")}</select>`;}
     else if(b.cell)ctl=`<textarea class="bl bl-c" data-k="${k}" rows="1" ${ok?"readonly":""} aria-label="Answer" spellcheck="false">${esc(val)}</textarea>`;
-    else ctl=`<input class="bl" data-k="${k}" value="${esc(val)}" size="${Math.min(30,Math.max(6,b.ans.length+1))}" ${ok?"readonly":""} aria-label="Missing term" autocomplete="off" spellcheck="false">`;
+    else ctl=`<input class="bl" data-k="${k}" value="${esc(val)}" size="${Math.min(28,Math.max(8,b.ans.length+2))}" ${ok?"readonly":""} aria-label="Missing term" autocomplete="off" spellcheck="false">`;
     const mark=done?`<button class="mk ${ok?"ok":"bad"}" data-mk="${k}" title="${ok?"Counted correct. Click to mark it wrong":"Counted wrong. Click if your answer means the same thing"}">${ok?"✓":"✗"}</button>`:"";
     return `<span class="slot ${done?(ok?"ok":"bad"):""}">${ctl}${mark}${done&&!ok?`<span class="bl-ans">${esc(b.ans)}</span>`:""}</span>`;
   }
@@ -3178,7 +3890,7 @@ N.renderModule=function(id){
       nav(si,R);return;
     }
     const html=T.html.replace(/<span data-slot="([^"]+)"><\/span>/g,(m,k)=>slot(T,R,k));
-    box.innerHTML=`<div class="rx-head"><span><b>Fill in every blank from memory</b>${T.tables.length?". In tables, the first column is given.":"."}</span><span class="rx-score">${R.res?`${right} of ${total} correct${R.first&&R.checks>1?` · first try ${pct(R.first)}%`:""}`:`${total} blanks`}</span></div>
+    box.innerHTML=`<div class="rx-head"><span><b>Fill in each blank from memory.</b></span><span class="rx-score">${R.res?`${right} of ${total} correct${R.first&&R.checks>1?` · first try ${pct(R.first)}%`:""}`:`${total} blanks`}</span></div>
     <div class="sec-body">${html}</div>
     <div class="topic-actions" style="margin-top:14px"><button class="btn primary" id="rxCheck">${R.res?"Check again":"Check answers"}</button>${R.res&&right<total?'<button class="btn" id="rxRetry">Clear the ones I missed</button>':""}<button class="btn" id="rxRead">Reread the section</button></div>
     ${R.res?'<p class="muted" style="font-size:13px;margin:8px 0 0">Wrong marks show the expected answer in green. If yours means the same thing, click its ✗ to count it.</p>':""}`;
@@ -3192,7 +3904,7 @@ N.renderModule=function(id){
     box.querySelectorAll("[data-mk]").forEach(b=>b.onclick=()=>{const k=b.dataset.mk;R.res[k]=!R.res[k];R.ovr[k]=R.res[k];tally(R,T);save();drawTest()});
     box.querySelector("#rxCheck").onclick=()=>{const res={},lv=R.lastVal||{};
       T.blanks.forEach(b=>{const v=R.ans[b.k]||"";
-        res[b.k]=(b.k in R.ovr&&v===lv[b.k])?R.ovr[b.k]:(b.cell&&R.mode[b.ti]==="pick"?v===b.ans:grade(v,b.ans))});
+        res[b.k]=(b.k in R.ovr&&v===lv[b.k])?R.ovr[b.k]:(b.cell&&R.mode[b.ti]==="pick"?v===b.ans:(b.alts||[b.ans]).some(a=>grade(v,a)))});
       R.res=res;R.lastVal=Object.assign({},R.ans);R.checks++;tally(R,T);save();drawTest();
       const first=box.querySelector(".slot.bad");if(first)first.scrollIntoView({block:"center",behavior:"smooth"})};
     const rt=box.querySelector("#rxRetry");if(rt)rt.onclick=()=>{Object.keys(R.res).forEach(k=>{if(!R.res[k]){delete R.ans[k];delete R.res[k];delete R.ovr[k]}});save();drawTest();const f=box.querySelector("[data-k]:not([readonly])");if(f)f.focus()};
